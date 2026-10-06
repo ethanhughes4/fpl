@@ -1,0 +1,52 @@
+Example A: normal week, no transfer. Worked out by hand from the decisions.
+The header line is not compared (it shows local time); the lines below it are.
+
+Setup (all in tests/data/example_a/)
+- Every club has played 5 finished fixtures and every player has 450 minutes,
+  so minutes factor = 450 / (90 x 5) = 1 (D20).
+- form = points_per_game = b, so base = 0.6b + 0.4b = b (D18).
+- All fixtures difficulty 3 (factor 1.0, D21), except gameweek 6 away side
+  Team6 = difficulty 5 (factor 0.8). Lowe and Kemp play for Team6.
+- All players fit, chance 100% (D22/D23).
+- A fit player with factor 1 every week: next GW = b; six weeks =
+  b x (1.0+0.9+0.8+0.7+0.6+0.5) = 4.5b (D24).
+- Kemp (b 5.0): next 5.0 x 0.8 = 4.0; six 5.0 x (0.8 + 3.5) = 21.5.
+- Lowe (b 3.4): next 3.4 x 0.8 = 2.72 (2.7); six 3.4 x 4.3 = 14.62 (14.6).
+
+Scores (next / six): Ames 6.0/27.0, Birch 4.0/18.0, Cole 5.8/26.1,
+Dunn 5.0/22.5, Eaves 4.6/20.7, Fry 4.2/18.9, Gale 3.0/13.5, Hart 8.0/36.0,
+Innes 7.0/31.5, Joss 6.0/27.0, Kemp 4.0/21.5, Lowe 2.72/14.62,
+Marsh 7.4/33.3, Nash 5.2/23.4, Orr 3.8/17.1.
+
+Money
+- Bank: picks bank 0, no pending transfers (none for gameweek 6) = 0.0m.
+- Free transfers (D32): GW2 = 1. History: 2 transfers used in GW3, none
+  otherwise. GW3 = 1+1 = 2; GW4 = (2-2)+1 = 1; GW5 = 1+1 = 2; GW6 = 2+1 = 3.
+  Cap 5 not reached. = 3.
+
+Starting eleven (D26: next-GW score; 1 GK; 3-5 DEF; 2-5 MID; 1-3 FWD)
+- GK: Ames 6.0.
+- Outfield totals by formation (D-M-F), taking the best of each position:
+  DEF cumulative 5.8, 10.8, 15.4, 19.6, 22.6
+  MID cumulative 8.0, 15.0, 21.0, 25.0, 27.72
+  FWD cumulative 7.4, 12.6, 16.4
+  3-4-3 = 15.4+25.0+16.4 = 56.8     4-4-2 = 19.6+25.0+12.6 = 57.2
+  4-3-3 = 19.6+21.0+16.4 = 57.0     3-5-2 = 15.4+27.72+12.6 = 55.72
+  5-3-2 = 22.6+21.0+12.6 = 56.2     5-2-3 = 22.6+15.0+16.4 = 54.0
+  4-5-1 = 19.6+27.72+7.4 = 54.72    5-4-1 = 22.6+25.0+7.4 = 55.0
+  Best: 4-4-2 (57.2).
+- Bench: the spare keeper Birch first, then the rest best first by next GW:
+  Orr 3.8, Gale 3.0, Lowe 2.72.
+- Captain: highest next-GW score among starters: Hart 8.0. Vice: Marsh 7.4.
+
+Transfers (free transfers 3, bank 0)
+- Only Quill (GK, 4.2, price 4.0m) is affordable and fit and better than
+  anyone in his position: Birch out, six-week gain 4.5 x (4.2-4.0) = 0.9 < 2
+  (D34). Tate (9.0) costs 13.0m: bank 0 + Marsh sells 9.5m = 9.5 < 13.0, cannot
+  afford. Ure (9.0) is injured (status "i", chance 0), never suggested (D36).
+  Rudd (2.8) and Shaw (3.0) are worse than the players they could replace.
+- So: "No transfer worth making. Save it" with next week's count:
+  3 - 0 used + 1 = 4 (D49).
+
+Warnings: all 15 are status "a", chance 100%, and Teams 1-6 all play in
+gameweek 6 -> none.

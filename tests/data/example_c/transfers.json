@@ -1,0 +1,42 @@
+[
+ {
+  "element_in": 3,
+  "element_out": 200,
+  "event": 5,
+  "element_in_cost": 60,
+  "element_out_cost": 60,
+  "time": "2026-09-10T10:00:00Z"
+ },
+ {
+  "element_in": 4,
+  "element_out": 201,
+  "event": 5,
+  "element_in_cost": 55,
+  "element_out_cost": 55,
+  "time": "2026-09-11T10:00:00Z"
+ },
+ {
+  "element_in": 5,
+  "element_out": 202,
+  "event": 5,
+  "element_in_cost": 50,
+  "element_out_cost": 50,
+  "time": "2026-09-12T10:00:00Z"
+ },
+ {
+  "element_in": 6,
+  "element_out": 203,
+  "event": 5,
+  "element_in_cost": 45,
+  "element_out_cost": 45,
+  "time": "2026-09-13T10:00:00Z"
+ },
+ {
+  "element_in": 16,
+  "element_out": 15,
+  "event": 6,
+  "element_in_cost": 50,
+  "element_out_cost": 45,
+  "time": "2026-09-19T10:00:00Z"
+ }
+]

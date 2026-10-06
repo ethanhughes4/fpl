@@ -1,0 +1,653 @@
+{
+ "events": [
+  {
+   "id": 1,
+   "is_next": false,
+   "is_current": false,
+   "finished": true,
+   "deadline_time": "2026-10-05T11:00:00Z"
+  },
+  {
+   "id": 2,
+   "is_next": false,
+   "is_current": false,
+   "finished": true,
+   "deadline_time": "2026-10-06T11:00:00Z"
+  },
+  {
+   "id": 3,
+   "is_next": false,
+   "is_current": false,
+   "finished": true,
+   "deadline_time": "2026-10-07T11:00:00Z"
+  },
+  {
+   "id": 4,
+   "is_next": false,
+   "is_current": false,
+   "finished": true,
+   "deadline_time": "2026-10-08T11:00:00Z"
+  },
+  {
+   "id": 5,
+   "is_next": false,
+   "is_current": true,
+   "finished": true,
+   "deadline_time": "2026-10-09T11:00:00Z"
+  },
+  {
+   "id": 6,
+   "is_next": true,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-10T11:00:00Z"
+  },
+  {
+   "id": 7,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-11T11:00:00Z"
+  },
+  {
+   "id": 8,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-12T11:00:00Z"
+  },
+  {
+   "id": 9,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-13T11:00:00Z"
+  },
+  {
+   "id": 10,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-14T11:00:00Z"
+  },
+  {
+   "id": 11,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-15T11:00:00Z"
+  },
+  {
+   "id": 12,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-16T11:00:00Z"
+  },
+  {
+   "id": 13,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-17T11:00:00Z"
+  },
+  {
+   "id": 14,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-18T11:00:00Z"
+  },
+  {
+   "id": 15,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-19T11:00:00Z"
+  },
+  {
+   "id": 16,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-20T11:00:00Z"
+  },
+  {
+   "id": 17,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-21T11:00:00Z"
+  },
+  {
+   "id": 18,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-22T11:00:00Z"
+  },
+  {
+   "id": 19,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-23T11:00:00Z"
+  },
+  {
+   "id": 20,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-24T11:00:00Z"
+  },
+  {
+   "id": 21,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-25T11:00:00Z"
+  },
+  {
+   "id": 22,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-26T11:00:00Z"
+  },
+  {
+   "id": 23,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-27T11:00:00Z"
+  },
+  {
+   "id": 24,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-28T11:00:00Z"
+  },
+  {
+   "id": 25,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-29T11:00:00Z"
+  },
+  {
+   "id": 26,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-30T11:00:00Z"
+  },
+  {
+   "id": 27,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-31T11:00:00Z"
+  },
+  {
+   "id": 28,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-32T11:00:00Z"
+  },
+  {
+   "id": 29,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-33T11:00:00Z"
+  },
+  {
+   "id": 30,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-34T11:00:00Z"
+  },
+  {
+   "id": 31,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-35T11:00:00Z"
+  },
+  {
+   "id": 32,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-36T11:00:00Z"
+  },
+  {
+   "id": 33,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-37T11:00:00Z"
+  },
+  {
+   "id": 34,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-38T11:00:00Z"
+  },
+  {
+   "id": 35,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-39T11:00:00Z"
+  },
+  {
+   "id": 36,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-40T11:00:00Z"
+  },
+  {
+   "id": 37,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-41T11:00:00Z"
+  },
+  {
+   "id": 38,
+   "is_next": false,
+   "is_current": false,
+   "finished": false,
+   "deadline_time": "2026-10-42T11:00:00Z"
+  }
+ ],
+ "teams": [
+  {
+   "id": 1,
+   "name": "Team1",
+   "short_name": "T1"
+  },
+  {
+   "id": 2,
+   "name": "Team2",
+   "short_name": "T2"
+  },
+  {
+   "id": 3,
+   "name": "Team3",
+   "short_name": "T3"
+  },
+  {
+   "id": 4,
+   "name": "Team4",
+   "short_name": "T4"
+  },
+  {
+   "id": 5,
+   "name": "Team5",
+   "short_name": "T5"
+  },
+  {
+   "id": 6,
+   "name": "Team6",
+   "short_name": "T6"
+  }
+ ],
+ "elements": [
+  {
+   "id": 1,
+   "web_name": "Ames",
+   "element_type": 1,
+   "team": 1,
+   "now_cost": 55,
+   "cost_change_start": 0,
+   "form": "6.0",
+   "points_per_game": "6.0",
+   "total_points": 99,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 2,
+   "web_name": "Birch",
+   "element_type": 1,
+   "team": 2,
+   "now_cost": 40,
+   "cost_change_start": 0,
+   "form": "4.0",
+   "points_per_game": "4.0",
+   "total_points": 98,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 3,
+   "web_name": "Cole",
+   "element_type": 2,
+   "team": 1,
+   "now_cost": 60,
+   "cost_change_start": 0,
+   "form": "5.8",
+   "points_per_game": "5.8",
+   "total_points": 97,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 4,
+   "web_name": "Dunn",
+   "element_type": 2,
+   "team": 2,
+   "now_cost": 55,
+   "cost_change_start": 0,
+   "form": "5.0",
+   "points_per_game": "5.0",
+   "total_points": 96,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 5,
+   "web_name": "Eaves",
+   "element_type": 2,
+   "team": 3,
+   "now_cost": 50,
+   "cost_change_start": 0,
+   "form": "4.6",
+   "points_per_game": "4.6",
+   "total_points": 95,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 6,
+   "web_name": "Fry",
+   "element_type": 2,
+   "team": 4,
+   "now_cost": 45,
+   "cost_change_start": 0,
+   "form": "4.2",
+   "points_per_game": "4.2",
+   "total_points": 94,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 7,
+   "web_name": "Gale",
+   "element_type": 2,
+   "team": 5,
+   "now_cost": 40,
+   "cost_change_start": 0,
+   "form": "3.0",
+   "points_per_game": "3.0",
+   "total_points": 93,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 8,
+   "web_name": "Hart",
+   "element_type": 3,
+   "team": 3,
+   "now_cost": 80,
+   "cost_change_start": 0,
+   "form": "8.0",
+   "points_per_game": "8.0",
+   "total_points": 92,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 9,
+   "web_name": "Innes",
+   "element_type": 3,
+   "team": 4,
+   "now_cost": 85,
+   "cost_change_start": 0,
+   "form": "7.0",
+   "points_per_game": "7.0",
+   "total_points": 91,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 10,
+   "web_name": "Joss",
+   "element_type": 3,
+   "team": 5,
+   "now_cost": 70,
+   "cost_change_start": 0,
+   "form": "6.0",
+   "points_per_game": "6.0",
+   "total_points": 90,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 11,
+   "web_name": "Kemp",
+   "element_type": 3,
+   "team": 6,
+   "now_cost": 60,
+   "cost_change_start": 0,
+   "form": "5.0",
+   "points_per_game": "5.0",
+   "total_points": 89,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 12,
+   "web_name": "Lowe",
+   "element_type": 3,
+   "team": 6,
+   "now_cost": 45,
+   "cost_change_start": 0,
+   "form": "3.4",
+   "points_per_game": "3.4",
+   "total_points": 88,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 13,
+   "web_name": "Marsh",
+   "element_type": 4,
+   "team": 2,
+   "now_cost": 95,
+   "cost_change_start": 0,
+   "form": "7.4",
+   "points_per_game": "7.4",
+   "total_points": 87,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 14,
+   "web_name": "Nash",
+   "element_type": 4,
+   "team": 4,
+   "now_cost": 70,
+   "cost_change_start": 0,
+   "form": "5.2",
+   "points_per_game": "5.2",
+   "total_points": 86,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 15,
+   "web_name": "Orr",
+   "element_type": 4,
+   "team": 5,
+   "now_cost": 45,
+   "cost_change_start": 0,
+   "form": "3.8",
+   "points_per_game": "3.8",
+   "total_points": 85,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 101,
+   "web_name": "Quill",
+   "element_type": 1,
+   "team": 1,
+   "now_cost": 40,
+   "cost_change_start": 0,
+   "form": "4.2",
+   "points_per_game": "4.2",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 102,
+   "web_name": "Rudd",
+   "element_type": 2,
+   "team": 6,
+   "now_cost": 40,
+   "cost_change_start": 0,
+   "form": "2.8",
+   "points_per_game": "2.8",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 103,
+   "web_name": "Shaw",
+   "element_type": 3,
+   "team": 6,
+   "now_cost": 45,
+   "cost_change_start": 0,
+   "form": "3.0",
+   "points_per_game": "3.0",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 104,
+   "web_name": "Tate",
+   "element_type": 4,
+   "team": 1,
+   "now_cost": 130,
+   "cost_change_start": 0,
+   "form": "9.0",
+   "points_per_game": "9.0",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 105,
+   "web_name": "Ure",
+   "element_type": 3,
+   "team": 2,
+   "now_cost": 60,
+   "cost_change_start": 0,
+   "form": "9.0",
+   "points_per_game": "9.0",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "i",
+   "chance_of_playing_next_round": 0,
+   "news": "Ankle injury - unlikely to play"
+  },
+  {
+   "id": 16,
+   "web_name": "Pike",
+   "element_type": 4,
+   "team": 3,
+   "now_cost": 50,
+   "cost_change_start": 0,
+   "form": "5.4",
+   "points_per_game": "5.4",
+   "total_points": 84,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 110,
+   "web_name": "Yates",
+   "element_type": 3,
+   "team": 1,
+   "now_cost": 50,
+   "cost_change_start": 0,
+   "form": "6.0",
+   "points_per_game": "6.0",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  },
+  {
+   "id": 111,
+   "web_name": "Zane",
+   "element_type": 3,
+   "team": 2,
+   "now_cost": 50,
+   "cost_change_start": 0,
+   "form": "7.0",
+   "points_per_game": "7.0",
+   "total_points": 50,
+   "minutes": 450,
+   "status": "a",
+   "chance_of_playing_next_round": null,
+   "news": ""
+  }
+ ],
+ "game_settings": {
+  "transfers_sell_on_fee": 0.5,
+  "max_extra_free_transfers": 4
+ }
+}

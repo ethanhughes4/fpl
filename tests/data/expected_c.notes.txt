@@ -1,0 +1,42 @@
+Example C: the only free transfer is already used by a pending transfer;
+one transfer gains 8 or more, so a hit is suggested. By hand.
+The header line is not compared (local time).
+
+Setup: same players, clubs, prices and fixtures as example A (see
+expected_a.notes.txt), with these changes.
+- picks-gw05 holds Orr (FWD, 4.5m). A transfer for gameweek 6 (pending, D29)
+  sells Orr for 4.5m and buys Pike (FWD, Team3, b 5.4, 5.0m).
+  Pike: next 5.4; six 4.5 x 5.4 = 24.3.
+- Pool: Yates (MID, Team1, b 6.0, 5.0m): six 27.0. Zane (MID, Team2, b 7.0,
+  5.0m). Squad otherwise as in A.
+
+Money
+- Bank: picks bank 1.0m (10) + Orr sold 45 - Pike bought 50 = 5 = 0.5m.
+- Free transfers: as in B the count at GW6 is 1; one pending transfer uses it,
+  so 0.
+
+Squad: A's squad with Pike in place of Orr.
+
+Starting eleven (next-GW scores as A; Pike 5.4)
+- FWD: Marsh 7.4, Pike 5.4, Nash 5.2 cumulative 7.4, 12.8, 18.0.
+  DEF 5.8, 10.8, 15.4, 19.6, 22.6; MID 8.0, 15.0, 21.0, 25.0, 27.72.
+  3-4-3 = 15.4+25.0+18.0 = 58.4     4-3-3 = 19.6+21.0+18.0 = 58.6
+  4-4-2 = 19.6+25.0+12.8 = 57.4     5-3-2 = 22.6+21.0+12.8 = 56.4
+  3-5-2 = 15.4+27.72+12.8 = 55.92   5-2-3 = 22.6+15.0+18.0 = 55.6
+  Best: 4-3-3 (58.6).
+- Bench: Birch 4.0 (spare keeper), then Kemp 4.0, Gale 3.0, Lowe 2.72.
+- Captain Hart 8.0, vice Marsh 7.4.
+
+Transfers (0 free, bank 0.5m)
+- Lowe (six 14.62, sells for 4.5m) -> Yates (5.0m, six 27.0): budget
+  5 + 45 - 50 = 0 >= 0. Team1 has Ames and Cole, so 3 after: fine.
+  Gain = 27.0 - 14.62 = 12.38 (12.4) >= 8, and with 0 free it costs a hit.
+- Net 12.38 - 4 = 8.38.
+- Kemp -> Yates would gain 27.0 - 21.5 = 5.5 < 8: not suggested as a hit.
+- Zane (six 31.5) would gain more, but Team2 already has Birch, Dunn and Marsh,
+  and no midfielder of Team2 can go out: a fourth player from one club is
+  illegal.
+- Tate costs 13.0m, Ure is injured, Quill gains 0.9.
+- Output: Lowe -> Yates (4.5m -> 5.0m) 6 GW gain +12.4 [hit], Hit: -4 points.
+
+Warnings: none.

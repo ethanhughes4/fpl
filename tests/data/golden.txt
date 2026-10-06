@@ -1,0 +1,25 @@
+Bank 0.0m · Free transfers 4
+Captain: Groß (13.1)
+Vice: Tarkowski (9.3)
+Starting XI (3-4-3)   next GW  6 GW
+  GK  Verbruggen         6.0   26.7
+  DEF Tarkowski          9.3   37.1
+  DEF Ajer               4.1   18.1
+  DEF Calafiori          3.8   17.1
+  MID Groß              13.1   57.7
+  MID Mbeumo             4.8   19.7
+  MID B.Fernandes        4.0   16.5
+  MID Szoboszlai         2.7   13.0
+  FWD Haaland            6.9   34.6
+  FWD Calvert-Lewin      4.0   21.1
+  FWD João Pedro         3.5   17.9
+Bench
+  GK  Kinsky             3.7   18.8
+  DEF Diop               2.7   11.0
+  MID M.Sangaré          2.1    9.4
+  DEF O'Shea             1.9    7.6
+Transfers
+  Szoboszlai -> Schade  (6.9m -> 6.2m)  6 GW gain +32.4
+  O'Shea -> Davis  (4.0m -> 4.0m)  6 GW gain +22.9
+Warnings
+  João Pedro        75%  Knee injury - 75% chance of playing

@@ -1,0 +1,41 @@
+Example B: injured starter, one free transfer, one warning. By hand.
+The header line is not compared (local time).
+
+Setup: same players, clubs, prices and fixtures as example A (see
+expected_a.notes.txt for base, minutes, fixture factors), with these changes.
+- Hart (b 8.0, Team3) is "d" with chance_of_playing_next_round 25.
+  Next GW: chance 0.25, so 8.0 x 0.25 = 2.0.
+  Weeks 2-6 chance = halfway to 100% = (0.25+1)/2 = 0.625 (D23).
+  Six weeks: 8.0 x (1.0 x 0.25 + 3.5 x 0.625) = 8.0 x (0.25 + 2.1875)
+  = 8.0 x 2.4375 = 19.5.
+- Extra players: Wren (MID, Team1, b 7.2, 7.8m, fit): six = 4.5 x 7.2 = 32.4.
+  Vane (MID, b 7.6, 7.5m) is "d", chance 50: never suggested (D36).
+
+Money
+- Bank 0.0m (picks bank 0, no pending transfer).
+- Free transfers: 4 transfers used in GW5, none before. GW2 = 1;
+  GW3 = 2; GW4 = 3; GW5 = 4; GW6 = (4-4)+1 = 1. = 1.
+
+Starting eleven (next-GW scores as in A, except Hart 2.0)
+- MID: Innes 7.0, Joss 6.0, Kemp 4.0, Lowe 2.72, Hart 2.0
+  cumulative 7.0, 13.0, 17.0, 19.72, 21.72.
+  DEF cumulative 5.8, 10.8, 15.4, 19.6, 22.6; FWD 7.4, 12.6, 16.4.
+  3-4-3 = 15.4+19.72+16.4 = 51.52   4-4-2 = 19.6+19.72+12.6 = 51.92
+  4-3-3 = 19.6+17.0+16.4 = 53.0     5-3-2 = 22.6+17.0+12.6 = 52.2
+  5-2-3 = 22.6+13.0+16.4 = 52.0     3-5-2 = 15.4+21.72+12.6 = 49.72
+  Best: 4-3-3 (53.0). Hart is not in the eleven.
+- Bench: Birch (spare keeper) 4.0, then Gale 3.0, Lowe 2.72, Hart 2.0.
+- Captain: Marsh 7.4. Vice: Innes 7.0 (Hart has the highest base but is
+  not a starter, Innes is the second-highest starter).
+
+Transfers (1 free, bank 0)
+- Hart sells for 8.0m (bought at now_cost, no rise). Wren costs 7.8m:
+  budget 0 + 8.0 - 7.8 = 0.2 >= 0. Team1 has Ames and Cole, so 3 after: fine.
+  Gain = 32.4 - 19.5 = 12.9 >= 2: free transfer, no hit.
+- Wren is not affordable for Joss (7.0m), Kemp (6.0m), Lowe (4.5m); for
+  Innes it gains only 32.4 - 31.5 = 0.9 < 2. Vane excluded (chance 50 < 75).
+  Tate costs 13.0m, Ure is injured, Quill gains 0.9.
+- No second transfer reaches the 8-point bar for a hit.
+- Line: Hart -> Wren (8.0m -> 7.8m) 6 GW gain +12.9.
+
+Warnings: Hart only: chance 25%, news "Hamstring - 25% chance of playing".

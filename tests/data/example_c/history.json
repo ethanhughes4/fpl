@@ -1,0 +1,30 @@
+{
+ "current": [
+  {
+   "event": 1,
+   "event_transfers": 0,
+   "event_transfers_cost": 0
+  },
+  {
+   "event": 2,
+   "event_transfers": 0,
+   "event_transfers_cost": 0
+  },
+  {
+   "event": 3,
+   "event_transfers": 0,
+   "event_transfers_cost": 0
+  },
+  {
+   "event": 4,
+   "event_transfers": 0,
+   "event_transfers_cost": 0
+  },
+  {
+   "event": 5,
+   "event_transfers": 4,
+   "event_transfers_cost": 0
+  }
+ ],
+ "chips": []
+}
