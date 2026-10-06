@@ -129,7 +129,7 @@ D79, D80, D81, D82, D83, D84, D85, D86, D87, D88, D89, D91, D92, D93,
 D100 (list, "current"), D102 (header, rows, captain columns), D103,
 D104, D105, D106 (network guard), D107 (a), D111, D113 (captain), D115.
 
-## Step 2: Eleven columns — Wave 2 — TODO
+## Step 2: Eleven columns — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -150,7 +150,7 @@ positions 1-11 whatever the scores; no captain doubling).
 Decisions: D73 (eleven), D74 (eleven), D94, D102 (eleven columns),
 D107 (b).
 
-## Step 3: Ranking columns — Wave 2 — TODO
+## Step 3: Ranking columns — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -176,7 +176,7 @@ that gameweek).
 Decisions: D73 (ranking), D95, D96, D97 (ranking), D102 (ranking
 columns), D113 (price), D117.
 
-## Step 4: Rebuild and leak checks on real data — Wave 2 — TODO
+## Step 4: Rebuild and leak checks on real data — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -211,7 +211,7 @@ Tests: as above.
 Decisions: D87 (proved), D90, D106 (rebuild and leak checks), D112,
 D119.
 
-## Step 5: Shrink formula — Wave 2 — TODO
+## Step 5: Shrink formula — Wave 2 — DONE
 
 Depends on: 1.
 
