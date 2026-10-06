@@ -4,7 +4,7 @@ You are given the brief as plain text. Use only what is in it.
 
 Rules:
 - Plain English, no markdown, no bullet symbols, no headings.
-- At most {max_words} words.
+- About 120 words, and never more than {max_words}.
 - Say why this captain was picked.
 - Mention each close call and say how close it is.
 - For each warning, say what it means for the team (for example, the player is already on the bench).
