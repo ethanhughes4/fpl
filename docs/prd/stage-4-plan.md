@@ -51,7 +51,7 @@ path through it, is step 2.
 
 ---
 
-## Step 1: A rerun never overwrites a download — Wave 1 — TODO
+## Step 1: A rerun never overwrites a download — Wave 1 — DONE
 
 Depends on: none.
 
