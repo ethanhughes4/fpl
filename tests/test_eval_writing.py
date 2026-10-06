@@ -76,7 +76,7 @@ def test_writer_failure_row_fails():
 
 def test_saved_as_writing_file(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(base, "commit", lambda: "abc1234")
-    assert cli.main(ask=fake(), results=tmp_path) == 0
+    assert cli.main([], ask=fake(), results=tmp_path) == 0
     files = list(tmp_path.glob("*-abc1234-writing.txt"))
     assert len(files) == 1 and "Verdict: PASS" in files[0].read_text(encoding="utf-8")
     assert "Saved to" in capsys.readouterr().out

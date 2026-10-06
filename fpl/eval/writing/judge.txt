@@ -8,7 +8,11 @@ faithful: yes only if every claim in the explanation is supported by the brief. 
 - it states a fact the brief does not contain (for example what a player did last week);
 - a number is written as a word and it is not the number the brief gives;
 - it guesses how long an injury will last;
-- it names a different captain from the one the brief names.
+- it names a different captain from the one the brief names;
+- it describes a suggested transfer as already made, in any wording ("you've made", "your transfer of", "you brought in"). Moves listed under Transfers in the brief are suggestions only;
+- it contradicts itself (one sentence says something and another says the opposite).
+
+Your faithful answer must follow your reason. If your reason names anything in the explanation that the brief does not support, the answer is faithful=no. Answer faithful=yes only when your reason names no such problem; padding or style belongs in clarity, not faithful.
 
 clarity: 1 to 5, how clearly a busy team owner could act on it. 5 is plain, short and complete; 3 is understandable but muddled or padded; 1 is confusing.
 

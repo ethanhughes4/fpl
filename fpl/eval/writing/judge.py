@@ -1,4 +1,4 @@
-"""The judge as a scorer (D149), and a check of the judge on 8 fixed texts (D179)."""
+"""The judge as a scorer (D149), and a check of the judge on fixed texts (D179, D196)."""
 import re
 from pathlib import Path
 
@@ -7,6 +7,7 @@ from fpl.claude import AskError
 JUDGE_MODEL = "opus"  # D167, D174: no fallback
 JUDGE_TIMEOUT = 180  # D176
 CLARITY_BAR = 4.0
+SHOWN_ANSWER = 200  # characters of an unreadable judge answer quoted in the report
 HERE = Path(__file__).parent
 CHECK_BLOCK = Path(__file__).parents[3] / "tests" / "data" / "explain_block.txt"
 LINE = re.compile(r"clarity=([1-5]) faithful=(yes|no) reason=(\S.*)")
@@ -24,30 +25,45 @@ def _judge(blk, text, ask):
     """-> (clarity, faithful, reason); a judge failure is (None, JUDGE_FAILED, why)."""
     system = (HERE / "judge.txt").read_text(encoding="utf-8")
     try:
-        got = parse(ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT)[0])
+        answer = ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT)[0]
     except AskError as e:
         return None, JUDGE_FAILED, f"judge call failed: {e.reason}"
-    return got or (None, JUDGE_FAILED, "unreadable answer")
+    shown = " ".join(answer.split())[:SHOWN_ANSWER]
+    return parse(answer) or (None, JUDGE_FAILED, f"unreadable answer: {shown!r}")
 
 
 def texts():
     """-> [(faulty, text)] from judge_check.txt."""
+    return [(f, t) for f, _, t in labelled()]
+
+
+def labelled():
+    """-> [(faulty, label, text)]; the label is the "=== " line, e.g. "faulty 2 made-up player name"."""
     parts = (HERE / "judge_check.txt").read_text(encoding="utf-8").split("=== ")[1:]
-    return [(not p.startswith("clean"), p.split("\n", 1)[1].strip()) for p in parts]
+    return [(not p.startswith("clean"), p.split("\n", 1)[0].strip(), p.split("\n", 1)[1].strip())
+            for p in parts]
 
 
 def start(ctx):
+    """Judges every fixed text (D179); one line per text with the judge's reason (D195)."""
     blk = CHECK_BLOCK.read_text(encoding="utf-8")
-    bad = []
-    for n, (faulty, text) in enumerate(texts(), 1):
-        got = _judge(blk, text, ctx["ask"])
-        if got[0] is None or got[1] == faulty:  # faulty must be "no", clean must be "yes"
+    bad, lines = [], []
+    for n, (faulty, label, text) in enumerate(labelled(), 1):
+        clarity, faithful, reason = _judge(blk, text, ctx["ask"])
+        wrong = clarity is None or faithful == faulty  # faulty must be "no", clean must be "yes"
+        if wrong:
             bad.append(n)
+        got = faithful if faithful == JUDGE_FAILED else ("yes" if faithful else "no")
+        lines.append(f"  {'WRONG' if wrong else 'right'}  text {n} ({label}): expected "
+                     f"{'no' if faulty else 'yes'}, got {got}; {reason}")
     _state["proven"] = not bad
+    total = len(lines)
     if bad:
-        return ["JUDGE CHECK FAILED on text " + ", ".join(map(str, bad))
-                + ": the judge scores below are unproven."]
-    return ["Judge check passed: all 8 fixed texts judged correctly."]
+        head = ("JUDGE CHECK FAILED on text " + ", ".join(map(str, bad))
+                + ": the judge scores below are unproven.")
+    else:
+        head = f"Judge check passed: all {total} fixed texts judged correctly."
+    return [head] + lines
 
 
 def score(text, ctx):

@@ -24,12 +24,12 @@ def test_parse():
         assert judge.parse(bad) is None
 
 
-def test_eight_texts_six_faulty():
+def test_eleven_texts_nine_faulty():
     t = judge.texts()
-    assert len(t) == 8 and sum(f for f, _ in t) == 6
+    assert len(t) == 11 and sum(f for f, _ in t) == 9  # D196
 
 
-def test_all_eight_texts_pass_every_code_check():
+def test_all_fixed_texts_pass_every_code_check():
     f = feedmod.load(str(DATA / "snapshot"))
     ctx = {"data": brief.build(f), "feed": f, "block": BLOCK}
     for n, (_, text) in enumerate(judge.texts(), 1):
@@ -46,6 +46,29 @@ def right_judge(text_by_prompt):
             return "clarity=5 faithful=yes reason=Fine.", 1, "m"
         return f"clarity=3 faithful={'no' if faulty else 'yes'} reason=r", 1, "m"
     return ask
+
+
+def test_judge_check_prints_each_reason():
+    def ask(prompt, system, model, timeout):
+        return "clarity=4 faithful=yes reason=Looks supported.", 1, "m"
+    lines = judge.start(ctx_for(ask))
+    assert lines[0].startswith("JUDGE CHECK FAILED") and len(lines) == 12
+    assert lines[1] == "  right  text 1 (clean): expected yes, got yes; Looks supported."
+    assert lines[3] == ("  WRONG  text 3 (faulty 1 number on the wrong player): "
+                        "expected no, got yes; Looks supported.")
+
+
+def test_judge_check_flag_runs_only_the_check(capsys):
+    from fpl.eval.writing import __main__ as cli
+    seen = []
+
+    def ask(prompt, system, model, timeout):
+        seen.append(model)
+        return "clarity=4 faithful=no reason=r", 7, "claude-opus-5-5"
+    assert cli.main(["--judge-check"], ask=ask) == 0
+    out = capsys.readouterr().out
+    assert seen == ["opus"] * 11 and "Calls: 11" in out and "Total tokens: 77" in out
+    assert "text 1 (clean): expected yes, got no; r" in out
 
 
 def ctx_for(ask):
@@ -122,6 +145,15 @@ def test_full_run_counts_calls_and_reports(monkeypatch):
             return f"clarity=4 faithful={'no' if faulty else 'yes'} reason=r", 1, "m"
         return "Pick Hart as captain.", 1, "m"
     r = run.run(ask, runs=1)
-    assert r["calls"] == len(seen) == 8 + 4 + 4 and r["stopped"] is None
+    assert r["calls"] == len(seen) == 11 + 4 + 4 and r["stopped"] is None
     text = report.render(r, "c")
     assert "Judge check passed" in text and "mean clarity: 4.0" in text and "Verdict: PASS" in text
+
+
+def test_unreadable_answer_is_quoted_on_one_line_and_cut():
+    long = "Looking at this:\nclarity=4 faithful=no " + "x" * 300
+    got = judge.score("text", {"ask": lambda *a: (long, 1, "m"), "block": BLOCK})
+    assert got["faithful"] == judge.JUDGE_FAILED
+    reason = got["judge reason"]
+    assert reason.startswith("unreadable answer: 'Looking at this: clarity=4") and "\n" not in reason
+    assert len(reason) <= len("unreadable answer: ''") + judge.SHOWN_ANSWER
