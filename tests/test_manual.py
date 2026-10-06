@@ -77,3 +77,23 @@ def test_header_lines(feed):
     lines = header.render(header.build(entered(feed, gw=5)))
     assert lines[1] == "this-week.json is for gameweek 5, not 6: ignored."
     assert lines[2].startswith("Shows your team at the last deadline.")
+
+
+def test_header_with_bank_only(feed):
+    (line,) = header.render(header.build(entered(feed)))
+    assert line.endswith(" · bank entered by hand")
+
+def test_accents_ignored(feed):
+    feed["bootstrap"]["elements"].append(named(20, 2, "Ibrahim", "Sangaré", "Sangaré"))
+    assert manual.swaps(entered(feed, ("P3", "sangare")))[0][1]["id"] == 20
+
+
+def test_surname_matches_inside_the_squad_only(feed):
+    # web_name "M.Sangaré": the surname finds him in the squad; outside it, two Sangarés clash
+    els = feed["bootstrap"]["elements"]
+    els[7].update(first_name="Mamadou", second_name="Sangaré", web_name="M.Sangaré")  # P8, held
+    els += [named(20, 3, "Ibrahim", "Sangaré", "I.Sangaré"), named(21, 3, "Mohamed", "Belloumi", "Belloumi")]
+    assert manual.swaps(entered(feed, ("Sangare", "Belloumi")))[0][0]["id"] == 8
+    els.append(named(22, 3, "Ali", "Sangaré", "A.Sangaré"))
+    with pytest.raises(manual.ManualError, match="matches more than one player outside your squad"):
+        manual.swaps(entered(feed, ("P9", "Sangare")))

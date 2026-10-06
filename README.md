@@ -21,8 +21,8 @@ If you have made some, put them in `this-week.json` in the repo root:
      "transfers": [{"out": "Player A", "in": "Player B"}],
      "bank": 0.8}
 
-Names are the ones the brief prints, or first and last name; the bank is the
-one the FPL site shows. The file is used only when its gameweek is the coming
+Names are the ones the brief prints, the surname, or first and last name
+(case and accents do not matter); the bank is the one the FPL site shows. The file is used only when its gameweek is the coming
 one, and a live run saves a copy with the download so `--from` replays it.
 
 ## Live check (once, by the owner)

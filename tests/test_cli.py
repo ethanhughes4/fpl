@@ -66,3 +66,12 @@ def test_this_week_file_used_and_bad_name(tmp_path, capsys):
     assert main(["--from", str(tmp_path / "s")]) == 1
     assert capsys.readouterr().out.strip() == (
         'this-week.json: "Nobody" matches no player in your squad.')
+
+
+def test_bank_only_file(tmp_path, capsys):
+    shutil.copytree(SNAP, tmp_path / "s")
+    (tmp_path / "s" / "this-week.json").write_text(json.dumps(
+        {"gameweek": 6, "transfers": [], "bank": 0.8}), encoding="utf-8")
+    assert main(["--from", str(tmp_path / "s")]) == 0
+    out = capsys.readouterr().out
+    assert "Bank 0.8m · Free transfers 4" in out and "Shows your team" not in out

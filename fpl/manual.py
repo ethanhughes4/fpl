@@ -4,6 +4,8 @@ The public feed hides transfers for the upcoming gameweek until its deadline,
 so the owner types them in. feed.load puts the file's contents in
 feed["this_week"] (None when there is no file).
 """
+import unicodedata
+
 from fpl.feed import THIS_WEEK as FILE, upcoming
 from fpl.picks import current_picks
 
@@ -28,9 +30,16 @@ def _full(el):
     return f"{el.get('first_name', '')} {el.get('second_name', '')}".strip()
 
 
+def _plain(text):
+    """Lower case without accents, so "Sangare" finds "Sangaré" (D68)."""
+    decomposed = unicodedata.normalize("NFKD", text.strip().casefold())
+    return "".join(c for c in decomposed if not unicodedata.combining(c))
+
+
 def _find(name, pool, where):
-    want = name.strip().casefold()
-    hits = [e for e in pool if want in (e["web_name"].casefold(), _full(e).casefold())]
+    want = _plain(name)
+    hits = [e for e in pool
+            if want in (_plain(e["web_name"]), _plain(e.get("second_name", "")), _plain(_full(e)))]
     if not hits:
         raise ManualError(f'{FILE}: "{name}" matches no player {where}.')
     if len(hits) > 1:
@@ -63,3 +72,4 @@ def bank(feed):
     if status(feed) != "used":
         return None
     return round(feed["this_week"]["bank"] * TENTHS_PER_MILLION)
+

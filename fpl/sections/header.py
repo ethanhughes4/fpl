@@ -20,7 +20,9 @@ def render(data):
     line = f"Gameweek {data['gameweek']} · deadline {d:%a} {d.day} {d:%b %H:%M}"
     if data["this_week"] == "used":
         n = data["entered"]
-        return [f"{line} · includes {n} transfer{'' if n == 1 else 's'} entered by hand"]
+        if n:
+            return [f"{line} · includes {n} transfer{'' if n == 1 else 's'} entered by hand"]
+        return [f"{line} · bank entered by hand"]  # D68: file with no transfers
     out = [line]
     if data["this_week"] == "ignored":
         out.append(f"{manual.FILE} is for gameweek {data['file_gameweek']}, "
