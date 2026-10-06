@@ -241,7 +241,7 @@ Decisions: D126 (code checks), D150, D151 (numbers, names), D152, D153
 (code checks), D154 (replaced by D176, D180), D160 (eval report), D166,
 D180.
 
-## Step 5: Score breakdowns in the block — Wave 3 — TODO
+## Step 5: Score breakdowns in the block — Wave 3 — DONE
 
 Depends on: 2.
 
@@ -270,7 +270,7 @@ owner once, then frozen (D160).
 
 Decisions: D138 (breakdowns), D141, D182, D160 (frozen block).
 
-## Step 6: Eval-only checks — Wave 3 — TODO
+## Step 6: Eval-only checks — Wave 3 — DONE
 
 Depends on: 2, 4.
 
