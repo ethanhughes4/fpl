@@ -217,7 +217,7 @@ Decisions: D1 (transfers), D4, D26 (transfers), D33, D34, D35, D36,
 D37, D38, D39 (transfer constants), D49, D51 (transfers, hit line), D55
 (each rule).
 
-## Step 7: Worked examples and golden file — Wave 4 — TODO
+## Step 7: Worked examples and golden file — Wave 4 — DONE
 
 Depends on: 1-6.
 
