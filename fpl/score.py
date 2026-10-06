@@ -32,9 +32,9 @@ def appearances(el):
     return round(num(el["total_points"]) / ppg) if ppg else 0
 
 
-def shrunk_bases(elements):
-    """{id: base pulled toward the typical base for position and start price} (D99, D116)."""
-    out = {el["id"]: base(el) for el in elements}
+def typical_bases(elements):
+    """{id: typical base for position and start price} (D99, D182); only players the fit covers."""
+    out = {}
     for pos in {el["element_type"] for el in elements}:
         group = [el for el in elements if el["element_type"] == pos and num(el["minutes"]) > 0]
         prices = [start_price(el) for el in group]
@@ -42,8 +42,18 @@ def shrunk_bases(elements):
             continue
         slope, icpt = statistics.linear_regression(prices, [base(el) for el in group])
         for el, price in zip(group, prices):
+            out[el["id"]] = slope * price + icpt
+    return out
+
+
+def shrunk_bases(elements):
+    """{id: base pulled toward the typical base for position and start price} (D99, D116)."""
+    out = {el["id"]: base(el) for el in elements}
+    typical = typical_bases(elements)
+    for el in elements:
+        if el["id"] in typical:
             n = appearances(el)
-            out[el["id"]] = (n * base(el) + SHRINK_K * (slope * price + icpt)) / (n + SHRINK_K)
+            out[el["id"]] = (n * base(el) + SHRINK_K * typical[el["id"]]) / (n + SHRINK_K)
     return out
 
 

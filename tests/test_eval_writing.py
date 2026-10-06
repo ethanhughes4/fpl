@@ -3,7 +3,7 @@ from fpl.eval import report as base
 from fpl.eval.writing import __main__ as cli, checks, report, run
 
 GOOD = "Pick Hart as captain."
-BAD = "Pick Hart, he scores 7.4."  # 7.4 is not in the brief
+BAD = "Pick Hart, he scores 91.7."  # 91.7 is not in any brief
 
 
 def fake(text=GOOD, tokens=10, seen=None):

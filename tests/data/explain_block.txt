@@ -1,0 +1,39 @@
+Gameweek 6 · deadline Sat 10 Oct 12:00
+Shows your team at the last deadline. Transfers made since are not visible in the public feed.
+Bank 0.0m · Free transfers 4
+Captain: Groß (7.9)
+Vice: Tarkowski (7.2)
+Starting XI (3-4-3)   next GW  6 GW
+  GK  Verbruggen         4.4   19.4
+  DEF Tarkowski          7.2   29.0
+  DEF Calafiori          3.9   17.6
+  DEF Ajer               3.5   15.6
+  MID Groß               7.9   34.9
+  MID B.Fernandes        6.3   25.5
+  MID Mbeumo             4.9   20.0
+  MID Szoboszlai         3.1   14.6
+  FWD Haaland            7.1   36.1
+  FWD João Pedro         3.3   16.6
+  FWD Calvert-Lewin      2.9   15.4
+Bench
+  GK  Kinsky             3.1   15.8
+  DEF Diop               2.6   10.6
+  MID M.Sangaré          2.3   10.0
+  DEF O'Shea             2.2    8.9
+Transfers
+  Szoboszlai -> Schade  (6.9m -> 6.2m)  6 GW gain +14.7
+  O'Shea -> Davis  (4.0m -> 4.0m)  6 GW gain +11.4
+Warnings
+  João Pedro        75%  Knee injury - 75% chance of playing
+
+Close calls
+  captain Groß 7.9 vs vice Tarkowski 7.2, gap 0.7: close
+  lowest outfield starter Calvert-Lewin 2.9 vs best outfield bench Diop 2.6, gap 0.3: close
+  transfer Szoboszlai -> Schade gain +14.7 against a bar of 2, margin 12.7: not close
+  transfer O'Shea -> Davis gain +11.4 against a bar of 2, margin 9.4: not close
+
+Score breakdowns
+  Groß (MID): form 15.5, points per game 9.4, minutes factor 1.0, next opponent SUN (A), fixture difficulty 3, playing chance 100%, next-GW score 7.9, games played 5, typical base for position and start price 2.3, base 11.2 before shrink and 7.9 after
+  Tarkowski (DEF): form 8.3, points per game 8.6, minutes factor 1.0, next opponent HUL (A), fixture difficulty 2, playing chance 100%, next-GW score 7.2, games played 5, typical base for position and start price 3.3, base 8.5 before shrink and 6.6 after
+  Calvert-Lewin (FWD): form 6.0, points per game 4.4, minutes factor 0.9, next opponent ARS (A), fixture difficulty 5, playing chance 100%, next-GW score 2.9, games played 5, typical base for position and start price 2.3, base 4.9 before shrink and 3.9 after
+  Diop (DEF): form 2.5, points per game 2.4, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, playing chance 100%, next-GW score 2.6, games played 5, typical base for position and start price 2.2, base 2.4 before shrink and 2.4 after
