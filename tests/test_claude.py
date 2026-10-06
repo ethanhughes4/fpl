@@ -81,6 +81,20 @@ def test_is_error(monkeypatch):
     assert reason(ask) == "the model call failed (Overloaded)"
 
 
+def test_tokens_none_with_partial_usage(monkeypatch):
+    d = json.loads(ok_json())
+    del d["usage"]["output_tokens"]
+    _, ask = go(monkeypatch, stdout=json.dumps(d))
+    assert ask()[1] is None
+
+
+def test_missing_subtype_is_failure(monkeypatch):
+    d = json.loads(ok_json("No subtype"))
+    del d["subtype"]
+    _, ask = go(monkeypatch, stdout=json.dumps(d))
+    assert reason(ask) == "the model call failed (No subtype)"
+
+
 def test_subtype_not_success(monkeypatch):
     _, ask = go(monkeypatch, stdout=ok_json("Too many turns", subtype="error_max_turns"))
     assert reason(ask) == "the model call failed (Too many turns)"

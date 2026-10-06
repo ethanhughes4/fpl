@@ -51,7 +51,7 @@ the printed lines, both with no network.
 
 ---
 
-## Step 1: Brief, then an explanation from Claude Code — Wave 1 — TODO
+## Step 1: Brief, then an explanation from Claude Code — Wave 1 — DONE
 
 Depends on: none.
 

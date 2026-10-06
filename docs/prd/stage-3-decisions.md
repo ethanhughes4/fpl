@@ -132,3 +132,9 @@ D182: The score breakdown (D141) also gives games played, the typical score for 
 D183: Known gap: a real number from the brief attached to the wrong player passes the number check (D143); the judge is the backstop (D149, D179 fault 1). (reason: owner)
 D184: With D181, the captain call is close in example A (Hart 7.9 vs Marsh 7.3, gap 0.6) and in example C (same gap), so both explanations must mention it. Example B (gap 0.1) is unchanged. (reason: follows from D181)
 D185: Claude writes working first drafts of the writer prompt and the judge rubric, each in its own plain text file; the owner then edits them. Replaces D161's "owner writes them himself". Claude writes everything else. (reason: owner)
+
+## Resolver answers during the build (2026-10-06)
+
+D186: A result JSON with no `subtype` field is a failure, not a success: D172 fails anything whose subtype is not "success". (resolver; evidence: Agent SDK SDKResultMessage makes `subtype` required, "success" or an "error_*" value, https://code.claude.com/docs/en/agent-sdk/typescript)
+D187: `claude auth status` exits 0 when logged in and 1 when not, as D172 assumes. (resolver; evidence: "Exits with code 0 if logged in, 1 if not.", https://code.claude.com/docs/en/cli-reference)
+D188: The JSON fields read (`result`, `is_error`, `subtype`, `usage.input_tokens`, `usage.output_tokens`, `modelUsage` keyed by model id) match D170. Tokens are None when either usage count is missing, not only when `usage` is missing (D173). (resolver; evidence: SDK type `usage: NonNullableUsage; modelUsage: { [modelName: string]: ModelUsage }`, https://code.claude.com/docs/en/agent-sdk/typescript)

@@ -55,11 +55,12 @@ def ask(prompt, system, model, timeout):
         if r.returncode == 0:
             raise AskError("the model call failed (unreadable output)")
         out = {"result": r.stdout}
-    if r.returncode != 0 or out.get("is_error") or out.get("subtype", "success") != "success":
+    if r.returncode != 0 or out.get("is_error") or out.get("subtype") != "success":
         if _not_logged_in(exe):
             raise AskError(NOT_INSTALLED)
         raise AskError(f"the model call failed ({_first_line(str(out.get('result') or ''))})")
-    usage = out.get("usage")
-    tokens = usage["input_tokens"] + usage["output_tokens"] if usage else None
+    usage = out.get("usage") or {}
+    parts = (usage.get("input_tokens"), usage.get("output_tokens"))
+    tokens = None if None in parts else sum(parts)
     model_id = next(iter(out.get("modelUsage") or {}), None)
     return out.get("result") or "", tokens, model_id
