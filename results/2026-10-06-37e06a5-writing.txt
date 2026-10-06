@@ -1,0 +1,145 @@
+FPL writing eval
+Commit: 37e06a5
+Model: claude-opus-5-5, claude-sonnet-5-5
+Judge check passed: all 11 fixed texts judged correctly.
+  right  text 1 (clean): expected yes, got yes; none
+  right  text 2 (clean): expected yes, got yes; none
+  right  text 3 (faulty 1 number on the wrong player): expected no, got no; "Calvert-Lewin at 2.6 against Diop at 2.9" swaps the numbers: the brief gives Calvert-Lewin 2.9 and Diop 2.6, with Calvert-Lewin, who is starting, ahead by 0.3.
+  right  text 4 (faulty 2 made-up player name): expected no, got no; "Hendricks is another name worth a look instead of O'Shea" names a player who is not in the brief; the only suggested replacement for O'Shea is Davis.
+  right  text 5 (faulty 3 made-up fact): expected no, got no; "Groß ... scored twice last week": the brief has no information on what Groß did last week; it only gives his form 15.5, points per game 9.4 and next-GW score 7.9.
+  right  text 6 (faulty 4 wrong number as a word): expected no, got no; "Groß is the captain, expected to score nine points": the brief gives Groß a next-GW score of 7.9, not nine.
+  right  text 7 (faulty 5 guess at injury length): expected no, got no; The claim that João Pedro 'will probably be fit again in about three weeks' guesses how long the injury will last; the brief only says knee injury, 75% chance of playing (doubtful).
+  right  text 8 (faulty 6 wrong captain): expected no, got no; The explanation says "Haaland is the captain this week", but the brief names Groß (7.9) as captain.; The explanation says "Groß as vice", but the brief names Groß as captain and Tarkowski (7.2) as vice.
+  right  text 9 (faulty 7 suggested transfer described as made): expected no, got no; "Your transfer of Szoboszlai to Schade gains 14.7" describes the move as already made, but the brief lists it only as a suggested transfer that has not been made.; "your transfer of O'Shea to Davis gains 11.4" describes the move as already made, but the brief lists it only as a suggested transfer that has not been made.
+  right  text 10 (faulty 8 bench gap in the wrong direction): expected no, got no; The explanation says Calvert-Lewin at 2.9 is 'only 0.3 below Diop on the bench', but the brief has Diop at 2.6, so Calvert-Lewin is 0.3 ahead of Diop.
+  right  text 11 (faulty 9 contradicts itself): expected no, got no; "Both transfers are close calls" is wrong: the brief marks both transfers as not close, with Szoboszlai -> Schade 12.7 over the bar of 2 and O'Shea -> Davis 9.4 over it.; The explanation contradicts itself: it says "Both transfers are close calls" and then "Neither transfer is close."
+
+Brief      Run  numbers  names  length  captain  warnings  close  clarity  faithful  unsupported claims  Tokens
+example_a  1    pass     pass   pass    pass     pass      pass   5        pass      none                2090  
+example_a  2    pass     pass   FAIL    pass     pass      pass   5        pass      none                2406  
+example_a  3    pass     pass   pass    pass     pass      pass   5        pass      none                2039  
+example_b  1    pass     pass   FAIL    pass     pass      pass   5        pass      none                2490  
+example_b  2    pass     pass   pass    pass     pass      pass   4        pass      none                2226  
+example_b  3    pass     pass   FAIL    pass     pass      pass   5        pass      none                2575  
+example_c  1    pass     pass   pass    pass     pass      pass   5        pass      none                2444  
+example_c  2    pass     pass   pass    pass     pass      pass   5        pass      none                2421  
+example_c  3    pass     pass   pass    pass     pass      pass   5        pass      none                2443  
+snapshot   1    pass     pass   FAIL    pass     pass      pass   5        pass      none                3241  
+snapshot   2    pass     pass   pass    pass     pass      pass   5        pass      none                3231  
+snapshot   3    pass     pass   FAIL    pass     pass      pass   5        pass      none                3267  
+
+code checks pass rate: 58%
+faithful rate: 100% of 12 judged
+mean clarity: 4.9
+judge failures: 0
+judge check: passed
+Total tokens: 114076
+Calls: 35
+
+Verdict: FAIL
+
+--- example_a run 1
+Hart is your captain because he has the highest next-gameweek score in your team at 7.9. His form and points per game are both 8.0, he is expected to play (100%), and he has a home game against T4. Marsh is vice at 7.3.
+
+Close call one: captain. Hart 7.9 against Marsh 7.3, a gap of 0.6. It is close, but Hart is ahead.
+
+Close call two: the last starting place. Fry starts at 4.1 and Orr, the best outfield player on the bench, scores 3.8. Fry leads by 0.3, so it is close, but the brief keeps Fry in the XI.
+
+Warnings: none, so no player needs special handling.
+
+The brief finds no transfer worth making. You are advised to save it, which gives you 4 free transfers next week.
+
+--- example_a run 2
+Hart is your captain because he has the highest next-gameweek score in your team at 7.9. His form and points per game are both 8.0, he is at 100% to play, and he faces T4 at home. Marsh, your vice-captain, is next at 7.3.
+
+There are two close calls. The captaincy is the first: Hart leads Marsh by a gap of 0.6, which is close, so Marsh is a sound backup. The second is the last starting spot. Fry starts on 4.1 and Orr, the best outfield player on your bench, has 3.8. Fry is ahead by only 0.3, which is close, so he keeps his place for now.
+
+There are no warnings this week, so no player needs replacing because of injury or doubt.
+
+The brief sees no transfer worth making. Save it and you will have 4 free transfers next week. Any transfers you made since the deadline are not visible to the brief.
+
+--- example_a run 3
+Hart is your captain because he has the highest next-GW score in your team at 7.9, backed by form and points per game of 8.0 and a 100% chance of playing. He faces T4 at home.
+
+There are two close calls. Marsh, your vice, is just behind at 7.3, a gap of 0.6, so the captain choice is close. On the bench, Fry starts with 4.1 while Orr sits on the bench with 3.8, so Fry is ahead by only 0.3, which is also close.
+
+There are no warnings this week, and no transfer is worth making. Save it and you will have 4 free next week. Your bank is 0.0m.
+
+--- example_b run 1
+Marsh is captain because he has the highest next-GW score in the brief at 7.3. He averages 7.4 points per match over the last 30 days and has 100% chance of playing. Innes, the vice, is right behind at 7.2.
+
+Close calls: captain versus vice is close, with a gap of only 0.1. The bench call is not close. Orr starts on 3.8 and is ahead of the bench's best outfield player, Gale on 3.0, by 0.8. The suggested Hart to Wren transfer is not close either. Its gain of +13.4 is well over the bar of 2, a margin of 11.4.
+
+Warning: Hart has a hamstring problem and only a 25% chance of playing. He is already on the bench, so he is not taking a starting spot. Moving him out for Wren, who is expected to play, is the suggested fix. It has not been made yet, and you have 1 free transfer.
+
+--- example_b run 2
+Marsh is your captain because he has the highest next-GW score in your team, 7.3, backed by 7.4 points per game and a 100% chance of playing. Innes, the vice, is close behind on 7.2.
+
+Close calls: captain Marsh 7.3 against Innes 7.2 is a gap of just 0.1, so it is close. The bench call is not close: Orr starts on 3.8 and Gale, the best outfield bench player, has 3.0, so Orr leads by 0.8. The transfer is not close either: Hart to Wren shows a gain of +13.4 against a bar of 2, a margin of 11.4.
+
+Warning: Hart has only a 25% chance of playing with a hamstring problem. He is on your bench, so he is not in the starting XI. Swapping him for Wren (8.0m to 7.8m) is suggested but not made yet. You have 1 free transfer.
+
+--- example_b run 3
+Marsh is captain because he has the highest next-GW score in the brief, 7.3. His form is 7.4 and he is expected to play (100%). Innes is vice on 7.2.
+
+That captain call is close. The gap is only 0.1, so Innes is a fair alternative.
+
+On the bench call, Orr starts on 3.8 and Gale sits on 3.0. Orr is ahead by 0.8, so it is not close and Orr keeps his place.
+
+The suggested Hart to Wren move is not close either. It shows a 6 GW gain of +13.4 against a bar of 2, a margin of 11.4. You have 1 free transfer.
+
+Hart has a hamstring problem and a 25% chance of playing, so he is likely to miss out. He is already on the bench, so your starting XI is not affected. I can't say how long he will be out.
+
+The brief shows your team at the last deadline, so any transfers you've made since are not reflected.
+
+--- example_c run 1
+Hart is captain because he has the highest next-gameweek score in your team at 7.9, backed by form and points per game of 8.0 and a home game against T4. Marsh is vice at 7.3.
+
+Close calls: Hart against Marsh is a gap of 0.6, which is close, so the captaincy could flip. The bench call is the tightest: Fry, your lowest outfield starter, and Kemp, your best outfield bench player, both score 4.1, a gap of 0.0. The suggested transfer of Lowe for Yates shows a gain of +10.8 against a bar of 8, a margin of 2.8, which is not close.
+
+Warnings: there are none, so no one is flagged as injured or doubtful. The transfer is not made yet. You have 0 free transfers, so it costs a 4-point hit, leaving a net gain of +6.8.
+
+--- example_c run 2
+Hart is your captain because he has the highest next-gameweek score in the team at 7.9, built on 8.0 points per game and a home fixture, and he is expected to play (100%). Marsh is vice at 7.3.
+
+Two close calls. Captain: Hart leads Marsh by a gap of 0.6, which is close, so Marsh is a sensible alternative. Bench: Fry starts at 4.1 and Kemp on the bench is also 4.1, a gap of 0.0, so they are level and either could start.
+
+The suggested move of Lowe to Yates is not close. It gains +10.8 against a bar of 8, a margin of 2.8, and is +6.8 after the 4-point hit. It has not been made, and you have 0 free transfers.
+
+There are no warnings this week.
+
+--- example_c run 3
+Hart is your captain because he has the highest next-gameweek score in the team at 7.9, backed by 8.0 points per game, a home fixture and a 100% chance of playing. Marsh is vice at 7.3.
+
+Close calls: captain is close, with Hart 7.9 against Marsh 7.3, a gap of 0.6. The last bench spot is also close. Fry starts on 4.1 and Kemp sits on the bench with 4.1, so they are level at a gap of 0.0. The suggested Lowe to Yates transfer is not close. Its gain of +10.8 clears the bar of 8 by 2.8. It would cost a 4-point hit, leaving a net gain of +6.8, and you have 0 free transfers. It has not been made yet.
+
+There are no warnings this week, so nobody needs replacing for injury reasons.
+
+--- snapshot run 1
+Groß is captain because he has the highest next-GW score in your team, 7.9. He has form of 15.5, 9.4 points per game, and is expected to play (100%) away at SUN. Tarkowski is vice at 7.2.
+
+Close calls: the captain choice is close, with a gap of 0.7 over Tarkowski. The last starting spot is also close. Calvert-Lewin starts on 2.9 and Diop is the best outfield bench option on 2.6, so Calvert-Lewin leads by only 0.3.
+
+The two suggested transfers, Szoboszlai to Schade (gain +14.7) and O'Shea to Davis (gain +11.4), are not close. Both clear the bar of 2 by a wide margin (12.7 and 9.4). Neither has been made yet.
+
+Warning: João Pedro is in your starting XI but has a 75% chance of playing with a knee injury. He is not on the bench, so check his status before the deadline, as you may need to swap him out.
+
+--- snapshot run 2
+Groß is captain because he has the highest next-GW score in your team at 7.9. His form is 15.5 and he averages 9.4 points per game. He plays SUN away, with fixture difficulty 3. Tarkowski is vice at 7.2.
+
+Close calls: captain against vice is a gap of 0.7, which is close. Calvert-Lewin starts on 2.9 and Diop is the best bench outfielder on 2.6, so Calvert-Lewin is ahead by only 0.3, also close.
+
+The two suggested transfers are not close. Szoboszlai to Schade gains +14.7 against a bar of 2, and O'Shea to Davis gains +11.4 against the same bar. Neither has been made yet.
+
+Warning: João Pedro has a knee injury and a 75% chance of playing. He is in your starting XI, not on the bench, so he may not play. Your bench has no other forward.
+
+--- snapshot run 3
+Groß is captain because he has the highest next-GW score in the brief, 7.9. His form is 15.5, his points per game is 9.4, and he is expected to play (100%) away at SUN.
+
+Tarkowski, the vice-captain, is close behind on 7.2. The gap is 0.7, so the call is close.
+
+The other close call is the last starting spot. Calvert-Lewin starts on 2.9 and Diop on the bench has 2.6. Calvert-Lewin leads by only 0.3, so it is close.
+
+Neither suggested transfer is close. Szoboszlai to Schade has a margin of 12.7 over the bar of 2, and O'Shea to Davis has a margin of 9.4. Neither has been made yet.
+
+The one warning is João Pedro, who is doubtful at 75% with a knee injury. He is in your starting XI, not on the bench, so he is a risk to your line-up. The brief gives no timescale for the injury.
