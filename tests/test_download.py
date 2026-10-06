@@ -32,11 +32,11 @@ def fake_get(calls, freehit=False, code=None):
     return get
 
 
-def run(monkeypatch, tmp_path, **kw):
+def run(monkeypatch, tmp_path, team=dl.OWNER_TEAM, **kw):
     calls = []
     monkeypatch.setattr(requests, "get", fake_get(calls, **kw))
     # this-week.json path inside tmp_path, so an owner's real file in the repo root is never read
-    return calls, lambda: dl.download(1, tmp_path / "raw", date(2026, 10, 6),
+    return calls, lambda: dl.download(team, tmp_path / "raw", date(2026, 10, 6),
                                       this_week=tmp_path / "this-week.json")
 
 
@@ -47,7 +47,6 @@ def test_files_and_request_options(monkeypatch, tmp_path):
     assert sorted(p.name for p in folder.iterdir()) == sorted(
         f"{n}.json" for n in ["bootstrap-static", "fixtures", "entry", "history", "transfers", "picks-gw05"])
     assert all(c[2] == 30 and "Mozilla" in c[1]["User-Agent"] for c in calls)
-    assert go() == folder  # same day overwrites
 
 
 def test_free_hit_fetches_earlier_picks(monkeypatch, tmp_path):
@@ -79,4 +78,23 @@ def test_this_week_file_copied_beside_feed(monkeypatch, tmp_path):
     folder = go()
     assert (folder / "this-week.json").read_text(encoding="utf-8") == '{"gameweek": 6}'
     (tmp_path / "this-week.json").unlink()  # owner deletes it, reruns the same day
-    assert not (go() / "this-week.json").exists()
+    second = go()
+    assert second.name == "2026-10-06-gw06-2" and not (second / "this-week.json").exists()
+    assert (folder / "this-week.json").read_text(encoding="utf-8") == '{"gameweek": 6}'
+
+
+def test_reruns_never_overwrite(monkeypatch, tmp_path):
+    _, go = run(monkeypatch, tmp_path)
+    first = go()
+    before = {p.name: p.read_bytes() for p in first.iterdir()}
+    assert go().name == "2026-10-06-gw06-2"
+    assert go().name == "2026-10-06-gw06-3"
+    assert {p.name: p.read_bytes() for p in first.iterdir()} == before
+
+
+def test_other_team_suffix(monkeypatch, tmp_path):
+    _, go = run(monkeypatch, tmp_path, team=123)
+    assert go().name == "2026-10-06-gw06-team123"
+    assert go().name == "2026-10-06-gw06-team123-2"
+    _, go = run(monkeypatch, tmp_path)
+    assert go().name == "2026-10-06-gw06"

@@ -10,7 +10,8 @@ BASE = "https://fantasy.premierleague.com/api/"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 TIMEOUT = 30
 RAW_DIR = Path("data/raw")
-THIS_WEEK = Path("this-week.json")  # owner's hand-entered transfers, repo root (D65)
+OWNER_TEAM = 8027067
+THIS_WEEK =Path("this-week.json")  # owner's hand-entered transfers, repo root (D65)
 
 
 class FeedError(Exception):
@@ -51,13 +52,18 @@ def download(team, root=RAW_DIR, today=None, this_week=THIS_WEEK):
     files[f"picks-gw{last:02d}"] = picks = _get(f"entry/{team}/event/{last}/picks/", team)
     if picks.get("active_chip") == "freehit":
         files[f"picks-gw{last - 1:02d}"] = _get(f"entry/{team}/event/{last - 1}/picks/", team)
-    folder = Path(root) / f"{today or date.today():%Y-%m-%d}-gw{nxt:02d}"
-    folder.mkdir(parents=True, exist_ok=True)
+    name = f"{today or date.today():%Y-%m-%d}-gw{nxt:02d}" + ("" if team == OWNER_TEAM else f"-team{team}")
+    Path(root).mkdir(parents=True, exist_ok=True)
+    folder, k = Path(root) / name, 1
+    while True:  # never overwrite: first free name (D218)
+        try:
+            folder.mkdir(exist_ok=False)
+            break
+        except FileExistsError:
+            k += 1
+            folder = Path(root) / f"{name}-{k}"
     for name, data in files.items():
         (folder / f"{name}.json").write_text(json.dumps(data), encoding="utf-8")
-    copy = folder / Path(this_week).name
     if Path(this_week).is_file():
-        shutil.copyfile(this_week, copy)
-    elif copy.is_file():
-        copy.unlink()  # a same-day rerun after the owner deleted the file
+        shutil.copyfile(this_week, folder / Path(this_week).name)
     return folder

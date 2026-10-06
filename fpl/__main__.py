@@ -4,9 +4,9 @@ import sys
 
 from fpl import brief, claude, explain, feed as feedmod
 from fpl.manual import ManualError
-from fpl.download import FeedError, NoUpcomingGameweek, TeamNotFound, download
+from fpl.download import OWNER_TEAM, FeedError,NoUpcomingGameweek, TeamNotFound, download
 
-DEFAULT_TEAM = 8027067
+DEFAULT_TEAM = OWNER_TEAM
 
 
 def main(argv=None):

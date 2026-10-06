@@ -10,7 +10,8 @@ Weekly Fantasy Premier League brief from the official feed.
     python -m fpl --explain        # force the explanation (needed with --from)
     python -m pytest               # tests (never touch the live feed)
 
-Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`.
+Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`. A rerun the same day never overwrites: it
+makes `-2`, `-3`, ... A `--team` run for another team adds `-team<id>`.
 
 ## Explanation
 
