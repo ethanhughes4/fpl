@@ -41,11 +41,14 @@ def chance(el, week_index):
     return (c + LATER_WEEKS_TOWARDS) / 2
 
 
-def gw_score(feed, el, gw, week_index=None):
-    """One gameweek; blank = 0, double = sum. week_index defaults to gw - next."""
+def gw_score(feed, el, gw, week_index=None, base_value=None):
+    """One gameweek; blank = 0, double = sum. week_index defaults to gw - next.
+    base_value replaces base(el) when given."""
     if week_index is None:
         week_index = gw - upcoming(feed)["id"]
-    per_fixture = base(el) * minutes_factor(feed, el) * chance(el, week_index)
+    if base_value is None:
+        base_value = base(el)
+    per_fixture = base_value * minutes_factor(feed, el) * chance(el, week_index)
     total = 0.0
     for f in feed["fixtures"]:
         if f["event"] != gw:
@@ -57,8 +60,8 @@ def gw_score(feed, el, gw, week_index=None):
     return total
 
 
-def next_score(feed, el):
-    return gw_score(feed, el, upcoming(feed)["id"], 0)
+def next_score(feed, el, base_value=None):
+    return gw_score(feed, el, upcoming(feed)["id"], 0, base_value=base_value)
 
 
 def six_week_score(feed, el):
