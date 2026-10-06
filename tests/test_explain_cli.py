@@ -51,7 +51,7 @@ def test_call_failed(monkeypatch, capsys):
 
 def test_timeout(monkeypatch, capsys):
     _, out = run(monkeypatch, capsys, ["--from", SNAP, "--explain"], timeout=True)
-    assert out.endswith("Explanation skipped: the model call failed (timed out after 60 s).\n")
+    assert out.endswith("Explanation skipped: the model call failed (timed out after 120 s).\n")
 
 
 def test_checker_failure(monkeypatch, capsys):

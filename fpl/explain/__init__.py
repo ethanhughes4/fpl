@@ -4,7 +4,7 @@ from fpl.claude import AskError
 from fpl.explain import block, check
 
 WRITER_MODEL = "haiku"
-WRITER_TIMEOUT = 60
+WRITER_TIMEOUT = 120  # D176, raised by D194: a real call took 62 s
 MAX_WORDS = 150
 
 

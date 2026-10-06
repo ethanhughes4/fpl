@@ -138,3 +138,12 @@ def test_timeout(monkeypatch):
 def test_unreadable_json(monkeypatch):
     _, ask = go(monkeypatch, stdout="not json")
     assert reason(ask) == "the model call failed (unreadable output)"
+
+
+def test_thinking_off_for_writer_model_only(monkeypatch):
+    fake, ask = go(monkeypatch)
+    ask()  # haiku
+    env = fake.calls[0]["kw"]["env"]
+    assert env["MAX_THINKING_TOKENS"] == "0" and "PATH" in env  # rest of the environment kept
+    claude.ask("p", "s", "opus", 60)
+    assert fake.calls[1]["kw"]["env"] is None
