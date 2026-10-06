@@ -1,4 +1,5 @@
 """The judge as a scorer (D149), and a check of the judge on fixed texts (D179, D196)."""
+import json
 import re
 from pathlib import Path
 
@@ -11,21 +12,39 @@ SHOWN_ANSWER = 200  # characters of an unreadable judge answer quoted in the rep
 HERE = Path(__file__).parent
 CHECK_BLOCK = Path(__file__).parents[3] / "tests" / "data" / "explain_block.txt"
 LINE = re.compile(r"clarity=([1-5]) faithful=(yes|no) reason=(\S.*)")
+# D198: the judge answers through --json-schema, so no text can come before the answer
+SCHEMA = {"type": "object", "additionalProperties": False,
+          "required": ["clarity", "faithful", "reason"],
+          "properties": {"clarity": {"type": "integer", "minimum": 1, "maximum": 5},
+                         "faithful": {"type": "string", "enum": ["yes", "no"]},
+                         "reason": {"type": "string"}}}
 JUDGE_FAILED = "judge failed"  # D193: shown apart from faithful=no, never a pass
 _state = {"proven": None}  # ponytail: module state, since summary(rows) gets no ctx
 
 
 def parse(text):
-    """-> (clarity, faithful, reason), or None when the line cannot be read (D175)."""
-    m = LINE.fullmatch(text.strip())
-    return (int(m[1]), m[2] == "yes", m[3]) if m else None
+    """-> (clarity, faithful, reason), or None when the answer cannot be read (D175).
+    Reads the structured JSON answer (D198), or the one line D175 describes."""
+    try:
+        d = json.loads(text)
+    except ValueError:
+        m = LINE.fullmatch(text.strip())
+        return (int(m[1]), m[2] == "yes", m[3]) if m else None
+    if not isinstance(d, dict) or set(d) != set(SCHEMA["required"]):
+        return None
+    c, f, r = d["clarity"], d["faithful"], d["reason"]
+    if type(c) is not int or not 1 <= c <= 5 or f not in ("yes", "no") \
+            or not isinstance(r, str) or not r.strip():
+        return None
+    return c, f == "yes", " ".join(r.split())
 
 
 def _judge(blk, text, ask):
     """-> (clarity, faithful, reason); a judge failure is (None, JUDGE_FAILED, why)."""
     system = (HERE / "judge.txt").read_text(encoding="utf-8")
     try:
-        answer = ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT)[0]
+        answer = ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT,
+                     schema=SCHEMA)[0]
     except AskError as e:
         return None, JUDGE_FAILED, f"judge call failed: {e.reason}"
     shown = " ".join(answer.split())[:SHOWN_ANSWER]

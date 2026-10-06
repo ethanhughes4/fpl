@@ -39,7 +39,7 @@ def test_all_fixed_texts_pass_every_code_check():
 
 def right_judge(text_by_prompt):
     """A judge that is right about every fixed text."""
-    def ask(prompt, system, model, timeout):
+    def ask(prompt, system, model, timeout, **kw):
         assert model == "opus" and timeout == 180 and "EXPLANATION" in prompt
         faulty = text_by_prompt.get(prompt.split("EXPLANATION\n")[1])
         if faulty is None:
@@ -49,7 +49,7 @@ def right_judge(text_by_prompt):
 
 
 def test_judge_check_prints_each_reason():
-    def ask(prompt, system, model, timeout):
+    def ask(prompt, system, model, timeout, **kw):
         return "clarity=4 faithful=yes reason=Looks supported.", 1, "m"
     lines = judge.start(ctx_for(ask))
     assert lines[0].startswith("JUDGE CHECK FAILED") and len(lines) == 12
@@ -62,7 +62,7 @@ def test_judge_check_flag_runs_only_the_check(capsys):
     from fpl.eval.writing import __main__ as cli
     seen = []
 
-    def ask(prompt, system, model, timeout):
+    def ask(prompt, system, model, timeout, **kw):
         seen.append(model)
         return "clarity=4 faithful=no reason=r", 7, "claude-opus-5-5"
     assert cli.main(["--judge-check"], ask=ask) == 0
@@ -92,18 +92,18 @@ def test_judge_check_fails_and_is_said_and_scores_unproven():
 
 
 def test_judge_check_unreadable_or_failed_call_fails():
-    assert "FAILED" in judge.start(ctx_for(lambda *a: ("hello", 1, "m")))[0]
+    assert "FAILED" in judge.start(ctx_for(lambda *a, **k: ("hello", 1, "m")))[0]
 
-    def boom(*a):
+    def boom(*a, **k):
         raise AskError("nope")
     assert "FAILED" in judge.start(ctx_for(boom))[0]
 
 
 def test_score_and_failure():
-    ok = lambda *a: ("clarity=4 faithful=yes reason=Good.", 1, "m")
+    ok = lambda *a, **k: ("clarity=4 faithful=yes reason=Good.", 1, "m")
     assert judge.score("text", {"ask": ok, "block": BLOCK}) == \
         {"clarity": 4, "faithful": True, "judge reason": "Good."}
-    bad = judge.score("text", {"ask": lambda *a: ("clarity=9", 1, "m"), "block": BLOCK})
+    bad = judge.score("text", {"ask": lambda *a, **k: ("clarity=9", 1, "m"), "block": BLOCK})
     assert bad["faithful"] == judge.JUDGE_FAILED and bad["clarity"] is None
 
 
@@ -137,7 +137,7 @@ def test_full_run_counts_calls_and_reports(monkeypatch):
     monkeypatch.setattr(check, "CHECKS", [numbers, names])
     seen = []
 
-    def ask(prompt, system, model, timeout):
+    def ask(prompt, system, model, timeout, **kw):
         seen.append(model)
         if model == "opus":
             ok = prompt.split("EXPLANATION\n")[1]
@@ -152,8 +152,31 @@ def test_full_run_counts_calls_and_reports(monkeypatch):
 
 def test_unreadable_answer_is_quoted_on_one_line_and_cut():
     long = "Looking at this:\nclarity=4 faithful=no " + "x" * 300
-    got = judge.score("text", {"ask": lambda *a: (long, 1, "m"), "block": BLOCK})
+    got = judge.score("text", {"ask": lambda *a, **k: (long, 1, "m"), "block": BLOCK})
     assert got["faithful"] == judge.JUDGE_FAILED
     reason = got["judge reason"]
     assert reason.startswith("unreadable answer: 'Looking at this: clarity=4") and "\n" not in reason
     assert len(reason) <= len("unreadable answer: ''") + judge.SHOWN_ANSWER
+
+
+def test_parse_structured_answer():
+    # D198: the judge's --json-schema answer
+    assert judge.parse('{"clarity": 4, "faithful": "no", "reason": "Says nine, brief gives 7.9."}') \
+        == (4, False, "Says nine, brief gives 7.9.")
+    for bad in ['{"clarity": 6, "faithful": "no", "reason": "x"}',
+                '{"clarity": 4, "faithful": "maybe", "reason": "x"}',
+                '{"clarity": true, "faithful": "no", "reason": "x"}',
+                '{"clarity": 4, "faithful": "no", "reason": " "}',
+                '{"clarity": 4, "faithful": "no"}',
+                '{"clarity": 4, "faithful": "no", "reason": "x", "extra": 1}', '[1, 2]']:
+        assert judge.parse(bad) is None, bad
+
+
+def test_judge_asks_with_the_schema():
+    seen = {}
+
+    def ask(prompt, system, model, timeout, **kw):
+        seen.update(kw)
+        return '{"clarity": 5, "faithful": "yes", "reason": "Fine."}', 1, "m"
+    assert judge.score("text", {"ask": ask, "block": BLOCK})["faithful"] is True
+    assert seen == {"schema": judge.SCHEMA}

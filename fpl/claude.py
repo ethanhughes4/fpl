@@ -10,6 +10,7 @@ AUTH_TIMEOUT = 10
 # D194: thinking off for these models (MAX_THINKING_TOKENS=0, env-vars docs); a real writer
 # call spent 62 s mostly thinking. Opus 5.5, Sonnet 5.5 and Fable can't turn it off.
 THINKING_OFF = {"haiku"}
+CACHE_FIELDS = ("cache_creation_input_tokens", "cache_read_input_tokens")  # D197
 MAX_REASON = 200  # D189: characters of the failure reason shown
 NOT_INSTALLED = "Claude Code is not installed or not logged in"
 
@@ -45,8 +46,9 @@ def _not_logged_in(exe):
     return r.returncode == 1
 
 
-def ask(prompt, system, model, timeout):
-    """Returns (text, tokens, model_id). tokens is None when usage is missing."""
+def ask(prompt, system, model, timeout, schema=None):
+    """Returns (text, tokens, model_id). tokens is None when usage is missing.
+    With a JSON schema (D198) the text is the structured answer as JSON."""
     exe = shutil.which("claude")
     if exe is None:
         raise AskError(NOT_INSTALLED)
@@ -56,6 +58,8 @@ def ask(prompt, system, model, timeout):
         cmd = [exe, "-p", "--safe-mode", "--model", model, "--system-prompt-file", str(sysfile),
                "--tools", "", "--strict-mcp-config", "--no-session-persistence",
                "--max-turns", "1", "--output-format", "json", "--permission-prompts", "none"]
+        if schema is not None:
+            cmd += ["--json-schema", json.dumps(schema)]
         try:
             env = {**os.environ, "MAX_THINKING_TOKENS": "0"} if model in THINKING_OFF else None
             r = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
@@ -78,6 +82,10 @@ def ask(prompt, system, model, timeout):
         raise AskError(f"the model call failed ({_reason(out, r)})")
     usage = out.get("usage") or {}
     parts = (usage.get("input_tokens"), usage.get("output_tokens"))
-    tokens = None if None in parts else sum(parts)
+    # D197: cached input is reported apart from input_tokens; missing cache fields count 0
+    cached = sum(usage.get(k) or 0 for k in CACHE_FIELDS)
+    tokens = None if None in parts else sum(parts) + cached
     model_id = next(iter(out.get("modelUsage") or {}), None)
+    if schema is not None and isinstance(out.get("structured_output"), dict):
+        return json.dumps(out["structured_output"], ensure_ascii=False), tokens, model_id
     return out.get("result") or "", tokens, model_id

@@ -24,11 +24,11 @@ class CountedAsk:
         self.ask, self.max_calls = ask, max_calls
         self.calls, self.tokens, self.models = 0, None, []
 
-    def __call__(self, prompt, system, model, timeout):
+    def __call__(self, prompt, system, model, timeout, **kw):
         if self.calls >= self.max_calls:
             raise CapReached
         self.calls += 1
-        text, tokens, model_id = self.ask(prompt, system, model, timeout)
+        text, tokens, model_id = self.ask(prompt, system, model, timeout, **kw)
         if tokens is not None:
             self.tokens = (self.tokens or 0) + tokens
         if model_id and model_id not in self.models:

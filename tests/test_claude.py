@@ -147,3 +147,30 @@ def test_thinking_off_for_writer_model_only(monkeypatch):
     assert env["MAX_THINKING_TOKENS"] == "0" and "PATH" in env  # rest of the environment kept
     claude.ask("p", "s", "opus", 60)
     assert fake.calls[1]["kw"]["env"] is None
+
+
+def test_tokens_count_cached_input(monkeypatch):
+    # D197: shape of a real opus reply on 2026-10-06
+    d = json.loads(ok_json())
+    d["usage"] = {"input_tokens": 2, "cache_creation_input_tokens": 2154,
+                  "cache_read_input_tokens": 100, "output_tokens": 37,
+                  "output_tokens_details": {"thinking_tokens": 0}}
+    _, ask = go(monkeypatch, stdout=json.dumps(d))
+    assert ask()[1] == 2 + 2154 + 100 + 37
+
+
+def test_schema_adds_flag_and_returns_structured_answer(monkeypatch):
+    # D198: shape of a real --json-schema reply on 2026-10-06
+    schema = {"type": "object", "properties": {"faithful": {"type": "string"}}}
+    answer = {"clarity": 4, "faithful": "no", "reason": "Wrong number for Groß."}
+    fake, _ = go(monkeypatch, stdout=ok_json(json.dumps(answer), structured_output=answer, num_turns=2))
+    text = claude.ask("p", "s", "opus", 180, schema=schema)[0]
+    cmd = fake.calls[0]["cmd"]
+    assert cmd[-2:] == ["--json-schema", json.dumps(schema)]
+    assert json.loads(text) == answer and "Groß" in text
+
+
+def test_no_schema_no_flag(monkeypatch):
+    fake, ask = go(monkeypatch)
+    ask()
+    assert "--json-schema" not in fake.calls[0]["cmd"]
