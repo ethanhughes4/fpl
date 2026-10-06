@@ -97,7 +97,7 @@ deadline), D16, D29 (which picks, pending transfers), D41, D42, D43,
 D44, D45, D46, D47, D48, D50, D53, D54, D55 (text-to-number, online
 guard), D59.
 
-## Step 2: Starting eleven and bench — Wave 2 — TODO
+## Step 2: Starting eleven and bench — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -128,7 +128,7 @@ Decisions: D2, D3, D9, D18, D19, D20, D21, D22, D23, D24, D25, D26
 (eleven), D27, D28, D29 (applying the swaps), D39 (score constants), D51 (XI, bench), D55
 (current squad, score with weights, valid formation).
 
-## Step 3: Bank and free transfers — Wave 2 — TODO
+## Step 3: Bank and free transfers — Wave 2 — DONE
 
 Depends on: 1.
 
