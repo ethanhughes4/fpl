@@ -33,9 +33,12 @@ def check(text, ctx):
     ents = [(p["web_name"], [p.get("web_name"), p.get("first_name"), p.get("second_name")])
             for p in boot["elements"]]
     ents += [(t["name"], [t.get("name"), t.get("short_name")]) for t in boot["teams"]]
+    # a club whose code the block prints (opponent "SUN") is in the brief too
+    codes = {t["name"] for t in boot["teams"] if t.get("short_name")
+             and re.search(r"(?<!\w)" + re.escape(t["short_name"]) + r"(?!\w)", ctx["block"])}
     allowed, banned = set(), {}
     for key, names in ents:
-        in_block = _word(_norm(key)).search(block)
+        in_block = key in codes or _word(_norm(key)).search(block)
         for n in filter(None, names):
             if in_block:
                 allowed.add(_norm(n))

@@ -293,7 +293,7 @@ skip on an eval-only failure.
 
 Decisions: D136 (checked), D151, D155.
 
-## Step 7: Judge, and a check of the judge — Wave 4 — TODO
+## Step 7: Judge, and a check of the judge — Wave 4 — DONE
 
 Depends on: 3, 4, 5, 6.
 

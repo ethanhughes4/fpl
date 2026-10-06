@@ -63,3 +63,10 @@ def test_unknown_name_passes():
 
 def test_live_flag():
     assert names.LIVE is True and names.NAME == "names"
+
+
+def test_club_code_in_block_allows_club():
+    block = BLOCK + "\nnext opponent TOT (A)"
+    ctx = {"feed": FEED, "block": block}
+    assert names.check("Away at TOT, then Spurs again.", ctx) is None
+    assert "NEW" in names.check("They face NEW.", ctx)
