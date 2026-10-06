@@ -37,6 +37,16 @@ Downloads go to `data/raw/YYYY-MM-DD-eval/` (files already there are reused).
 The table is printed and saved to `results/YYYY-MM-DD-<commit>.txt`. Results
 files are committed; compare two runs by diffing them.
 
+## Writing eval
+
+    python -m fpl.eval.writing          # explain 4 saved briefs, 3 runs each
+
+Runs the real writer (`claude -p`, so it spends your Claude Code plan limits,
+at most 40 calls) on the example briefs and the gameweek-6 snapshot, and scores
+each text with the code checks. The table, totals, PASS or FAIL (PASS only at
+100% of checks) and every text are printed and saved to
+`results/YYYY-MM-DD-<commit>-writing.txt`.
+
 Advice is weak before about gameweek 4: form and minutes need a few matches.
 
 ## Transfers made this week
