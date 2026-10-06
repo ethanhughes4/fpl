@@ -77,6 +77,11 @@ def reply(body, fresh=False):
     return f"Data downloaded {when:%a} {when.day} {when:%b %H:%M}, gameweek {ev['id']}\n\n{text}"
 
 
+def fixed():
+    """True when serving a --from folder: nothing is ever downloaded."""
+    return bool(_s.get("fixed"))
+
+
 def folder_name():
     """Name of the folder being served, or None before the first reply."""
     return _s["folder"].name if _s.get("folder") else None

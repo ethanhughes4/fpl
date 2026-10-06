@@ -8,7 +8,7 @@ DESCRIPTION = (
 
 def tool() -> str:
     def body(feed):
-        if session._s["fixed"]:
+        if session.fixed():
             return "Serving a saved folder; nothing downloaded."
         return f"Downloaded to data/raw/{session.folder_name()}."
     return session.reply(body, fresh=True)

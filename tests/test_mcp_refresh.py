@@ -1,7 +1,7 @@
 from fpl import download as dl
 from fpl.mcp import session
 from fpl.mcp.tools import get_brief, refresh
-from tests.test_mcp_session import AFTER, NOW, SNAP, Fake, raw  # noqa: F401
+from tests.test_mcp_session import NOW, SNAP, Fake, raw  # noqa: F401
 
 
 def test_two_refreshes_make_two_folders_and_brief_uses_newest(raw):

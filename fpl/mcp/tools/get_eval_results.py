@@ -1,6 +1,7 @@
 import re
 import subprocess
 
+from fpl.mcp import session
 from fpl.mcp.session import ROOT
 
 DESCRIPTION = (
@@ -24,16 +25,27 @@ def _log():
     return r.stdout.split()
 
 
+def _rank(commit, log):
+    """Index of the commit in the log, newest 0; by prefix, so hashes of another length still
+    match; not found = after every known commit."""
+    return next((i for i, h in enumerate(log) if h.startswith(commit) or commit.startswith(h)),
+                len(log))
+
+
 def tool(kind: str) -> str:
+    return session.reply(lambda feed: text(kind))  # D227: every reply starts with the data line
+
+
+def text(kind):
     if kind not in KINDS:
         return f"Unknown kind {kind!r}. Use scoring, writing or tools."
-    order = {h: i for i, h in enumerate(_log())}
+    log = _log()
     found = []
     for p in RESULTS.glob("*.txt"):
         m = NAME.fullmatch(p.name)
         if m and (m[4] or "scoring") == kind:
             # newest commit = smallest log index; unknown commits last; same commit: later date
-            found.append((-order.get(m[2], len(order)), m[1], p))
+            found.append((-_rank(m[2], log), m[1], p))
     if not found:
         return f"No {kind} results file found."
     p = max(found, key=lambda f: f[:2])[2]
