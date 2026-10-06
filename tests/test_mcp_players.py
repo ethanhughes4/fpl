@@ -89,7 +89,9 @@ def test_same_player_twice_counts_once():
 @pytest.mark.parametrize("n", [0, 5])
 def test_count_limits(n):
     session.start(DATA / "example_a")
-    assert get_players.tool(["Hart"] * n) == "Give between 1 and 4 players."
+    out = get_players.tool(["Hart"] * n)
+    assert out.startswith("Data downloaded ")  # D227
+    assert out.endswith("\n\nGive between 1 and 4 players.")
 
 
 def test_resolve_ids_and_matches():
@@ -99,3 +101,4 @@ def test_resolve_ids_and_matches():
     assert names.resolve(154, pool, teams)["id"] == 154
     assert names.resolve("154", pool, teams)["id"] == 154
     assert manual.matches("Haaland", pool)[0]["id"] == 411
+

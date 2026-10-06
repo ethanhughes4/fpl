@@ -119,7 +119,7 @@ D224, D225, D226, D227, D228, D230, D231, D232, D238, D239, D240, D241, D215, D2
 
 ---
 
-## Step 3: Ask about and compare 1-4 players — Wave 3 — TODO
+## Step 3: Ask about and compare 1-4 players — Wave 3 — DONE
 
 Depends on: 2.
 
@@ -185,7 +185,7 @@ Covers: D212, D223 (find_replacements), D224, D229, D63, D237.
 
 ---
 
-## Step 5: "How did the last eval do?" — Wave 3 — TODO
+## Step 5: "How did the last eval do?" — Wave 3 — DONE
 
 Depends on: 2.
 
@@ -209,7 +209,7 @@ Covers: D223 (get_eval_results), D247, D237.
 
 ---
 
-## Step 6: "Get fresh data" — Wave 3 — TODO
+## Step 6: "Get fresh data" — Wave 3 — DONE
 
 Depends on: 2.
 

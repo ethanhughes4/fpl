@@ -36,3 +36,15 @@ def test_tools_listed_read_only_with_limits_and_call_matches():
         assert t.annotations.read_only_hint is True
         assert t.description.endswith(server.LIMITS)
     assert res.content[0].text == get_brief.tool()
+
+
+def test_numeric_id_accepted():
+    """D229: a client may send an id as a JSON number; the SDK must not refuse it."""
+    session.start(SNAP)
+
+    async def go():
+        async with Client(server.build()) as c:
+            return await c.call_tool("get_players", {"names": [154]})
+
+    out = asyncio.run(go()).content[0].text
+    assert "Palmer" in out and "more than one" not in out

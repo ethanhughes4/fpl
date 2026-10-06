@@ -25,9 +25,9 @@ def _gaps(label, rows):
     return f"{label}: " + "; ".join(parts) + "."
 
 
-def tool(names: list[str]) -> str:
+def tool(names: list[str | int]) -> str:  # an id may come as a number (D229)
     if not 1 <= len(names) <= MAX_PLAYERS:
-        return f"Give between 1 and {MAX_PLAYERS} players."
+        return session.reply(lambda feed: f"Give between 1 and {MAX_PLAYERS} players.")  # D227
     return session.reply(lambda feed: _body(names, feed))
 
 
