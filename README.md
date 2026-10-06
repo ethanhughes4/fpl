@@ -13,6 +13,19 @@ Weekly Fantasy Premier League brief from the official feed.
 Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`. A rerun the same day never overwrites: it
 makes `-2`, `-3`, ... A `--team` run for another team adds `-team<id>`.
 
+## Ask Claude
+
+    pip install mcp==2.3.0                         # the official MCP SDK, once
+    python -m fpl.mcp                              # the server, on stdio (Claude Code starts it)
+    python -m fpl.mcp --from tests/data/snapshot   # serve a saved folder, no network
+
+Open Claude Code in this repo and accept the `fpl` server from `.mcp.json`, then ask,
+for example, "who should I captain this week?". Tools so far: `get_brief` (this week's
+brief, close calls and score breakdowns; the explanation is never included). The server
+is read-only, makes no transfers, never logs in, and costs nothing to run (it never
+calls Claude). It reuses today's download while its deadline is ahead; each reply starts
+with when the data was downloaded.
+
 ## Explanation
 
 After the brief, `haiku` writes a short plain-English explanation of it by
