@@ -1,6 +1,6 @@
 from fpl.claude import AskError
 from fpl.eval import report as base
-from fpl.eval.writing import __main__ as cli, report, run
+from fpl.eval.writing import __main__ as cli, checks, report, run
 
 GOOD = "Pick Hart as captain."
 BAD = "Pick Hart, he scores 7.4."  # 7.4 is not in the brief
@@ -32,6 +32,12 @@ def test_bad_text_fails_column_and_verdict():
     assert [x["scores"]["numbers"] for x in r["rows"]] == [False] * 4
     text = report.render(r, "abc1234")
     assert "FAIL" in text and "Verdict: FAIL" in text and "code checks pass rate: 0%" in text
+
+
+def test_pass_rate_counts_explanations_not_cells():
+    rows = [{"scores": {"numbers": True, "names": False}}, {"scores": {"numbers": True, "names": True}}]
+    assert checks.summary(rows)[0][1] == "50%"
+    assert checks.summary(rows[1:])[0][1:] == ("100%", True)
 
 
 def test_tokens_dash_when_none():

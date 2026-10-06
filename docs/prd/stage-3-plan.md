@@ -144,7 +144,7 @@ D161 (replaced by D185), D177, D178, D185 (writer draft).
 
 Owner check (D160): run `python -m fpl` once for real.
 
-## Step 2: Close calls in the block — Wave 2 — TODO
+## Step 2: Close calls in the block — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -177,7 +177,7 @@ Tests: `tests/test_explain_close.py`, worked by hand:
 Decisions: D138 (close calls), D139, D140, D155 (close calls), D156,
 D157, D158, D181, D184.
 
-## Step 3: Names check — Wave 2 — TODO
+## Step 3: Names check — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -203,7 +203,7 @@ gap, D145).
 
 Decisions: D144, D145, D183 (written down).
 
-## Step 4: Writing eval with code checks — Wave 2 — TODO
+## Step 4: Writing eval with code checks — Wave 2 — DONE
 
 Depends on: 1.
 

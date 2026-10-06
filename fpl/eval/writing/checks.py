@@ -11,7 +11,8 @@ def score(text, ctx):
 
 
 def summary(rows):
-    """Pass rate over every check cell; passed only at 100% (D153)."""
-    cells = [v for r in rows for v in r["scores"].values() if isinstance(v, bool)]
-    rate = sum(cells) / len(cells) if cells else 0.0
-    return [("code checks pass rate", f"{rate:.0%}", bool(cells) and rate == 1.0)]
+    """Share of explanations passing every check; passed only at 100% (D153)."""
+    ok = [all(r["scores"][c.NAME] is True for c in check.CHECKS if c.NAME in r["scores"])
+          for r in rows]
+    rate = sum(ok) / len(ok) if ok else 0.0
+    return [("code checks pass rate", f"{rate:.0%}", bool(ok) and rate == 1.0)]
