@@ -2,10 +2,10 @@
 from fpl.eval import replay
 from fpl.eval.formulas import current
 from fpl.eval.formulas import shrink
-from fpl.eval.measures import captain, eleven, ranking
+from fpl.eval.measures import captain, eleven, ranking, top20
 
 FORMULAS = [current, shrink]
-MEASURES = [captain, eleven, ranking]
+MEASURES = [captain, eleven, ranking, top20]
 
 
 def run(data):
