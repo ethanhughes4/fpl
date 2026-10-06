@@ -1,6 +1,6 @@
-from fpl.explain.checks import numbers
+from fpl.explain.checks import names, numbers
 
-CHECKS = [numbers]
+CHECKS = [numbers, names]
 
 
 def run(text, ctx, live_only=False):
