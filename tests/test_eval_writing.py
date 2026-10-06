@@ -80,3 +80,47 @@ def test_saved_as_writing_file(tmp_path, monkeypatch, capsys):
     files = list(tmp_path.glob("*-abc1234-writing.txt"))
     assert len(files) == 1 and "Verdict: PASS" in files[0].read_text(encoding="utf-8")
     assert "Saved to" in capsys.readouterr().out
+
+
+def test_parallel_same_as_one_at_a_time_and_at_most_five_at_once():
+    # D200: calls overlap (sleeps finish out of order) yet rows, scores and report match
+    import random
+    import threading
+    import time
+    live, most, lock = [0], [0], threading.Lock()
+
+    def ask(prompt, system, model, timeout, **kw):
+        with lock:
+            live[0] += 1
+            most[0] = max(most[0], live[0])
+        time.sleep(random.uniform(0, 0.02))
+        with lock:
+            live[0] -= 1
+        name = "Hart" if "Hart" in prompt else "Groß"
+        return f"Pick {name}, he scores 91.7." if "Gale" in prompt else f"Pick {name}.", 3, "m"
+    one = report.render(run.run(ask, parallel=1), "c")
+    most[0] = 0
+    five = report.render(run.run(ask), "c")
+    assert one == five and 1 < most[0] <= run.PARALLEL == 5
+
+
+def test_cap_reached_in_start_says_so():
+    class Start:
+        def start(ctx):
+            for _ in range(3):
+                ctx["ask"]("p", "s", "opus", 1)
+            return []
+        score = staticmethod(lambda text, ctx: {})
+        summary = staticmethod(lambda rows: [])
+    r = run.run(fake(), scorers=[checks, Start], max_calls=2)
+    assert r["rows"] == [] and r["stopped"] == "stopped at the 2-call cap before any explanation"
+
+
+def test_plan_limit_said_plainly():
+    def ask(*a, **k):
+        raise AskError("the model call failed (Claude usage limit reached)", plan_limit=True)
+    r = run.run(ask, runs=1)
+    assert r["plan_limit"] == 4
+    text = report.render(r, "c")
+    assert "PLAN LIMIT: 4 model calls failed because a Claude plan limit was reached." in text
+    assert "PLAN LIMIT" not in report.render(run.run(fake(), runs=1), "c")

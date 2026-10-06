@@ -174,3 +174,20 @@ def test_no_schema_no_flag(monkeypatch):
     fake, ask = go(monkeypatch)
     ask()
     assert "--json-schema" not in fake.calls[0]["cmd"]
+
+
+def test_plan_limit_flagged(monkeypatch):
+    # D200: HTTP 429, or the words of a limit in the reason
+    d = json.loads(ok_json("Too many requests", is_error=True, api_error_status=429))
+    _, ask = go(monkeypatch, returncode=1, stdout=json.dumps(d))
+    with pytest.raises(claude.AskError) as e:
+        ask()
+    assert e.value.plan_limit
+    _, ask = go(monkeypatch, returncode=1, stdout=ok_json("Claude usage limit reached", is_error=True))
+    with pytest.raises(claude.AskError) as e:
+        ask()
+    assert e.value.plan_limit
+    _, ask = go(monkeypatch, returncode=1, stdout=ok_json("Overloaded", is_error=True))
+    with pytest.raises(claude.AskError) as e:
+        ask()
+    assert not e.value.plan_limit

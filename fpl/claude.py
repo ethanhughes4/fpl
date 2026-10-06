@@ -1,6 +1,7 @@
 """The one file that runs Claude Code (D165). Everything else takes `ask` as an argument."""
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -13,12 +14,17 @@ THINKING_OFF = {"haiku"}
 CACHE_FIELDS = ("cache_creation_input_tokens", "cache_read_input_tokens")  # D197
 MAX_REASON = 200  # D189: characters of the failure reason shown
 NOT_INSTALLED = "Claude Code is not installed or not logged in"
+# D200: a failure counts as a plan limit on HTTP 429 or these words in the reason.
+# ponytail: word match on Claude Code's message; exact wording not documented, widen if missed
+PLAN_LIMIT_STATUS = 429
+PLAN_LIMIT_WORDS = re.compile(r"usage limit|rate limit|plan limit|limit reached|too many requests",
+                              re.IGNORECASE)
 
 
 class AskError(Exception):
-    def __init__(self, reason):
+    def __init__(self, reason, plan_limit=False):
         super().__init__(reason)
-        self.reason = reason
+        self.reason, self.plan_limit = reason, plan_limit
 
 
 def _first_line(text):
@@ -79,7 +85,9 @@ def ask(prompt, system, model, timeout, schema=None):
     if r.returncode != 0 or out.get("is_error") or out.get("subtype") != "success":
         if _not_logged_in(exe):
             raise AskError(NOT_INSTALLED)
-        raise AskError(f"the model call failed ({_reason(out, r)})")
+        why = _reason(out, r)
+        limit = out.get("api_error_status") == PLAN_LIMIT_STATUS or bool(PLAN_LIMIT_WORDS.search(why))
+        raise AskError(f"the model call failed ({why})", plan_limit=limit)
     usage = out.get("usage") or {}
     parts = (usage.get("input_tokens"), usage.get("output_tokens"))
     # D197: cached input is reported apart from input_tokens; missing cache fields count 0

@@ -18,6 +18,7 @@ SCHEMA = {"type": "object", "additionalProperties": False,
           "properties": {"clarity": {"type": "integer", "minimum": 1, "maximum": 5},
                          "faithful": {"type": "string", "enum": ["yes", "no"]},
                          "reason": {"type": "string"}}}
+CALLS_PER_TEXT = 1  # D200: so the eval can plan its call cap
 JUDGE_FAILED = "judge failed"  # D193: shown apart from faithful=no, never a pass
 _state = {"proven": None}  # ponytail: module state, since summary(rows) gets no ctx
 
@@ -67,8 +68,10 @@ def start(ctx):
     """Judges every fixed text (D179); one line per text with the judge's reason (D195)."""
     blk = CHECK_BLOCK.read_text(encoding="utf-8")
     bad, lines = [], []
-    for n, (faulty, label, text) in enumerate(labelled(), 1):
-        clarity, faithful, reason = _judge(blk, text, ctx["ask"])
+    fixed = labelled()
+    each = ctx.get("map") or (lambda f, items: list(map(f, items)))  # D200: in parallel, in order
+    answers = each(lambda t: _judge(blk, t[2], ctx["ask"]), fixed)
+    for n, ((faulty, label, text), (clarity, faithful, reason)) in enumerate(zip(fixed, answers), 1):
         wrong = clarity is None or faithful == faulty  # faulty must be "no", clean must be "yes"
         if wrong:
             bad.append(n)
