@@ -43,7 +43,7 @@ rebuilt "feed as it was" runs through them unchanged.
 
 ---
 
-## Step 1: Replay, captain column, saved table — Wave 1 — TODO
+## Step 1: Replay, captain column, saved table — Wave 1 — DONE
 
 Depends on: none.
 

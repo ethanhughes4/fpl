@@ -96,3 +96,7 @@ D118: The hand-made example sets the top-N constant to 3. (reason: small enough 
 ## Final tightenings (2026-10-06)
 
 D119: In D90's rebuild check, the 30-day form window counts back from the moment the saved snapshot was downloaded, because that is when the feed worked form out. That moment is 2026-10-06 12:55 UTC (modification time of data/raw/2026-10-06-gw06/bootstrap-static.json, read 2026-10-06), written into the test as a named constant because copies lose file times. In the replay, the window counts back from the gameweek's deadline (D87). (reason: owner. Note: the window then starts 2026-09-06 12:55 UTC, five minutes before a 13:00 kick-off that day; both 6 September matches fall inside)
+
+## Resolver answers
+
+D120: In event/{gw}/live/, every player has an explain entry for each fixture his club played that gameweek, including fixtures he did not play (a "minutes" stat with value 0); appearances = entries with minutes value > 0, per-match points = sum of that entry's stat points. stats.minutes and stats.total_points are the gameweek totals. Double/blank gameweek shapes not yet seen; D90's rebuild check guards them. (resolver; evidence: https://fantasy.premierleague.com/api/event/1/live/ fetched 2026-10-06, e.g. id 2 explain [{fixture 1, minutes value 0}])
