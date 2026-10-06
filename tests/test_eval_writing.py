@@ -2,6 +2,18 @@ from fpl.claude import AskError
 from fpl.eval import report as base
 from fpl.eval.writing import __main__ as cli, checks, report, run
 
+import pytest
+
+from fpl.explain import check as _check
+from fpl.explain.checks import names, numbers
+
+
+@pytest.fixture(autouse=True)
+def _two_checks(monkeypatch):
+    # the one-line fake text cannot satisfy the coverage checks of every brief; those have own tests
+    monkeypatch.setattr(_check, "CHECKS", [numbers, names])
+
+
 GOOD = "Pick Hart as captain."
 BAD = "Pick Hart, he scores 91.7."  # 91.7 is not in any brief
 
