@@ -156,7 +156,7 @@ from the snapshot history, cap, chip weeks).
 Decisions: D10, D12, D15 (bank, free transfers), D30, D31, D32, D55
 (prices, selling price, free transfers), D60.
 
-## Step 4: Captain and vice-captain — Wave 3 — TODO
+## Step 4: Captain and vice-captain — Wave 3 — DONE
 
 Depends on: 2.
 
@@ -174,7 +174,7 @@ broken by D27, never a bench player).
 Decisions: D1 (captain), D17, D26 (captain), D51 (captain, vice), D55
 (captain).
 
-## Step 5: Injury and blank warnings — Wave 3 — TODO
+## Step 5: Injury and blank warnings — Wave 3 — DONE
 
 Depends on: 2.
 
@@ -191,7 +191,7 @@ with a fixture gives no warning).
 
 Decisions: D1 (warnings), D40, D51 (warnings).
 
-## Step 6: Transfer suggestions — Wave 3 — TODO
+## Step 6: Transfer suggestions — Wave 3 — DONE
 
 Depends on: 2, 3.
 
