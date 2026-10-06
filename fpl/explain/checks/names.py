@@ -5,13 +5,25 @@ NAME = "names"
 LIVE = True
 
 
-def _norm(s):
+def _plain(s):
+    """Accents removed, case kept."""
     s = unicodedata.normalize("NFKD", s)
-    return "".join(c for c in s if not unicodedata.combining(c)).casefold()
+    return "".join(c for c in s if not unicodedata.combining(c))
+
+
+def _norm(s):
+    return _plain(s).casefold()
 
 
 def _word(name):
-    return re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)")
+    return re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)", re.IGNORECASE)
+
+
+def _named(word, original):
+    """D190: a name counts only with a capital first letter; a club code (NEW) only in capitals."""
+    if original.isupper():
+        return word.isupper()
+    return word[0].isupper()
 
 
 def check(text, ctx):
@@ -29,10 +41,12 @@ def check(text, ctx):
                 allowed.add(_norm(n))
             else:
                 banned.setdefault(_norm(n), n)
-    rest = _norm(text)
+    rest = _plain(text)
     for n in sorted(allowed, key=len, reverse=True):
         rest = _word(n).sub(" ", rest)
     for n, original in banned.items():
-        if n not in allowed and _word(n).search(rest):
+        if n in allowed:
+            continue
+        if any(_named(m.group(), original) for m in _word(n).finditer(rest)):
             return f"it named {original}, who is not in the brief"
     return None

@@ -6,8 +6,10 @@ FEED = {"bootstrap": {
         {"web_name": "Salah", "first_name": "Mohamed", "second_name": "Salah"},
         {"web_name": "João Pedro", "first_name": "João", "second_name": "Pedro Junior"},
         {"web_name": "Pedro Neto", "first_name": "Pedro", "second_name": "Lomba Neto"},
+        {"web_name": "Wood", "first_name": "Will", "second_name": "Wood"},
     ],
-    "teams": [{"name": "Arsenal", "short_name": "ARS"}, {"name": "Spurs", "short_name": "TOT"}],
+    "teams": [{"name": "Arsenal", "short_name": "ARS"}, {"name": "Spurs", "short_name": "TOT"},
+              {"name": "Newcastle", "short_name": "NEW"}],
 }}
 BLOCK = "Captain: Hart 7.9\nJoão Pedro 5.0 (ARS)\nArsenal"
 
@@ -36,7 +38,19 @@ def test_pedro_case():
 
 def test_club_fails():
     assert "Spurs" in chk("They face Spurs.")
-    assert "TOT" in chk("They face tot.")
+    assert "TOT" in chk("They face TOT.")
+
+
+def test_ordinary_words_pass():
+    # D190: lower-case words are not names; a club code counts only in capitals
+    assert chk("You will have a new free transfer; wood and tot are words.") is None
+    assert chk("They face New next week.") is None
+
+
+def test_capitalised_names_fail():
+    assert "Wood" in chk("Bring in Wood.")
+    assert "Will" in chk("Ask Will.")
+    assert "NEW" in chk("They face NEW.")
 
 
 def test_whole_words_only():
