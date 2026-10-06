@@ -19,6 +19,7 @@ current stage before changing behaviour.
 ## Boundaries
 
 - Tests must never call the live feed.
+- Tests must never run claude.
 - Never edit or delete anything in data/raw/. Those downloads are
   the history that later evals replay.
 - The feed is free and needs no login. Do not add passwords,

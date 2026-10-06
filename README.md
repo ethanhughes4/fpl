@@ -6,9 +6,21 @@ Weekly Fantasy Premier League brief from the official feed.
     python -m fpl --team <id>      # another team
     python -m fpl --from <folder>  # replay a saved download, no network
     python -m fpl --json           # print the data instead of text
+    python -m fpl --no-explain     # brief only, no explanation
+    python -m fpl --explain        # force the explanation (needed with --from)
     python -m pytest               # tests (never touch the live feed)
 
 Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`.
+
+## Explanation
+
+After the brief, `haiku` writes a short plain-English explanation of it by
+running Claude Code (`claude -p`). It uses your own Claude Code login and
+counts against your plan limits; there is no API key. `--from` skips it unless
+`--explain` is given; `--json` never calls it; if both flags are given the last
+wins. If Claude Code is missing, fails, times out, or the text quotes a number
+that is not in the brief, one `Explanation skipped: ...` line is printed instead.
+The prompt is `fpl/explain/writer.txt`; edit it freely.
 
 ## Eval
 

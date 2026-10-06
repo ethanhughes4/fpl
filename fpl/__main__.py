@@ -2,7 +2,7 @@ import argparse
 import json
 import sys
 
-from fpl import brief, feed as feedmod
+from fpl import brief, claude, explain, feed as feedmod
 from fpl.manual import ManualError
 from fpl.download import FeedError, NoUpcomingGameweek, TeamNotFound, download
 
@@ -14,6 +14,8 @@ def main(argv=None):
     ap.add_argument("--team", type=int, default=DEFAULT_TEAM)
     ap.add_argument("--from", dest="folder")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--explain", dest="explain", action="store_true", default=None)
+    ap.add_argument("--no-explain", dest="explain", action="store_false")
     a = ap.parse_args(argv)
     try:
         feed = feedmod.load(a.folder or download(a.team))
@@ -38,6 +40,8 @@ def main(argv=None):
         print(e)
         return 1
     print(json.dumps(data, indent=2) if a.json else brief.render(data))
+    if not a.json and (a.explain if a.explain is not None else not a.folder):
+        print("\n".join(explain.explain(data, feed, claude.ask)))
     return 0
 
 
