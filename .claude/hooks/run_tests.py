@@ -1,12 +1,16 @@
-"""Stop hook: if Python files changed, the tests must pass before Claude can finish.
+"""Hook: the tests must pass before Claude (or a builder) can finish.
 
-If git cannot say what changed (for example the folder is not a git
-repository), the tests run anyway. Exit code 2 blocks and shows the failures.
+Main session (Stop): runs only if Python files have uncommitted changes.
+Builders (SubagentStop, called with --always): always runs, because a
+builder commits its work, so git shows nothing as changed.
+If git cannot answer, the tests run anyway. Exit code 2 blocks.
 """
 import json
 import os
 import subprocess
 import sys
+
+always = "--always" in sys.argv
 
 try:
     data = json.load(sys.stdin)
@@ -14,14 +18,15 @@ except Exception:
     data = {}
 folder = data.get("cwd") or os.environ.get("CLAUDE_PROJECT_DIR", ".")
 
-git = subprocess.run(
-    ["git", "status", "--porcelain"],
-    capture_output=True, text=True, cwd=folder,
-)
-if git.returncode == 0 and not any(
-    line.strip().endswith(".py") for line in git.stdout.splitlines()
-):
-    sys.exit(0)
+if not always:
+    git = subprocess.run(
+        ["git", "status", "--porcelain"],
+        capture_output=True, text=True, cwd=folder,
+    )
+    if git.returncode == 0 and not any(
+        line.strip().endswith(".py") for line in git.stdout.splitlines()
+    ):
+        sys.exit(0)
 
 result = subprocess.run(
     [sys.executable, "-m", "pytest", "-q"],

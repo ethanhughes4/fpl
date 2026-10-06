@@ -1,10 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "worktree": {
+    "baseRef": "head"
+  },
   "permissions": {
     "allow": [
       "Bash(python -m pytest *)",
+      "Bash(python -m fpl *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git merge *)"
     ],
     "ask": [
       "Bash(pip install *)",
@@ -14,9 +19,9 @@
       "Read(.env)"
     ]
   },
-  "SubagentStop": [
+  "hooks": {
+    "Stop": [
       {
-        "matcher": "builder",
         "hooks": [
           {
             "type": "command",
@@ -27,14 +32,14 @@
         ]
       }
     ],
-  "hooks": {
-    "Stop": [
+    "SubagentStop": [
       {
+        "matcher": "builder",
         "hooks": [
           {
             "type": "command",
             "command": "python",
-            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py"],
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py", "--always"],
             "timeout": 120
           }
         ]
