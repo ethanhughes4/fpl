@@ -18,11 +18,11 @@ def ok_json(text="All good.", tokens=(648, 20), model="claude-haiku-4-5-20251001
 
 class FakeClaude:
     """stdout: what claude prints (default a good answer); timeout: raise TimeoutExpired;
-    auth: exit code of `claude auth status`. `calls` records every run call."""
+    auth: exit code of `claude auth status`; stderr: what claude prints there. `calls` records every run call."""
 
-    def __init__(self, stdout=None, returncode=0, timeout=False, auth=0):
+    def __init__(self, stdout=None, returncode=0, timeout=False, auth=0, stderr=""):
         self.stdout = ok_json() if stdout is None else stdout
-        self.returncode, self.timeout, self.auth = returncode, timeout, auth
+        self.returncode, self.timeout, self.auth, self.stderr = returncode, timeout, auth, stderr
         self.calls = []
         self.auth_calls = 0
 
@@ -36,7 +36,7 @@ class FakeClaude:
                            "system": (cwd / "system.txt").read_text(encoding="utf-8")})
         if self.timeout:
             raise subprocess.TimeoutExpired(cmd, kw["timeout"])
-        return subprocess.CompletedProcess(cmd, self.returncode, self.stdout, "")
+        return subprocess.CompletedProcess(cmd, self.returncode, self.stdout, self.stderr)
 
     def install(self, monkeypatch):
         monkeypatch.setattr(claude.shutil, "which", lambda name: "C:/fake/claude.exe")

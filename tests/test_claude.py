@@ -76,6 +76,36 @@ def test_nonzero_exit_plain_text(monkeypatch):
     assert reason(ask) == "the model call failed (boom)"
 
 
+def test_error_reason_from_errors_list(monkeypatch):
+    d = json.loads(ok_json(subtype="error_max_turns", is_error=True))
+    del d["result"]
+    d["errors"] = ["Reached max turns\ndetail"]
+    _, ask = go(monkeypatch, returncode=1, stdout=json.dumps(d))
+    assert reason(ask) == "the model call failed (Reached max turns)"
+
+
+def test_error_reason_from_stderr(monkeypatch):
+    _, ask = go(monkeypatch, returncode=1, stdout="", stderr="error: unknown option '--bad'\nusage")
+    assert reason(ask) == "the model call failed (error: unknown option '--bad')"
+
+
+def test_error_reason_empty_everywhere(monkeypatch):
+    _, ask = go(monkeypatch, returncode=1, stdout="", stderr="")
+    assert reason(ask) == "the model call failed (unreadable output)"
+
+
+def test_error_reason_json_without_text(monkeypatch):
+    d = json.loads(ok_json(is_error=True))
+    del d["result"]
+    _, ask = go(monkeypatch, returncode=1, stdout=json.dumps(d))
+    assert reason(ask) == "the model call failed (unreadable output)"
+
+
+def test_error_reason_one_line_and_cut(monkeypatch):
+    _, ask = go(monkeypatch, returncode=1, stdout=ok_json("x" * 500 + "\nsecond", is_error=True))
+    assert reason(ask) == f"the model call failed ({'x' * claude.MAX_REASON})"
+
+
 def test_is_error(monkeypatch):
     _, ask = go(monkeypatch, stdout=ok_json("Overloaded", is_error=True))
     assert reason(ask) == "the model call failed (Overloaded)"

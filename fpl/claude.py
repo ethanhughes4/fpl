@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 
 AUTH_TIMEOUT = 10
+MAX_REASON = 200  # D189: characters of the failure reason shown
 NOT_INSTALLED = "Claude Code is not installed or not logged in"
 
 
@@ -16,8 +17,19 @@ class AskError(Exception):
 
 
 def _first_line(text):
-    lines = (text or "").strip().splitlines()
-    return lines[0] if lines else "no message"
+    lines = str(text or "").strip().splitlines()
+    return lines[0].strip() if lines else ""
+
+
+def _reason(out, r):
+    """D189: first text found in result, errors[0], stderr, then stdout when it was not JSON;
+    one line, cut to MAX_REASON."""
+    errors = out.get("errors") or [""]
+    for text in (out.get("result"), errors[0], r.stderr, out.get("_stdout")):
+        line = _first_line(text)
+        if line:
+            return line[:MAX_REASON]
+    return "unreadable output"
 
 
 def _not_logged_in(exe):
@@ -54,11 +66,11 @@ def ask(prompt, system, model, timeout):
     except ValueError:
         if r.returncode == 0:
             raise AskError("the model call failed (unreadable output)")
-        out = {"result": r.stdout}
+        out = {"_stdout": r.stdout}
     if r.returncode != 0 or out.get("is_error") or out.get("subtype") != "success":
         if _not_logged_in(exe):
             raise AskError(NOT_INSTALLED)
-        raise AskError(f"the model call failed ({_first_line(str(out.get('result') or ''))})")
+        raise AskError(f"the model call failed ({_reason(out, r)})")
     usage = out.get("usage") or {}
     parts = (usage.get("input_tokens"), usage.get("output_tokens"))
     tokens = None if None in parts else sum(parts)
