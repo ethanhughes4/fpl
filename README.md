@@ -19,7 +19,7 @@ makes `-2`, `-3`, ... A `--team` run for another team adds `-team<id>`.
     python -m fpl.mcp                              # the server, on stdio (Claude Code starts it)
     python -m fpl.mcp --from tests/data/snapshot   # serve a saved folder, no network
 
-Open Claude Code in this repo and accept the `fpl` server from `.mcp.json`, then ask,
+Start `claude` from the repo root (the server is found from there) and accept the `fpl` server from `.mcp.json`, then ask,
 for example, "who should I captain this week?". Tools so far: `get_brief` (this week's
 brief, close calls and score breakdowns; the explanation is never included). The server
 is read-only, makes no transfers, never logs in, and costs nothing to run (it never
