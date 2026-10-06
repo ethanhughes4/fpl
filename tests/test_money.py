@@ -64,7 +64,22 @@ def test_free_transfers_used_and_hit(feed):
 def test_chip_weeks_keep_count(feed):
     feed["history"]["current"][2]["event_transfers"] = 15
     feed["history"]["chips"] = [{"name": "wildcard", "event": 3}]
-    assert money.free_transfers(feed) == 5
+    assert money.free_transfers(feed) == 4  # gw3 adds no +1: 2 stays 2, then 3, 4
+
+
+def test_free_hit_week_count_unchanged_no_plus_one(feed):
+    # D32 example: 4 saved before GW29, Free Hit in GW29, still 4 for GW30.
+    for e in feed["bootstrap"]["events"]:
+        e["is_next"] = e["id"] == 30
+    feed["history"]["current"] = [{"event": g, "event_transfers": 0, "event_transfers_cost": 0}
+                                  for g in range(1, 30)]
+    feed["history"]["current"][27]["event_transfers"] = 2  # gw28: 5 -> 3, +1 = 4 before gw29
+    feed["history"]["current"][28]["event_transfers"] = 9  # gw29: Free Hit transfers
+    feed["history"]["chips"] = [{"name": "freehit", "event": 29}]
+    assert money.free_transfers(feed) == 4
+    feed["history"]["chips"] = []
+    feed["history"]["current"][28]["event_transfers"] = 0
+    assert money.free_transfers(feed) == 5  # a normal week with no transfers would add 1
 
 
 def test_pending_uses_free_transfer(feed):

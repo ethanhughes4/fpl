@@ -4,7 +4,7 @@ import math
 from fpl.feed import num, upcoming
 from fpl.picks import current_picks, pending_transfers
 
-NO_COST_CHIPS = ("wildcard", "freehit")  # these weeks use no free transfers (D32)
+NO_COST_CHIPS = ("wildcard", "freehit")  # count unchanged in these weeks, no +1 (D32)
 FIRST_FREE = 1  # free transfers at gameweek 2
 WEEKLY_FREE = 1  # added each week
 
@@ -15,6 +15,8 @@ def price(tenths):
 
 
 def _chip_weeks(feed, names):
+    # Assumes history.chips rows look like {"name": "wildcard" | "freehit", "event": n}.
+    # Unverified against real data: the snapshot has no chips.
     return {c["event"] for c in feed["history"].get("chips", []) if c["name"] in names}
 
 
@@ -49,6 +51,7 @@ def free_transfers(feed):
     no_cost = _chip_weeks(feed, NO_COST_CHIPS)
     ft = FIRST_FREE
     for gw in range(2, upcoming(feed)["id"]):
-        spent = 0 if gw in no_cost else used.get(gw, 0)
-        ft = min(cap, max(ft - spent, 0) + WEEKLY_FREE)
+        if gw in no_cost:
+            continue
+        ft = min(cap, max(ft - used.get(gw, 0), 0) + WEEKLY_FREE)
     return max(ft - len(pending_transfers(feed)), 0)
