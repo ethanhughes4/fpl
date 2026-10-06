@@ -75,3 +75,8 @@ def reply(body, fresh=False):
         return str(e)
     when = datetime.fromtimestamp((folder / BOOTSTRAP).stat().st_mtime)
     return f"Data downloaded {when:%a} {when.day} {when:%b %H:%M}, gameweek {ev['id']}\n\n{text}"
+
+
+def folder_name():
+    """Name of the folder being served, or None before the first reply."""
+    return _s["folder"].name if _s.get("folder") else None
