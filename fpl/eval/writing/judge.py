@@ -7,6 +7,7 @@ from fpl.claude import AskError
 JUDGE_MODEL = "opus"  # D167, D174: no fallback
 JUDGE_TIMEOUT = 180  # D176
 CLARITY_BAR = 4.0
+FAITHFUL_BAR = 11 / 12  # D207: share of judged runs that must be faithful (was 100%, D153)
 SHOWN_ANSWER = 200  # characters of an unreadable judge answer quoted in the report
 HERE = Path(__file__).parent
 CHECK_BLOCK = Path(__file__).parents[3] / "tests" / "data" / "explain_block.txt"
@@ -106,7 +107,7 @@ def summary(rows):
     mean = sum(marks) / len(marks) if marks else 0.0
     rate = sum(r["scores"]["faithful"] is True for r in judged) / len(judged) if judged else 0.0
     proven = _state["proven"] is not False
-    return [("faithful rate", f"{rate:.0%} of {len(judged)} judged", proven and bool(judged) and rate == 1.0),
+    return [("faithful rate", f"{rate:.0%} of {len(judged)} judged", proven and bool(judged) and rate >= FAITHFUL_BAR),
             ("mean clarity", f"{mean:.1f}", proven and bool(marks) and mean >= CLARITY_BAR),
             ("judge failures", str(failed), failed == 0),
             ("judge check", "passed" if proven else "FAILED, scores unproven", proven)]

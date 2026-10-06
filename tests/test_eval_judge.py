@@ -181,3 +181,10 @@ def test_judge_asks_with_the_schema():
     assert judge.score("text", {"ask": ask, "block": BLOCK})["faithful"] is True
     assert seen == {"schema": judge.SCHEMA}
     assert judge.SCHEMA["required"] == ["unsupported", "clarity"]  # no faithful field (D201)
+
+
+def test_faithful_bar_is_eleven_of_twelve():
+    # D207: one unfaithful run in 12 still passes; two do not
+    assert judge.summary(rows(*[(5, True)] * 11, (5, False)))[0][2]
+    assert not judge.summary(rows(*[(5, True)] * 10, (5, False), (5, False)))[0][2]
+    assert judge.summary(rows(*[(5, True)] * 12))[0][2]
