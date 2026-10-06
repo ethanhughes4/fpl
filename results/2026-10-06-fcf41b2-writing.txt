@@ -1,0 +1,122 @@
+FPL writing eval
+Commit: fcf41b2
+Model: claude-opus-5-5, claude-haiku-4-5-20251001
+JUDGE CHECK FAILED on text 2: the judge scores below are unproven.
+
+Brief      Run  numbers  names  length  captain  warnings  close  clarity  faithful  judge reason                                                                                                                                                  Tokens
+example_a  1    pass     pass   pass    pass     pass      pass   4        pass      All numbers, fixtures and the captain choice match the brief, but phrases like "most reliable" and "good scoring potential" add some padding.                 1653  
+example_a  2    pass     pass   pass    pass     pass      pass   4        FAIL      Saying Fry's form might "dip further" implies a recent decline that the brief doesn't show, though the numbers, captain and transfer advice are all correct.  1644  
+example_a  3    pass     pass   pass    pass     pass      pass   3        pass      Every claim matches the brief, but the explanation wrongly links the Fry/Orr bench swap to saving transfers and adds padding.                                 1609  
+example_b  1    pass     pass   pass    pass     pass      pass   4        FAIL      The brief gives Hart a 25% chance of playing, but the explanation calls it a 25 per cent injury risk, which attaches the number to the wrong thing.           1707  
+example_b  2    pass     pass   pass    pass     pass      pass   4        FAIL      It says the user has already made the Hart -> Wren transfer, but the brief only lists it as a suggested transfer.                                             1701  
+example_b  3    pass     pass   pass    pass     pass      pass   3        FAIL      It calls Hart's 25% chance of playing a 25% injury risk, and says Orr is 0.8 below Gale when Orr is actually 0.8 above him.                                   1671  
+example_c  1    pass     pass   pass    pass     pass      pass   4        FAIL      It calls Marsh's away game at T1 "a harder fixture", but the brief rates both his and Hart's fixtures at difficulty 3.                                        1892  
+example_c  2    pass     pass   pass    pass     pass      pass   4        pass      Every number and fact matches the brief, though the wording is slightly padded.                                                                               1848  
+example_c  3    FAIL     pass   pass    pass     pass      pass   3        FAIL      The "net gain of 6.8" is not in the brief and clashes with the brief's statement that the +10.8 gain clears the 8-point bar.                                  1868  
+snapshot   1    pass     pass   pass    pass     pass      pass   3        FAIL      It puts starter Calvert-Lewin on the bench, and it says "you've made 2 transfers" when the brief only lists them as transfers without saying they were made.  2208  
+snapshot   2    pass     pass   pass    pass     pass      pass   4        pass      Every figure matches the brief, but the two recommended transfers (Szoboszlai to Schade, O'Shea to Davis) are never named, so the owner can't act on them.    2172  
+snapshot   3    pass     pass   pass    pass     pass      pass   4        FAIL      It says Calvert-Lewin (2.9) is 0.3 below Diop (2.6), but the brief puts Calvert-Lewin 0.3 above Diop.                                                         2176  
+
+code checks pass rate: 92%
+faithful rate: 33% of 12 judged
+mean clarity: 3.7
+judge failures: 0
+judge check: FAILED, scores unproven
+Total tokens: 26711
+Calls: 32
+
+Verdict: FAIL
+
+--- example_a run 1
+Hart is your captain because his form of 8.0 and next-GW score of 7.9 make him the most reliable points source this week, with a home fixture against T4 offering good scoring potential.
+
+Your vice captain Marsh is close behind. The gap between them is just 0.6, so this is tight. Marsh has form of 7.4 and a next-GW score of 7.3, but faces an away trip to T1.
+
+There's also a close call on the bench. Your lowest starting outfield player Fry at 4.1 is only 0.3 points ahead of your best bench option Orr at 3.8, so the margin is very tight indeed. Both have identical fixture difficulty of 3.
+
+You have 3 free transfers available and 0.0m in the bank. The brief recommends saving your transfers since you'll have 4 free next week, suggesting no changes are needed now.
+
+--- example_a run 2
+Hart has been given the armband as your most reliable performer this week, with a form rating of 8.0 and an average of 8.0 points per game. He faces T4 at home in a fixture difficulty rated 3, positioning him well for a strong return.
+
+The captain call is tight, however. Marsh sits just 0.6 points behind as vice captain and represents a genuine alternative, so monitor team news before Saturday's 13:00 deadline if anything changes.
+
+You have another close decision in your starting lineup. Fry, your lowest-rated outfield starter at 4.1, is only 0.3 points ahead of Orr on the bench. This is marginal, so if Fry's form dips further, consider the swap.
+
+The brief recommends holding your 3 free transfers this week, as you'll bank 4 next gameweek. No changes needed right now.
+
+--- example_a run 3
+Hart is your captain because his 7.9 projected score edges Marsh's 7.3 by 0.6 points, making it a close call but Hart's slightly better form and points per game justify the choice. Your starting XI is well-balanced with no warnings flagged.
+
+There's a tight margin between your lowest starter Fry at 4.1 and your best bench option Orr at 3.8, just 0.3 points apart. This means swapping them wouldn't significantly impact your score, so holding your 3 free transfers makes sense. The brief suggests saving them as you'll have 4 available next week, giving you more flexibility for future adjustments. Your team looks solid for Gameweek 6 with no injury or availability concerns.
+
+--- example_b run 1
+Marsh is your captain because he offers the highest projected score at 7.3 for gameweek 6. This is an extremely tight call against vice-captain Innes at 7.2, with only a 0.1 gap between them, so either choice would be reasonable.
+
+Your transfer of Hart to Wren is a strong move with a gain of 13.4, well above the threshold. However, Hart carries a 25 per cent hamstring injury risk, meaning there's a significant chance he won't play in gameweek 6, which makes his removal timely. Wren comes in at full fitness with a 100 per cent playing chance and a solid 7.3 projected score.
+
+Your team structure looks sound. Orr at 3.8 is your lowest outfield starter, but the gap to your best bench option Gale at 3.0 is substantial, so no urgent bench concerns there.
+
+--- example_b run 2
+Marsh is captained because he edges ahead of Innes, though the gap is only 0.1 points, making this a very close call. Marsh scores 7.3 to Innes's 7.2 based on form, playing time, and fixture difficulty.
+
+You've made a smart transfer bringing in Wren for Hart. This gains you 13.4 points over the next 6 gameweeks, which is well above the threshold needed to justify a move. The transfer is worthwhile because Hart has only a 25% chance of playing due to a hamstring issue, while Wren is at full availability and scores 7.3 next gameweek.
+
+Your squad is well balanced. Orr is your lowest-scoring starter at 3.8, but your best bench option is Gale at 3.0, so there's no urgent need to shuffle the outfield.
+
+--- example_b run 3
+Marsh is your captain because his scoring form of 7.4 points per game slightly edges Innes at 7.0, and both are expected to play at full capacity next gameweek. The gap between them is just 0.1, making this a very close call.
+
+Your transfer from Hart to Wren is a strong move. Hart carries a 25% injury risk from a hamstring problem, meaning he could miss gameweek 6, whereas Wren is fully fit. The projected gain of 13.4 points heavily justifies the move.
+
+Your lowest outfield starter is Orr at 3.8, which is only 0.8 points below your best bench option Gale, so rotation risk is minimal. No urgent changes needed elsewhere.
+
+--- example_c run 1
+Hart is your captain this week on the strength of his form rating of 8.0 and excellent scoring average of 8.0 points per game over 12 games. He's playing at home against T4, a fixture rated 3 for difficulty, which supports the pick.
+
+The captain decision is close with your vice Marsh, only 0.6 points separating them in projected scoring. Marsh also looks strong with form of 7.4 and 7.4 points per game, though he's travelling to face T1, a harder fixture.
+
+You have one close tactical call on the bench. Your lowest starter Fry and best bench player Kemp are tied exactly at 4.1 projected points, so there's no clear advantage either way.
+
+Your transfer of Lowe to Yates gains an estimated 10.8 points against the 8-point threshold needed to justify a 4-point hit, giving you a 2.8-point margin. That's a solid move despite the penalty.
+
+--- example_c run 2
+Hart is your captain this week because he offers the highest projected score at 7.9 with strong form of 8.0 and a home fixture against a difficulty 3 opponent. Marsh is vice at 7.3, making the captain call close by 0.6 points.
+
+You have 2 tight team selections. Fry at 4.1 matches your best bench option Kemp at 4.1, so there's no margin between your lowest starter and strongest reserve. Your transfer of Lowe to Yates gains 10.8 points against the 8-point threshold, a margin of 2.8 that's not close enough to worry about.
+
+You have no free transfers left and no warnings affecting your squad. The -4 point hit from your transfer is justified by the 10.8 gain.
+
+--- example_c run 3
+Hart is your captain at 7.9 because his form of 8.0 points per game is strong and he faces a home fixture against T4 with moderate difficulty. The choice is close though, as Marsh sits just 0.6 points behind as vice captain.
+
+You've made 1 transfer this gameweek, swapping Lowe for Yates. The move gains 10.8 points but costs a 4-point hit, so a net gain of 6.8. This isn't a close call against the 8-point threshold.
+
+There's a tight call in your starting XI: your lowest outfield starter Fry at 4.1 matches your best outfield bench option Kemp at 4.1, a gap of 0.0. Both are available and fit, so you have flexibility if needed. You have no free transfers left and 0.5m in the bank.
+
+--- snapshot run 1
+Groß is your captain at 7.9 points. He's picked on strong recent form of 15.5 and excellent points per game of 9.4, facing a fixture of difficulty 3.
+
+Your vice captain Tarkowski at 7.2 is very close, just 0.7 behind, so this is a tight call. On the bench, Calvert-Lewin at 2.9 is also very close to your lowest starter, only 0.3 ahead of Diop at 2.6.
+
+You've made 2 transfers. Szoboszlai to Schade gains 14.7 points over the next 6 gameweeks, well ahead of the 2-point threshold. O'Shea to Davis gains 11.4 points, also comfortably beating the bar.
+
+One warning: João Pedro has a 75% chance of playing due to a knee injury. He's in your starting XI, so if he doesn't play, you'll need to rely on your bench options.
+
+--- snapshot run 2
+Groß is captain with a 0.7 gap over vice Tarkowski, which is close. Groß has form of 15.5 and faces SUN away with fixture difficulty 3, making him the marginally stronger choice this week.
+
+You have 1 warning: João Pedro has a 75% chance of playing due to a knee injury. He's in your starting XI, so if he doesn't play, you'll need to rely on your bench cover.
+
+2 close calls to watch. Calvert-Lewin is your lowest outfield starter at 2.9, just 0.3 above best bench option Diop at 2.6, so there's minimal margin if he underperforms. Your 2 transfers both look strong with gains well above the 2-point threshold.
+
+You have 4 free transfers remaining and 0.0m in the bank.
+
+--- snapshot run 3
+Groß is your captain this week with a 0.7 point margin over Tarkowski, which is close. Groß has strong recent form at 15.5 and averages 9.4 points per game, making him the safer pick despite the tight call.
+
+You have 1 warning: João Pedro has a 75% chance of playing due to a knee injury. He's currently in your starting XI, so if he doesn't play you'll need cover from the bench.
+
+Your transfers look solid. Szoboszlai to Schade gains 14.7 points over 6 gameweeks, and O'Shea to Davis gains 11.4. Both moves are strong investments.
+
+Your lowest starter, Calvert-Lewin at 2.9, is only 0.3 points below your best bench defender Diop, so you're well covered if rotation happens.
