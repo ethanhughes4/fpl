@@ -20,24 +20,24 @@ Bench
   DEF Diop               2.6   10.6
   MID M.Sangaré          2.3   10.0
   DEF O'Shea             2.2    8.9
-Transfers
+Suggested transfers (not made yet)
   Szoboszlai -> Schade  (6.9m -> 6.2m)  6 GW gain +14.7
   O'Shea -> Davis  (4.0m -> 4.0m)  6 GW gain +11.4
 Warnings
-  João Pedro        75%  Knee injury - 75% chance of playing
+  João Pedro       chance of playing: 75% (doubtful)  Knee injury - 75% chance of playing
 
 Close calls
   captain Groß 7.9 vs vice Tarkowski 7.2, gap 0.7: close
-  lowest outfield starter Calvert-Lewin 2.9 vs best outfield bench Diop 2.6, gap 0.3: close
+  bench call: Calvert-Lewin starts as the lowest outfield starter with 2.9; Diop is the best outfield player on the bench with 2.6; Calvert-Lewin (starting) is ahead by 0.3: close
   transfer Szoboszlai -> Schade gain +14.7 against a bar of 2, margin 12.7: not close
   transfer O'Shea -> Davis gain +11.4 against a bar of 2, margin 9.4: not close
 
 Score breakdowns
-  Groß (MID): form 15.5, points per game 9.4, minutes factor 1.0, next opponent SUN (A), fixture difficulty 3, playing chance 100%, next-GW score 7.9, games played 5, typical base for position and start price 2.3, base 11.2 before shrink and 7.9 after
-  Tarkowski (DEF): form 8.3, points per game 8.6, minutes factor 1.0, next opponent HUL (A), fixture difficulty 2, playing chance 100%, next-GW score 7.2, games played 5, typical base for position and start price 3.3, base 8.5 before shrink and 6.6 after
-  Calvert-Lewin (FWD): form 6.0, points per game 4.4, minutes factor 0.9, next opponent ARS (A), fixture difficulty 5, playing chance 100%, next-GW score 2.9, games played 5, typical base for position and start price 2.3, base 4.9 before shrink and 3.9 after
-  Diop (DEF): form 2.5, points per game 2.4, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, playing chance 100%, next-GW score 2.6, games played 5, typical base for position and start price 2.2, base 2.4 before shrink and 2.4 after
-  Szoboszlai (MID): form 2.5, points per game 4.0, minutes factor 1.0, next opponent MCI (H), fixture difficulty 4, playing chance 100%, next-GW score 3.1, games played 5, typical base for position and start price 3.4, base 3.5 before shrink and 3.5 after
-  Schade (MID): form 12.0, points per game 7.8, minutes factor 1.0, next opponent AVL (A), fixture difficulty 3, playing chance 100%, next-GW score 6.6, games played 5, typical base for position and start price 2.7, base 9.1 before shrink and 6.7 after
-  O'Shea (DEF): form 1.5, points per game 2.0, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, playing chance 100%, next-GW score 2.2, games played 5, typical base for position and start price 2.2, base 1.8 before shrink and 2.0 after
-  Davis (DEF): form 8.0, points per game 5.0, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, playing chance 100%, next-GW score 5.0, games played 5, typical base for position and start price 2.2, base 5.9 before shrink and 4.5 after
+  Groß (MID): form 15.5 (average points per match over the last 30 days), points per game 9.4, minutes factor 1.0, next opponent SUN (A), fixture difficulty 3, chance of playing: 100% (expected to play), next-GW score 7.9, games played 5, typical base for position and start price 2.3, base 11.2 before shrink and 7.9 after
+  Tarkowski (DEF): form 8.3 (average points per match over the last 30 days), points per game 8.6, minutes factor 1.0, next opponent HUL (A), fixture difficulty 2, chance of playing: 100% (expected to play), next-GW score 7.2, games played 5, typical base for position and start price 3.3, base 8.5 before shrink and 6.6 after
+  Calvert-Lewin (FWD): form 6.0 (average points per match over the last 30 days), points per game 4.4, minutes factor 0.9, next opponent ARS (A), fixture difficulty 5, chance of playing: 100% (expected to play), next-GW score 2.9, games played 5, typical base for position and start price 2.3, base 4.9 before shrink and 3.9 after
+  Diop (DEF): form 2.5 (average points per match over the last 30 days), points per game 2.4, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, chance of playing: 100% (expected to play), next-GW score 2.6, games played 5, typical base for position and start price 2.2, base 2.4 before shrink and 2.4 after
+  Szoboszlai (MID): form 2.5 (average points per match over the last 30 days), points per game 4.0, minutes factor 1.0, next opponent MCI (H), fixture difficulty 4, chance of playing: 100% (expected to play), next-GW score 3.1, games played 5, typical base for position and start price 3.4, base 3.5 before shrink and 3.5 after
+  Schade (MID): form 12.0 (average points per match over the last 30 days), points per game 7.8, minutes factor 1.0, next opponent AVL (A), fixture difficulty 3, chance of playing: 100% (expected to play), next-GW score 6.6, games played 5, typical base for position and start price 2.7, base 9.1 before shrink and 6.7 after
+  O'Shea (DEF): form 1.5 (average points per match over the last 30 days), points per game 2.0, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, chance of playing: 100% (expected to play), next-GW score 2.2, games played 5, typical base for position and start price 2.2, base 1.8 before shrink and 2.0 after
+  Davis (DEF): form 8.0 (average points per match over the last 30 days), points per game 5.0, minutes factor 1.0, next opponent FUL (H), fixture difficulty 2, chance of playing: 100% (expected to play), next-GW score 5.0, games played 5, typical base for position and start price 2.2, base 5.9 before shrink and 4.5 after

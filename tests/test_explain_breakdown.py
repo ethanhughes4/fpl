@@ -15,8 +15,10 @@ def test_example_a_captain_by_hand():
     f = feedmod.load(str(DATA / "example_a"))
     line = next(x for x in breakdown.lines(brief.build(f), f) if x.strip().startswith("Hart"))
     # Hart: base 8.0, 12 games, typical 7.6 -> (12*8.0 + 3*7.6) / 15 = 7.92
-    for part in ["Hart (MID)", "form 8.0", "points per game 8.0", "minutes factor 1.0",
-                 "next opponent T4 (H)", "fixture difficulty 3", "playing chance 100%",
+    for part in ["Hart (MID)", "form 8.0 (average points per match over the last 30 days)",
+                 "points per game 8.0", "minutes factor 1.0",
+                 "next opponent T4 (H)", "fixture difficulty 3",
+                 "chance of playing: 100% (expected to play)",
                  "next-GW score 7.9", "games played 12", "start price 7.6",
                  "base 8.0 before shrink and 7.9 after"]:
         assert part in line

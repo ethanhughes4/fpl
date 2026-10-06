@@ -1,10 +1,11 @@
 """Score breakdowns (D141, D182, D192) for the captain, the vice, players in close calls and both
 players in every suggested transfer. No network."""
 from fpl import score
-from fpl.explain.parts import close
+from fpl.explain.parts import brief, close
 from fpl.feed import num, upcoming
 
 POS = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
+FORM_MEANS = "average points per match over the last 30 days"  # D199; the feed's form (D87, D119)
 
 
 def _players(data, feed):
@@ -51,11 +52,11 @@ def lines(data, feed):
         diff = " and ".join(str(d) for *_, d in opp) or "none"
         typ = f"{typical[el['id']]:.1f}" if el["id"] in typical else "none"
         out.append(
-            f"  {name} ({POS[el['element_type']]}): form {num(el['form']):.1f}, "
+            f"  {name} ({POS[el['element_type']]}): form {num(el['form']):.1f} ({FORM_MEANS}), "
             f"points per game {num(el['points_per_game']):.1f}, "
             f"minutes factor {score.minutes_factor(feed, el):.1f}, "
             f"next opponent {opp_text}, fixture difficulty {diff}, "
-            f"playing chance {round(score.chance_next(el) * 100)}%, "
+            f"{brief.chance_text(round(score.chance_next(el) * 100))}, "
             f"next-GW score {score.next_score(feed, el, shrunk[el['id']]):.1f}, "
             f"games played {score.appearances(el)}, "
             f"typical base for position and start price {typ}, "

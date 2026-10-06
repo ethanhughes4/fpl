@@ -42,9 +42,13 @@ def _line(c):
     verdict = "close" if c["close"] else "not close"
     if c["kind"] == "captain":
         s = f"captain {p[0]} {n[0]:.1f} vs vice {p[1]} {n[1]:.1f}, gap {c['gap']:.1f}"
-    elif c["kind"] == "bench":
-        s = (f"lowest outfield starter {p[0]} {n[0]:.1f} vs best outfield bench "
-             f"{p[1]} {n[1]:.1f}, gap {c['gap']:.1f}")
+    elif c["kind"] == "bench":  # D199: who starts, who sits, and who is ahead, in full
+        gap = c["gap"]
+        ahead = (f"{p[0]} (starting) is ahead by {gap:.1f}" if gap > 0 else
+                 f"{p[1]} (bench) is ahead by {-gap:.1f}" if gap < 0 else
+                 f"they are level, gap {gap:.1f}")
+        s = (f"bench call: {p[0]} starts as the lowest outfield starter with {n[0]:.1f}; "
+             f"{p[1]} is the best outfield player on the bench with {n[1]:.1f}; {ahead}")
     else:
         s = (f"transfer {p[0]} -> {p[1]} gain {n[0]:+.1f} against a bar of {n[1]}, "
              f"margin {c['gap']:.1f}")
