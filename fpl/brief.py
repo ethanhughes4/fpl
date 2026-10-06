@@ -1,6 +1,6 @@
-from fpl.sections import header
+from fpl.sections import header, money
 
-SECTIONS = [header]
+SECTIONS = [header, money]
 
 
 def _name(s):
