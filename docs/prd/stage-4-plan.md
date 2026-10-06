@@ -231,7 +231,7 @@ Covers: D223 (refresh), D227, D218, D228, D237.
 
 ---
 
-## Step 7: Path eval `python -m fpl.eval.tools` — Wave 5 — TODO
+## Step 7: Path eval `python -m fpl.eval.tools` — Wave 5 — DONE
 
 Depends on: 3, 4, 5, 6.
 
