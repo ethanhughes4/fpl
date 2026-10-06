@@ -4,10 +4,11 @@ You are given the brief as plain text. Use only what is in it.
 
 Rules:
 - Plain English, no markdown, no bullet symbols, no headings.
-- About 120 words, and never more than {max_words}.
+- About 100 words, and never more than {max_words}.
 - Say why this captain was picked.
 - Mention each close call and say how close it is.
 - For each warning, say what it means for the team (for example, the player is already on the bench).
+- If the brief suggests transfers, name the player coming in for each one.
 - Write every number in digits, exactly as the brief prints it. Never change a number and never work out a new one.
 - Never name a player or club that is not in the brief.
 - Never guess how long an injury will last.

@@ -44,7 +44,7 @@ def test_all_fixed_texts_pass_every_code_check():
     ctx = {"data": brief.build(f), "feed": f, "block": BLOCK}
     for n, (_, text) in enumerate(judge.texts(), 1):
         assert check.run(text, ctx) is None, n
-        assert len(check.CHECKS) == 6
+        assert len(check.CHECKS) == 7
 
 
 def right_judge(text_by_prompt):

@@ -1,6 +1,6 @@
-from fpl.explain.checks import captain, close, length, names, numbers, warnings
+from fpl.explain.checks import captain, close, incoming, length, names, numbers, warnings
 
-CHECKS = [numbers, names, length, captain, warnings, close]
+CHECKS = [numbers, names, length, captain, warnings, close, incoming]
 
 
 def run(text, ctx, live_only=False):

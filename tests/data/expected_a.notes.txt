@@ -45,7 +45,7 @@ Transfers (free transfers 3, bank 0)
   (D34). Tate (9.0) costs 13.0m: bank 0 + Marsh sells 9.5m = 9.5 < 13.0, cannot
   afford. Ure (9.0) is injured (status "i", chance 0), never suggested (D36).
   Rudd (2.8) and Shaw (3.0) are worse than the players they could replace.
-- So: "No transfer worth making. Save it" with next week's count:
+- So: "No transfer worth making. Save your 3 free transfers" (D206) with next week's count:
   3 - 0 used + 1 = 4 (D49).
 
 Warnings: all 15 are status "a", chance 100%, and Teams 1-6 all play in

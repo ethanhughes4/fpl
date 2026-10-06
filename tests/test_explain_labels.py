@@ -21,8 +21,9 @@ def test_transfers_labelled_as_suggestions():
     assert "\nTransfers\n" not in text
 
 
-def test_no_transfer_line_unchanged():
-    assert "No transfer worth making. Save it — you'll have 4 free next week." in blk("example_a")
+def test_no_transfer_line_says_how_many_are_saved():
+    line = "No transfer worth making. Save your 3 free transfers — you'll have 4 free next week."
+    assert line in blk("example_a")  # D206
 
 
 def test_net_gain_after_hit_is_its_own_number():

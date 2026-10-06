@@ -43,7 +43,17 @@ def test_injured_never_suggested(feed, monkeypatch):
 def test_gain_below_two_is_saved(feed, monkeypatch):
     d = setup(feed, monkeypatch, 3, star(20, base="5.2"))
     assert d["transfers"] == []
-    assert transfers.render(d) == ["No transfer worth making. Save it — you'll have 4 free next week."]
+    assert transfers.render(d) == [
+        "No transfer worth making. Save your 3 free transfers — you'll have 4 free next week."]
+
+
+def test_saved_count_singular_and_none():
+    # D206: the line says how many free transfers are being saved
+    base = {"transfers": [], "hit_points": 0}
+    assert transfers.render(dict(base, free_now=1, free_next_week=2)) == [
+        "No transfer worth making. Save your 1 free transfer — you'll have 2 free next week."]
+    assert transfers.render(dict(base, free_now=0, free_next_week=1)) == [
+        "No transfer worth making. No free transfer to save — you'll have 1 free next week."]
 
 
 def test_hit_only_at_eight(feed, monkeypatch):

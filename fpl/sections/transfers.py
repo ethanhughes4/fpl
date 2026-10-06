@@ -101,13 +101,16 @@ def build(feed):
                          "out_price": o["now_cost"], "in_price": i["now_cost"],
                          "starts": starts, "hit": k >= free})
     cap = 1 + feed["bootstrap"]["game_settings"]["max_extra_free_transfers"]
-    return {"transfers": rows, "hit_points": hits * HIT_COST,
+    return {"transfers": rows, "hit_points": hits * HIT_COST, "free_now": free,
             "free_next_week": min(cap, max(free - len(rows), 0) + money.WEEKLY_FREE)}
 
 
 def render(data):
     if not data["transfers"]:
-        return [f"No transfer worth making. Save it — you'll have "
+        n = data["free_now"]  # D206: say how many are saved
+        saved = (f"Save your {n} free transfer{'' if n == 1 else 's'}" if n
+                 else "No free transfer to save")
+        return [f"No transfer worth making. {saved} — you'll have "
                 f"{data['free_next_week']} free next week."]
     out = ["Transfers"]
     for t in data["transfers"]:
