@@ -1,6 +1,6 @@
-from fpl.sections import header
+from fpl.sections import header, lineup
 
-SECTIONS = [header]
+SECTIONS = [header, lineup]
 
 
 def _name(s):
