@@ -24,7 +24,7 @@ def test_from_prints_header_and_saves(tmp_path, capsys, monkeypatch):
     saved = list((tmp_path / "results").glob("*-abc1234.txt"))
     assert len(saved) == 1
     text = saved[0].read_text(encoding="utf-8")
-    assert text.strip() in out and text.rstrip().splitlines()[-1].startswith("Total")
+    assert text.strip() in out and "\nTotal" in text and "shrink vs current:" in text
 
 
 def test_commit_dirty_and_unknown(monkeypatch):

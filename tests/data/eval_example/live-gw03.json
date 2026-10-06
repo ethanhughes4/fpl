@@ -1,0 +1,334 @@
+{
+ "elements": [
+  {
+   "id": 1,
+   "stats": {
+    "minutes": 90,
+    "total_points": 2
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "stats": {
+    "minutes": 0,
+    "total_points": 0
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 0,
+       "value": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "stats": {
+    "minutes": 90,
+    "total_points": 1
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": -1,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "stats": {
+    "minutes": 90,
+    "total_points": 7
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 5,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "stats": {
+    "minutes": 90,
+    "total_points": 4
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 2,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "stats": {
+    "minutes": 0,
+    "total_points": 0
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 0,
+       "value": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "stats": {
+    "minutes": 90,
+    "total_points": 10
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 8,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "stats": {
+    "minutes": 90,
+    "total_points": 9
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 7,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "stats": {
+    "minutes": 90,
+    "total_points": 3
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 1,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "stats": {
+    "minutes": 90,
+    "total_points": 2
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "stats": {
+    "minutes": 0,
+    "total_points": 0
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 0,
+       "value": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "stats": {
+    "minutes": 0,
+    "total_points": 0
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 0,
+       "value": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "stats": {
+    "minutes": 90,
+    "total_points": 11
+   },
+   "explain": [
+    {
+     "fixture": 32,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 9,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "stats": {
+    "minutes": 90,
+    "total_points": 5
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 3,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "stats": {
+    "minutes": 90,
+    "total_points": 8
+   },
+   "explain": [
+    {
+     "fixture": 31,
+     "stats": [
+      {
+       "identifier": "minutes",
+       "points": 2,
+       "value": 90
+      },
+      {
+       "identifier": "goals_scored",
+       "points": 6,
+       "value": 1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

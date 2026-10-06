@@ -1,0 +1,13 @@
+FPL eval: team 8027067
+Gameweeks: 2-5 (4 of 5 finished; GW1 skipped)
+Few gameweeks: small differences are likely noise.
+Injury news is not replayed, so 'mine' has an advantage the formulas don't.
+
+   GW  captain current  captain shrink  captain mine  captain best  eleven current  eleven shrink  eleven mine  eleven best  ranking current  ranking shrink  ranking price  top20 current  top20 shrink  top20 price
+    2                4              23            13            23             100             89           98          107             0.34            0.41           0.23           3.90          5.55         7.90
+    3                2               2             9             9              34             34           37           42             0.44            0.51           0.12           3.30          4.50         4.60
+    4                2               2             9            17              72             72           71           80             0.47            0.49           0.28           5.15          5.30         4.30
+    5                0               6             6            14              52             52           54           61             0.51            0.52           0.23           4.45          4.85         4.15
+Total                8              33            37            63             258            247          260          290             0.44            0.48           0.22          16.80         20.20        20.95
+
+shrink vs current: top 20 better in 4 of 4 gameweeks, ranking better in 4 of 4

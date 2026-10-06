@@ -1,0 +1,206 @@
+{
+ "events": [
+  {
+   "id": 1,
+   "deadline_time": "2026-08-14T11:00:00Z",
+   "finished": true,
+   "data_checked": true,
+   "is_next": false,
+   "is_current": false
+  },
+  {
+   "id": 2,
+   "deadline_time": "2026-08-21T11:00:00Z",
+   "finished": true,
+   "data_checked": true,
+   "is_next": false,
+   "is_current": false
+  },
+  {
+   "id": 3,
+   "deadline_time": "2026-08-28T11:00:00Z",
+   "finished": true,
+   "data_checked": true,
+   "is_next": false,
+   "is_current": true
+  },
+  {
+   "id": 4,
+   "deadline_time": "2026-09-04T11:00:00Z",
+   "finished": false,
+   "data_checked": false,
+   "is_next": true,
+   "is_current": false
+  }
+ ],
+ "teams": [
+  {
+   "id": 1,
+   "name": "T1"
+  },
+  {
+   "id": 2,
+   "name": "T2"
+  },
+  {
+   "id": 3,
+   "name": "T3"
+  },
+  {
+   "id": 4,
+   "name": "T4"
+  }
+ ],
+ "elements": [
+  {
+   "id": 1,
+   "first_name": "F",
+   "second_name": "S1",
+   "web_name": "P1",
+   "element_type": 1,
+   "team": 1,
+   "now_cost": 50,
+   "cost_change_start": 5
+  },
+  {
+   "id": 2,
+   "first_name": "F",
+   "second_name": "S2",
+   "web_name": "P2",
+   "element_type": 1,
+   "team": 2,
+   "now_cost": 45,
+   "cost_change_start": 5
+  },
+  {
+   "id": 3,
+   "first_name": "F",
+   "second_name": "S3",
+   "web_name": "P3",
+   "element_type": 2,
+   "team": 1,
+   "now_cost": 45,
+   "cost_change_start": 5
+  },
+  {
+   "id": 4,
+   "first_name": "F",
+   "second_name": "S4",
+   "web_name": "P4",
+   "element_type": 2,
+   "team": 2,
+   "now_cost": 55,
+   "cost_change_start": 5
+  },
+  {
+   "id": 5,
+   "first_name": "F",
+   "second_name": "S5",
+   "web_name": "P5",
+   "element_type": 2,
+   "team": 3,
+   "now_cost": 65,
+   "cost_change_start": 5
+  },
+  {
+   "id": 6,
+   "first_name": "F",
+   "second_name": "S6",
+   "web_name": "P6",
+   "element_type": 2,
+   "team": 4,
+   "now_cost": 50,
+   "cost_change_start": 5
+  },
+  {
+   "id": 7,
+   "first_name": "F",
+   "second_name": "S7",
+   "web_name": "P7",
+   "element_type": 2,
+   "team": 3,
+   "now_cost": 45,
+   "cost_change_start": 5
+  },
+  {
+   "id": 8,
+   "first_name": "F",
+   "second_name": "S8",
+   "web_name": "P8",
+   "element_type": 3,
+   "team": 1,
+   "now_cost": 65,
+   "cost_change_start": 5
+  },
+  {
+   "id": 9,
+   "first_name": "F",
+   "second_name": "S9",
+   "web_name": "P9",
+   "element_type": 3,
+   "team": 2,
+   "now_cost": 85,
+   "cost_change_start": 5
+  },
+  {
+   "id": 10,
+   "first_name": "F",
+   "second_name": "S10",
+   "web_name": "P10",
+   "element_type": 3,
+   "team": 3,
+   "now_cost": 105,
+   "cost_change_start": 5
+  },
+  {
+   "id": 11,
+   "first_name": "F",
+   "second_name": "S11",
+   "web_name": "P11",
+   "element_type": 3,
+   "team": 4,
+   "now_cost": 60,
+   "cost_change_start": 5
+  },
+  {
+   "id": 12,
+   "first_name": "F",
+   "second_name": "S12",
+   "web_name": "P12",
+   "element_type": 3,
+   "team": 2,
+   "now_cost": 55,
+   "cost_change_start": 5
+  },
+  {
+   "id": 13,
+   "first_name": "F",
+   "second_name": "S13",
+   "web_name": "P13",
+   "element_type": 4,
+   "team": 3,
+   "now_cost": 95,
+   "cost_change_start": 5
+  },
+  {
+   "id": 14,
+   "first_name": "F",
+   "second_name": "S14",
+   "web_name": "P14",
+   "element_type": 4,
+   "team": 4,
+   "now_cost": 75,
+   "cost_change_start": 5
+  },
+  {
+   "id": 15,
+   "first_name": "F",
+   "second_name": "S15",
+   "web_name": "P15",
+   "element_type": 4,
+   "team": 1,
+   "now_cost": 55,
+   "cost_change_start": 5
+  }
+ ]
+}
