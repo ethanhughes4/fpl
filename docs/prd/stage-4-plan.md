@@ -77,7 +77,7 @@ Covers: D216, D218, D219, D209, D217, D215.
 
 ---
 
-## Step 2: Ask Claude Code "who should I captain?" — Wave 2 — TODO
+## Step 2: Ask Claude Code "who should I captain?" — Wave 2 — DONE
 
 Depends on: 1.
 
