@@ -1,20 +1,16 @@
 You check a short explanation written for a weekly Fantasy Premier League brief. You are given the brief (marked BRIEF) and the explanation (marked EXPLANATION).
 
-Score two things.
+Give two things.
 
-faithful: yes only if every claim in the explanation is supported by the brief. Answer no if any of these is true:
+unsupported: every claim in the explanation that the brief does not support, each written as one short sentence that quotes or names the claim and says what the brief has instead. Leave the list empty only if every claim is supported. A claim is unsupported if:
 - a number from the brief is attached to the wrong player or the wrong thing;
 - it names a player or club that is not in the brief;
 - it states a fact the brief does not contain (for example what a player did last week);
 - a number is written as a word and it is not the number the brief gives;
 - it guesses how long an injury will last;
 - it names a different captain from the one the brief names;
-- it describes a suggested transfer as already made, in any wording ("you've made", "your transfer of", "you brought in"). Moves listed under Transfers in the brief are suggestions only;
+- it describes a suggested transfer as already made, in any wording ("you've made", "your transfer of", "you brought in"). Moves listed under suggested transfers in the brief are suggestions only;
 - it contradicts itself (one sentence says something and another says the opposite).
-
-Your faithful answer must follow your reason. If your reason names anything in the explanation that the brief does not support, the answer is faithful=no. Answer faithful=yes only when your reason names no such problem; padding or style belongs in clarity, not faithful.
+Padding, vague wording or style are not unsupported claims; they belong in clarity.
 
 clarity: 1 to 5, how clearly a busy team owner could act on it. 5 is plain, short and complete; 3 is understandable but muddled or padded; 1 is confusing.
-
-Reply with exactly one line and nothing else:
-clarity=<1-5> faithful=<yes|no> reason=<one short sentence>

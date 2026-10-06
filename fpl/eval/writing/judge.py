@@ -1,6 +1,5 @@
 """The judge as a scorer (D149), and a check of the judge on fixed texts (D179, D196)."""
 import json
-import re
 from pathlib import Path
 
 from fpl.claude import AskError
@@ -11,37 +10,37 @@ CLARITY_BAR = 4.0
 SHOWN_ANSWER = 200  # characters of an unreadable judge answer quoted in the report
 HERE = Path(__file__).parent
 CHECK_BLOCK = Path(__file__).parents[3] / "tests" / "data" / "explain_block.txt"
-LINE = re.compile(r"clarity=([1-5]) faithful=(yes|no) reason=(\S.*)")
-# D198: the judge answers through --json-schema, so no text can come before the answer
+# D201: the judge lists what the brief does not support; code decides faithful (list empty).
+# Answered through --json-schema (D198), so nothing can come before the answer.
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["clarity", "faithful", "reason"],
-          "properties": {"clarity": {"type": "integer", "minimum": 1, "maximum": 5},
-                         "faithful": {"type": "string", "enum": ["yes", "no"]},
-                         "reason": {"type": "string"}}}
+          "required": ["unsupported", "clarity"],
+          "properties": {"unsupported": {"type": "array", "items": {"type": "string"}},
+                         "clarity": {"type": "integer", "minimum": 1, "maximum": 5}}}
+NONE_FOUND = "none"
+COLUMN = "unsupported claims"
 CALLS_PER_TEXT = 1  # D200: so the eval can plan its call cap
 JUDGE_FAILED = "judge failed"  # D193: shown apart from faithful=no, never a pass
 _state = {"proven": None}  # ponytail: module state, since summary(rows) gets no ctx
 
 
 def parse(text):
-    """-> (clarity, faithful, reason), or None when the answer cannot be read (D175).
-    Reads the structured JSON answer (D198), or the one line D175 describes."""
+    """-> (clarity, faithful, claims), or None when the answer cannot be read (D175).
+    faithful = no unsupported claims (D201); claims = the list joined by "; ", or "none"."""
     try:
         d = json.loads(text)
     except ValueError:
-        m = LINE.fullmatch(text.strip())
-        return (int(m[1]), m[2] == "yes", m[3]) if m else None
+        return None
     if not isinstance(d, dict) or set(d) != set(SCHEMA["required"]):
         return None
-    c, f, r = d["clarity"], d["faithful"], d["reason"]
-    if type(c) is not int or not 1 <= c <= 5 or f not in ("yes", "no") \
-            or not isinstance(r, str) or not r.strip():
+    c, claims = d["clarity"], d["unsupported"]
+    if type(c) is not int or not 1 <= c <= 5 or not isinstance(claims, list)             or not all(isinstance(x, str) and x.strip() for x in claims):
         return None
-    return c, f == "yes", " ".join(r.split())
+    claims = [" ".join(x.split()) for x in claims]
+    return c, not claims, "; ".join(claims) or NONE_FOUND
 
 
 def _judge(blk, text, ask):
-    """-> (clarity, faithful, reason); a judge failure is (None, JUDGE_FAILED, why)."""
+    """-> (clarity, faithful, claims); a judge failure is (None, JUDGE_FAILED, why)."""
     system = (HERE / "judge.txt").read_text(encoding="utf-8")
     try:
         answer = ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT,
@@ -90,9 +89,9 @@ def start(ctx):
 
 def score(text, ctx):
     if not text:
-        return {"clarity": None, "faithful": False, "judge reason": "no text to judge"}
-    clarity, faithful, reason = _judge(ctx["block"], text, ctx["ask"])
-    return {"clarity": clarity, "faithful": faithful, "judge reason": reason}
+        return {"clarity": None, "faithful": False, COLUMN: "no text to judge"}
+    clarity, faithful, claims = _judge(ctx["block"], text, ctx["ask"])
+    return {"clarity": clarity, "faithful": faithful, COLUMN: claims}
 
 
 def summary(rows):
