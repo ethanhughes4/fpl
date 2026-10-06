@@ -64,7 +64,8 @@ def test_judge_check_fails_and_is_said_and_scores_unproven():
     notice = judge.start(ctx_for(ask))[0]
     assert "FAILED" in notice and "unproven" in notice
     rows = [{"scores": {"clarity": 5, "faithful": True, "judge reason": "ok"}}] * 2
-    assert all(not p for _, _, p in judge.summary(rows))
+    unproven = {label: p for label, _, p in judge.summary(rows)}
+    assert not any(unproven[k] for k in ("faithful rate", "mean clarity", "judge check"))
 
 
 def test_judge_check_unreadable_or_failed_call_fails():
@@ -80,7 +81,7 @@ def test_score_and_failure():
     assert judge.score("text", {"ask": ok, "block": BLOCK}) == \
         {"clarity": 4, "faithful": True, "judge reason": "Good."}
     bad = judge.score("text", {"ask": lambda *a: ("clarity=9", 1, "m"), "block": BLOCK})
-    assert bad["faithful"] is False and bad["clarity"] is None
+    assert bad["faithful"] == judge.JUDGE_FAILED and bad["clarity"] is None
 
 
 def rows(*pairs):
@@ -91,9 +92,21 @@ def test_verdict_needs_all_three_bars():
     assert all(p for *_, p in judge.summary(rows((4, True), (4, True))))
     assert not judge.summary(rows((4, True), (4, False)))[0][2]  # faithful
     assert not judge.summary(rows((3, True), (4, True)))[1][2]  # clarity 3.5
-    assert not judge.summary(rows((5, True), (None, False)))[1][2]  # a judge failure
+    assert not judge.summary(rows((5, True), (5, False)))[0][2]  # a real faithful=no
     judge._state["proven"] = False
-    assert not any(p for *_, p in judge.summary(rows((5, True))))  # judge check failed
+    s = {label: p for label, _, p in judge.summary(rows((5, True)))}  # judge check failed
+    assert not any(s[k] for k in ("faithful rate", "mean clarity", "judge check"))
+
+
+def test_judge_failure_shown_apart_and_not_against_the_writer():
+    # D193: an unreadable judge answer is not a faithful=no; the writer's rates ignore it,
+    # but the judge failures line fails the verdict
+    s = judge.summary(rows((5, True), (None, judge.JUDGE_FAILED)))
+    assert s[0] == ("faithful rate", "100% of 1 judged", True)
+    assert s[1][1:] == ("5.0", True)
+    assert s[2] == ("judge failures", "1", False)
+    from fpl.eval.writing import report as rep
+    assert rep.cell(judge.JUDGE_FAILED) == "judge failed"
 
 
 def test_full_run_counts_calls_and_reports(monkeypatch):

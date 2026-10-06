@@ -1,4 +1,5 @@
-"""Score breakdowns (D141, D182) for the captain, the vice and players in close calls. No network."""
+"""Score breakdowns (D141, D182, D192) for the captain, the vice, players in close calls and both
+players in every suggested transfer. No network."""
 from fpl import score
 from fpl.explain.parts import close
 from fpl.feed import num, upcoming
@@ -6,11 +7,24 @@ from fpl.feed import num, upcoming
 POS = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
 
 
-def _names(data):
-    """Captain, vice, then each player in a close call; no repeats."""
-    out = [data["captain"]["captain"]["name"], data["captain"]["vice"]["name"]]
-    out += [n for c in close.calls(data) if c["close"] for n in c["players"]]
-    return list(dict.fromkeys(out))
+def _players(data, feed):
+    """[(name, element)]: captain, vice, players in close calls, then both players in every
+    suggested transfer (D192); no repeats. Squad players by id; a player coming in by name,
+    price and position, since names repeat in the feed (Palmer, Wilson)."""
+    els = feed["bootstrap"]["elements"]
+    by_id = {e["id"]: e for e in els}
+    squad = {r["name"]: by_id[r["id"]] for r in data["lineup"]["starters"] + data["lineup"]["bench"]}
+    names = [data["captain"]["captain"]["name"], data["captain"]["vice"]["name"]]
+    names += [n for c in close.calls(data) if c["close"] for n in c["players"]]
+    out = {n: squad[n] for n in names if n in squad}
+    for t in data["transfers"]["transfers"]:
+        gone = squad[t["out"]]
+        out.setdefault(t["out"], gone)
+        out.setdefault(t["in"], next(e for e in els if e["web_name"] == t["in"]
+                                     and e["now_cost"] == t["in_price"]
+                                     and e["element_type"] == gone["element_type"]))
+    order = names + [n for t in data["transfers"]["transfers"] for n in (t["out"], t["in"])]
+    return [(n, out[n]) for n in dict.fromkeys(order)]
 
 
 def _opponents(feed, el):
@@ -29,16 +43,9 @@ def _opponents(feed, el):
 
 def lines(data, feed):
     els = feed["bootstrap"]["elements"]
-    by_id = {e["id"]: e for e in els}
-    ids = {r["id"]: r["name"] for r in data["lineup"]["starters"] + data["lineup"]["bench"]}
-    by_name = {}
-    for e in els:
-        by_name.setdefault(e["web_name"], e)
-    by_name.update({n: by_id[i] for i, n in ids.items()})  # squad rows win over same-named players
     shrunk, typical = score.shrunk_bases(els), score.typical_bases(els)
     out = ["", "Score breakdowns"]
-    for name in _names(data):
-        el = by_name[name]
+    for name, el in _players(data, feed):
         opp = _opponents(feed, el)
         opp_text = " and ".join(f"{t} ({ha})" for t, ha, _ in opp) or "no match"
         diff = " and ".join(str(d) for *_, d in opp) or "none"

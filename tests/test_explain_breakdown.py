@@ -30,6 +30,26 @@ def test_who_is_listed():
     assert "Score breakdowns" in text
 
 
+def test_both_transfer_players_listed_close_or_not():
+    # D192: B's Hart -> Wren and C's Lowe -> Yates are not close but still broken down
+    for folder, names in [("example_b", ["Hart", "Wren"]), ("example_c", ["Lowe", "Yates"])]:
+        f = feedmod.load(str(DATA / folder))
+        text = "\n".join(breakdown.lines(brief.build(f), f))
+        for n in names:
+            assert f"  {n} (" in text
+
+
+def test_player_coming_in_found_by_price_and_position():
+    # names repeat in the real feed; a cheaper "Wren" and a defender "Wren" must not be picked
+    f = feedmod.load(str(DATA / "example_b"))
+    data = brief.build(f)
+    real = next(e for e in f["bootstrap"]["elements"] if e["web_name"] == "Wren")
+    f["bootstrap"]["elements"][:0] = [dict(real, id=901, now_cost=45, form="1.0"),
+                                      dict(real, id=902, element_type=2, form="2.0")]
+    got = dict(breakdown._players(data, f))["Wren"]
+    assert got["id"] == real["id"]
+
+
 def test_typical_is_regression_line():
     # points (40, 2), (60, 4), (80, 6) lie on base = 0.1 * price - 2
     t = score.typical_bases([el(1, 40, 2.0), el(2, 60, 4.0), el(3, 80, 6.0)])

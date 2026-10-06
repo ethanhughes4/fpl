@@ -10,6 +10,7 @@ CLARITY_BAR = 4.0
 HERE = Path(__file__).parent
 CHECK_BLOCK = Path(__file__).parents[3] / "tests" / "data" / "explain_block.txt"
 LINE = re.compile(r"clarity=([1-5]) faithful=(yes|no) reason=(\S.*)")
+JUDGE_FAILED = "judge failed"  # D193: shown apart from faithful=no, never a pass
 _state = {"proven": None}  # ponytail: module state, since summary(rows) gets no ctx
 
 
@@ -20,13 +21,13 @@ def parse(text):
 
 
 def _judge(blk, text, ask):
-    """-> (clarity, faithful, reason); a judge failure is (None, False, why)."""
+    """-> (clarity, faithful, reason); a judge failure is (None, JUDGE_FAILED, why)."""
     system = (HERE / "judge.txt").read_text(encoding="utf-8")
     try:
         got = parse(ask(f"BRIEF\n{blk}\n\nEXPLANATION\n{text}", system, JUDGE_MODEL, JUDGE_TIMEOUT)[0])
     except AskError as e:
-        return None, False, f"judge call failed: {e.reason}"
-    return got or (None, False, "judge failure: unreadable answer")
+        return None, JUDGE_FAILED, f"judge call failed: {e.reason}"
+    return got or (None, JUDGE_FAILED, "unreadable answer")
 
 
 def texts():
@@ -60,10 +61,15 @@ def summary(rows):
     rows = [r for r in rows if "faithful" in r["scores"]]
     if not rows:
         return []
-    marks = [r["scores"]["clarity"] for r in rows if type(r["scores"]["clarity"]) is int]
+    """D193: judge failures are left out of the faithful rate and mean clarity, so they do not
+    count against the writer; they get their own line, which fails the verdict (D175)."""
+    judged = [r for r in rows if r["scores"]["faithful"] != JUDGE_FAILED]
+    failed = len(rows) - len(judged)
+    marks = [r["scores"]["clarity"] for r in judged if type(r["scores"]["clarity"]) is int]
     mean = sum(marks) / len(marks) if marks else 0.0
-    rate = sum(r["scores"]["faithful"] is True for r in rows) / len(rows)
+    rate = sum(r["scores"]["faithful"] is True for r in judged) / len(judged) if judged else 0.0
     proven = _state["proven"] is not False
-    return [("faithful rate", f"{rate:.0%}", proven and rate == 1.0),
-            ("mean clarity", f"{mean:.1f}", proven and len(marks) == len(rows) and mean >= CLARITY_BAR),
+    return [("faithful rate", f"{rate:.0%} of {len(judged)} judged", proven and bool(judged) and rate == 1.0),
+            ("mean clarity", f"{mean:.1f}", proven and bool(marks) and mean >= CLARITY_BAR),
+            ("judge failures", str(failed), failed == 0),
             ("judge check", "passed" if proven else "FAILED, scores unproven", proven)]
