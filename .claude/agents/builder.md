@@ -22,4 +22,6 @@ of it. You cannot ask the user questions.
 8. Run: git branch --show-current
 
 Report: BRANCH, FILES changed, CHOICES you made and why, TESTS
-passing, UNCLEAR points.
+passing, and BLOCKED: only things you could not build, or had to
+guess, because the documents did not say. Put everything else
+under CHOICES.

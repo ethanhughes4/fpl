@@ -9,7 +9,10 @@
       "Bash(python -m fpl *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git merge *)"
+      "Bash(git merge *)",
+      "WebSearch",
+      "WebFetch(domain:premierleague.com)",
+      "WebFetch(domain:fantasy.premierleague.com)"
     ],
     "ask": [
       "Bash(pip install *)",
