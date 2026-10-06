@@ -260,7 +260,7 @@ price; ties; pool smaller than N).
 Decisions: D73 (ranking, top 20), D97 (top 20 price), D98, D102 (top-20
 columns), D113.
 
-## Step 7: Verdict line, worked example, golden table — Wave 4 — TODO
+## Step 7: Verdict line, worked example, golden table — Wave 4 — DONE
 
 Depends on: 1-6.
 
