@@ -32,7 +32,7 @@ def test_success(monkeypatch, capsys, brief_text):
     fake, out = run(monkeypatch, capsys, ["--from", SNAP, "--explain"], stdout=ok_json(TEXT))
     assert out.startswith(brief_text + "\nExplanation\n" + TEXT)
     assert len(fake.calls) == 1
-    assert fake.calls[0]["input"] == brief_text  # the block is the brief for now
+    assert fake.calls[0]["input"] .startswith(brief_text)
     assert "150" in fake.calls[0]["system"] and "{max_words}" not in fake.calls[0]["system"]
     assert "--model" in fake.calls[0]["cmd"] and "haiku" in fake.calls[0]["cmd"]
 

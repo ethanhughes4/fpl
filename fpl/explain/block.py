@@ -1,6 +1,6 @@
-from fpl.explain.parts import brief
+from fpl.explain.parts import brief, close
 
-PARTS = [brief]
+PARTS = [brief, close]
 
 
 def build(data, feed):
