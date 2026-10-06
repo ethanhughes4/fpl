@@ -1,23 +1,23 @@
 Shows your team at the last deadline. Transfers made since are not visible in the public feed.
 Bank 0.0m · Free transfers 3
-Captain: Hart (8.0)
-Vice: Marsh (7.4)
+Captain: Hart (7.9)
+Vice: Marsh (7.3)
 Starting XI (4-4-2)   next GW  6 GW
   GK  Ames               6.0   27.0
   DEF Cole               5.8   26.1
-  DEF Dunn               5.0   22.5
-  DEF Eaves              4.6   20.7
-  DEF Fry                4.2   18.9
-  MID Hart               8.0   36.0
-  MID Innes              7.0   31.5
-  MID Joss               6.0   27.0
-  MID Kemp               4.0   21.5
-  FWD Marsh              7.4   33.3
-  FWD Nash               5.2   23.4
+  DEF Dunn               5.0   22.6
+  DEF Eaves              4.6   20.6
+  DEF Fry                4.1   18.7
+  MID Hart               7.9   35.6
+  MID Innes              7.2   32.4
+  MID Joss               6.1   27.4
+  MID Kemp               4.1   21.8
+  FWD Marsh              7.3   32.9
+  FWD Nash               5.2   23.5
 Bench
-  GK  Birch              4.0   18.0
+  GK  Birch              4.0   18.1
   FWD Orr                3.8   17.1
   DEF Gale               3.0   13.5
-  MID Lowe               2.7   14.6
+  MID Lowe               2.8   14.9
 No transfer worth making. Save it — you'll have 4 free next week.
 Warnings: none

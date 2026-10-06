@@ -99,4 +99,10 @@ D119: In D90's rebuild check, the 30-day form window counts back from the moment
 
 ## Resolver answers
 
-D120: In event/{gw}/live/, every player has an explain entry for each fixture his club played that gameweek, including fixtures he did not play (a "minutes" stat with value 0); appearances = entries with minutes value > 0, per-match points = sum of that entry's stat points. stats.minutes and stats.total_points are the gameweek totals. Double/blank gameweek shapes not yet seen; D90's rebuild check guards them. (resolver; evidence: https://fantasy.premierleague.com/api/event/1/live/ fetched 2026-10-06, e.g. id 2 explain [{fixture 1, minutes value 0}])
+D120: In event/{gw}/live/, every player has an explain entry for each fixture his club played that gameweek, including fixtures he did not play (a "minutes" stat with value 0); appearances = entries with minutes value > 0, per-match points = sum of that entry's stat points. stats.minutes and stats.total_points are the gameweek totals. Double/blank gameweek shapes not yet seen; D90's rebuild check guards them. (resolver; evidence: https://fantasy.premierleague.com/api/event/1/live/ fetched 2026-10-06, e.g. id 2 explain [{fixture 1, minutes value 0}]) Accepted by the owner 2026-10-06.
+
+## After the first eval (2026-10-06)
+
+D121: The brief switches to "shrink" (D99). It met D101: in the 2026-10-06 eval (gameweeks 2-5, tests/data/eval_golden.txt) shrink beat current on top 20 and on ranking in 4 of 4 gameweeks; the owner decided. "current" stays in the eval's FORMULAS so every run still compares them. (reason: owner)
+D122: In the brief, shrink's n = round(total_points / points_per_game), 0 when points per game is 0, because today's feed has no per-match count; the eval keeps its exact count. The typical-score line uses start price (now_cost - cost_change_start), as the eval tested. (reason: owner; ppg is rounded to 1 decimal, so n can be off by one for low-ppg players with many matches)
+D123: The shrunk base is used everywhere in the brief: captain, eleven, the 6 GW column and transfers. The transfer part was never evaluated (D91, D108). (reason: owner — one formula in the brief)

@@ -1,25 +1,25 @@
 Shows your team at the last deadline. Transfers made since are not visible in the public feed.
 Bank 0.0m · Free transfers 1
-Captain: Marsh (7.4)
-Vice: Innes (7.0)
+Captain: Marsh (7.3)
+Vice: Innes (7.2)
 Starting XI (4-3-3)   next GW  6 GW
   GK  Ames               6.0   27.0
   DEF Cole               5.8   26.1
-  DEF Dunn               5.0   22.5
-  DEF Eaves              4.6   20.7
-  DEF Fry                4.2   18.9
-  MID Innes              7.0   31.5
-  MID Joss               6.0   27.0
-  MID Kemp               4.0   21.5
-  FWD Marsh              7.4   33.3
-  FWD Nash               5.2   23.4
+  DEF Dunn               5.0   22.6
+  DEF Eaves              4.6   20.6
+  DEF Fry                4.1   18.7
+  MID Innes              7.2   32.5
+  MID Joss               6.1   27.5
+  MID Kemp               4.1   21.9
+  FWD Marsh              7.3   32.9
+  FWD Nash               5.2   23.5
   FWD Orr                3.8   17.1
 Bench
-  GK  Birch              4.0   18.0
+  GK  Birch              4.0   18.1
   DEF Gale               3.0   13.5
-  MID Lowe               2.7   14.6
-  MID Hart               2.0   19.5
+  MID Lowe               2.8   14.9
+  MID Hart               2.0   19.3
 Transfers
-  Hart -> Wren  (8.0m -> 7.8m)  6 GW gain +12.9
+  Hart -> Wren  (8.0m -> 7.8m)  6 GW gain +13.4
 Warnings
   Hart              25%  Hamstring - 25% chance of playing

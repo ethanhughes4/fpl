@@ -1,5 +1,5 @@
 from fpl import score
-from fpl.eval.formulas import shrink
+from fpl import score as shrink
 
 
 def el(i, price, base, n, pos=3, minutes=90):
@@ -23,3 +23,23 @@ def test_fit_ignores_zero_minutes():
            el(5, 100, 0.0, 0, minutes=0)]
     out = shrink.shrunk_bases(els)
     assert abs(out[3] - 5.25) < 1e-9 and out[5] == 0.0
+
+
+def test_brief_appearances_from_total_and_ppg():
+    assert score.appearances({"total_points": 45, "points_per_game": "4.5"}) == 10
+    assert score.appearances({"total_points": 0, "points_per_game": "0.0"}) == 0
+    assert score.appearances({"total_points": 45, "points_per_game": "4.5", "appearances": 7}) == 7
+
+
+def test_start_price_in_brief_and_rebuilt_feed():
+    assert score.start_price({"now_cost": 62, "cost_change_start": 2}) == 60
+    assert score.start_price({"now_cost": 60}) == 60
+
+
+def test_brief_scores_use_shrunk_base(feed):
+    els = feed["bootstrap"]["elements"]
+    els[7]["now_cost"], els[7]["points_per_game"] = 90, "9.0"  # a MID far above its position's line
+    els[8]["now_cost"] = 70  # a third price, so the line does not pass through P8
+    el = els[7]
+    assert score.next_score(feed, el) == score.next_score(feed, el, score.shrunk_base(feed, el))
+    assert score.next_score(feed, el) != score.next_score(feed, el, score.base(el))

@@ -50,3 +50,9 @@ Transfers (free transfers 3, bank 0)
 
 Warnings: all 15 are status "a", chance 100%, and Teams 1-6 all play in
 gameweek 6 -> none.
+
+
+D121 (2026-10-06): the brief now uses the shrunk base (D99). Every score in
+expected_a.txt was regenerated from the code at that change, not reworked by
+hand. The arithmetic above is the pre-D121 (unshrunk) working; the shrink
+formula itself is hand-checked in tests/test_shrink.py (example c, D107).

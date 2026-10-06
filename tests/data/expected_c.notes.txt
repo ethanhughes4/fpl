@@ -46,3 +46,9 @@ Transfers (0 free, bank 0.5m)
 Warnings: none.
 
 Header: "Gameweek 6 · deadline ... · includes 1 transfer entered by hand", no note line (D68).
+
+
+D121 (2026-10-06): the brief now uses the shrunk base (D99). Every score in
+expected_c.txt was regenerated from the code at that change, not reworked by
+hand. The arithmetic above is the pre-D121 (unshrunk) working; the shrink
+formula itself is hand-checked in tests/test_shrink.py (example c, D107).

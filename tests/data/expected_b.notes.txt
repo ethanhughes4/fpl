@@ -39,3 +39,9 @@ Transfers (1 free, bank 0)
 - Line: Hart -> Wren (8.0m -> 7.8m) 6 GW gain +12.9.
 
 Warnings: Hart only: chance 25%, news "Hamstring - 25% chance of playing".
+
+
+D121 (2026-10-06): the brief now uses the shrunk base (D99). Every score in
+expected_b.txt was regenerated from the code at that change, not reworked by
+hand. The arithmetic above is the pre-D121 (unshrunk) working; the shrink
+formula itself is hand-checked in tests/test_shrink.py (example c, D107).
