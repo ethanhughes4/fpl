@@ -153,7 +153,7 @@ Covers: D212, D223 (get_players), D224, D229, D246, D248, D237.
 
 ---
 
-## Step 4: "Who could replace Szoboszlai?" — Wave 4 — TODO
+## Step 4: "Who could replace Szoboszlai?" — Wave 4 — DONE
 
 Depends on: 3 (`fpl/mcp/names.py`).
 
