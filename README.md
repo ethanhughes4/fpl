@@ -22,6 +22,11 @@ wins. If Claude Code is missing, fails, times out, or the text quotes a number
 that is not in the brief, one `Explanation skipped: ...` line is printed instead.
 The prompt is `fpl/explain/writer.txt`; edit it freely.
 
+Known gaps in the live checks: a name that is not in the feed at all is not
+caught; numbers written as words are not caught; a real number from the brief
+attached to the wrong player passes. The judge in the writing eval is the
+backstop.
+
 ## Eval
 
     python -m fpl.eval                  # download and replay finished gameweeks
