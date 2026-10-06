@@ -32,7 +32,5 @@ Plan the build for: $ARGUMENTS
    - Each step has a status: TODO.
 4. Show the plan and wait for approval. Do not write any code.
 
-After approval, build one step at a time unless the user says to
-run a wave in parallel. After each step: run the tests, mark the
-step DONE in the plan file, say what changed in two or three
-sentences, and stop until told to continue.
+After approval, stop. Do not build. The user builds the plan with
+/run-plan.
