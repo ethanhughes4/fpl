@@ -36,10 +36,15 @@ def _plain(text):
     return "".join(c for c in decomposed if not unicodedata.combining(c))
 
 
-def _find(name, pool, where):
+def matches(name, pool):
+    """Every player in pool whose web_name, second_name or full name is name (D68)."""
     want = _plain(name)
-    hits = [e for e in pool
+    return [e for e in pool
             if want in (_plain(e["web_name"]), _plain(e.get("second_name", "")), _plain(_full(e)))]
+
+
+def _find(name, pool, where):
+    hits = matches(name, pool)
     if not hits:
         raise ManualError(f'{FILE}: "{name}" matches no player {where}.')
     if len(hits) > 1:

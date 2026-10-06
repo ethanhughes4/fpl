@@ -42,23 +42,25 @@ def _opponents(feed, el):
     return out
 
 
+def line(name, el, feed, shrunk, typical):
+    """One player's breakdown line; shrunk, typical from score.shrunk_bases / typical_bases."""
+    opp = _opponents(feed, el)
+    opp_text = " and ".join(f"{t} ({ha})" for t, ha, _ in opp) or "no match"
+    diff = " and ".join(str(d) for *_, d in opp) or "none"
+    typ = f"{typical[el['id']]:.1f}" if el["id"] in typical else "none"
+    return (
+        f"  {name} ({POS[el['element_type']]}): form {num(el['form']):.1f} ({FORM_MEANS}), "
+        f"points per game {num(el['points_per_game']):.1f}, "
+        f"minutes factor {score.minutes_factor(feed, el):.1f}, "
+        f"next opponent {opp_text}, fixture difficulty {diff}, "
+        f"{brief.chance_text(round(score.chance_next(el) * 100))}, "
+        f"next-GW score {score.next_score(feed, el, shrunk[el['id']]):.1f}, "
+        f"games played {score.appearances(el)}, "
+        f"typical base for position and start price {typ}, "
+        f"base {score.base(el):.1f} before shrink and {shrunk[el['id']]:.1f} after")
+
+
 def lines(data, feed):
     els = feed["bootstrap"]["elements"]
     shrunk, typical = score.shrunk_bases(els), score.typical_bases(els)
-    out = ["", "Score breakdowns"]
-    for name, el in _players(data, feed):
-        opp = _opponents(feed, el)
-        opp_text = " and ".join(f"{t} ({ha})" for t, ha, _ in opp) or "no match"
-        diff = " and ".join(str(d) for *_, d in opp) or "none"
-        typ = f"{typical[el['id']]:.1f}" if el["id"] in typical else "none"
-        out.append(
-            f"  {name} ({POS[el['element_type']]}): form {num(el['form']):.1f} ({FORM_MEANS}), "
-            f"points per game {num(el['points_per_game']):.1f}, "
-            f"minutes factor {score.minutes_factor(feed, el):.1f}, "
-            f"next opponent {opp_text}, fixture difficulty {diff}, "
-            f"{brief.chance_text(round(score.chance_next(el) * 100))}, "
-            f"next-GW score {score.next_score(feed, el, shrunk[el['id']]):.1f}, "
-            f"games played {score.appearances(el)}, "
-            f"typical base for position and start price {typ}, "
-            f"base {score.base(el):.1f} before shrink and {shrunk[el['id']]:.1f} after")
-    return out
+    return ["", "Score breakdowns"] + [line(n, el, feed, shrunk, typical) for n, el in _players(data, feed)]
