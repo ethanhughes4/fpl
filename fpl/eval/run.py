@@ -1,10 +1,10 @@
 """The two shared lists and the loop over replayed gameweeks."""
 from fpl.eval import replay
 from fpl.eval.formulas import current
-from fpl.eval.measures import captain
+from fpl.eval.measures import captain, eleven
 
 FORMULAS = [current]
-MEASURES = [captain]
+MEASURES = [captain, eleven]
 
 
 def run(data):
