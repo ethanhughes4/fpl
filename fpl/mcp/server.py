@@ -2,9 +2,10 @@
 from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 
-from fpl.mcp.tools import get_brief, get_eval_results, get_players, refresh
+from fpl.mcp.tools import (find_replacements, get_brief, get_eval_results, get_players,
+                           refresh)
 
-TOOLS = [get_brief, get_players, get_eval_results, refresh]
+TOOLS = [get_brief, get_players, find_replacements, get_eval_results, refresh]
 
 LIMITS = (
     "This server cannot see how long an injury will last, price rises or falls, other "

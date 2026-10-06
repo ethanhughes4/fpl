@@ -42,43 +42,51 @@ def _plan(swaps, free):
     return net, hits
 
 
-def build(feed):
+def _scored(feed, held, swaps, memo):
+    """[(out, in)] -> [(gain, out, in, starts)]; starting is judged on the squad after all swaps."""
+    def s(kind, fn, el):
+        if (kind, el["id"]) not in memo:
+            memo[kind, el["id"]] = fn(feed, el)
+        return memo[kind, el["id"]]
+    out_ids = {o["id"] for o, _ in swaps}
+    after = [e for e in held if e["id"] not in out_ids] + [i for _, i in swaps]
+    _, eleven, _ = lineup.best_eleven([(s("n", score.next_score, e), e) for e in after])
+    starters = {e["id"] for _, e in eleven}
+    rows = []
+    for o, i in swaps:
+        # known simplification (D37): ignores whether the player going out would start
+        gain, starts = s("6", score.six_week_score, i) - s("6", score.six_week_score, o), i["id"] in starters
+        rows.append((gain if starts else gain * BENCH_GAIN_FACTOR, o, i, starts))
+    return rows
+
+
+def replacements(feed, out_el, memo=None):
+    """Single swaps for one squad player: [(gain, out, in, starts)], best first.
+    memo: score cache a caller can share between calls."""
+    memo = {} if memo is None else memo
     held = squad.squad(feed)
     held_ids = {e["id"] for e in held}
-    bank, free = money.bank(feed), money.free_transfers(feed)
-    six, nxt = {}, {}
+    bank = money.bank(feed)
+    rows = []
+    for i in feed["bootstrap"]["elements"]:
+        if (i["id"] not in held_ids and i["status"] == "a" and score.chance_next(i) >= MIN_CHANCE
+                and i["element_type"] == out_el["element_type"]
+                and _legal(feed, held, [(out_el, i)], bank)):
+            rows += _scored(feed, held, [(out_el, i)], memo)
+    return sorted(rows, key=lambda s: (-s[0], s[2]["id"]))
 
-    def s6(el):
-        if el["id"] not in six:
-            six[el["id"]] = score.six_week_score(feed, el)
-        return six[el["id"]]
 
-    def s1(el):
-        if el["id"] not in nxt:
-            nxt[el["id"]] = score.next_score(feed, el)
-        return nxt[el["id"]]
+def build(feed):
+    held = squad.squad(feed)
+    free = money.free_transfers(feed)
+    bank, memo = money.bank(feed), {}
 
     def scored(swaps):
-        """[(out, in)] -> [(gain, out, in, starts)]; starting is judged on the squad after all swaps."""
-        out_ids = {o["id"] for o, _ in swaps}
-        after = [e for e in held if e["id"] not in out_ids] + [i for _, i in swaps]
-        _, eleven, _ = lineup.best_eleven([(s1(e), e) for e in after])
-        starters = {e["id"] for _, e in eleven}
-        rows = []
-        for o, i in swaps:
-            # known simplification (D37): ignores whether the player going out would start
-            gain, starts = s6(i) - s6(o), i["id"] in starters
-            rows.append((gain if starts else gain * BENCH_GAIN_FACTOR, o, i, starts))
-        return rows
+        return _scored(feed, held, swaps, memo)
 
-    pool = [e for e in feed["bootstrap"]["elements"]
-            if e["id"] not in held_ids and e["status"] == "a"
-            and score.chance_next(e) >= MIN_CHANCE]
     singles = []
     for o in held:
-        for i in pool:
-            if i["element_type"] == o["element_type"] and _legal(feed, held, [(o, i)], bank):
-                singles += scored([(o, i)])
+        singles += replacements(feed, o, memo)
     singles.sort(key=lambda s: (-s[0], s[2]["id"], s[1]["id"]))
     singles = singles[:TOP_SINGLES]
 
