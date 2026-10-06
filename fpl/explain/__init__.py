@@ -3,7 +3,7 @@ from pathlib import Path
 from fpl.claude import AskError
 from fpl.explain import block, check
 
-WRITER_MODEL = "haiku"
+WRITER_MODEL = "sonnet"  # D202 (was haiku, D174); thinking stays on: Sonnet 5.5 cannot turn it off
 WRITER_TIMEOUT = 120  # D176, raised by D194: a real call took 62 s
 MAX_WORDS = 150
 

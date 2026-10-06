@@ -35,7 +35,7 @@ def test_success(monkeypatch, capsys, brief_text):
     # the model gets the input block, not the printed brief (D138, D199)
     assert fake.calls[0]["input"] + "\n" == (DATA / "explain_block.txt").read_text(encoding="utf-8")
     assert "150" in fake.calls[0]["system"] and "{max_words}" not in fake.calls[0]["system"]
-    assert "--model" in fake.calls[0]["cmd"] and "haiku" in fake.calls[0]["cmd"]
+    assert "--model" in fake.calls[0]["cmd"] and "sonnet" in fake.calls[0]["cmd"]
 
 
 def test_missing(monkeypatch, capsys):

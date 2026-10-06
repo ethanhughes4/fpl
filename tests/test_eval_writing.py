@@ -33,7 +33,7 @@ def test_twelve_rows_all_pass():
     assert len(r["rows"]) == 12 and r["calls"] == 12 and r["tokens"] == 120
     assert {x["brief"] for x in r["rows"]} == {"example_a", "example_b", "example_c", "snapshot"}
     assert all(x["scores"]["numbers"] for x in r["rows"])
-    assert all(m == "haiku" for _, m in seen)
+    assert all(m == "sonnet" for _, m in seen)
     text = report.render(r, "abc1234")
     assert "Verdict: PASS" in text and "code checks pass rate: 100%" in text
     assert "Total tokens: 120" in text and "claude-haiku-4-5-20251001" in text
