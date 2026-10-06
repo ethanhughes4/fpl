@@ -1,6 +1,6 @@
-from fpl.sections import captain, header, lineup, money
+from fpl.sections import captain, header, lineup, money, warnings
 
-SECTIONS = [header, money, captain, lineup]
+SECTIONS = [header, money, captain, lineup, warnings]
 
 
 def _name(s):
