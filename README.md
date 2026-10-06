@@ -61,6 +61,19 @@ each text with the code checks. The table, totals, PASS or FAIL (PASS only at
 100% of checks) and every text are printed and saved to
 `results/YYYY-MM-DD-<commit>-writing.txt`.
 
+## Path eval
+
+    python -m fpl.eval.tools            # 10 questions x 3 runs = 30 opus calls (cap 40)
+    python -m fpl.eval.tools --quick    # each question once (10 calls)
+
+Asks `claude -p` ten questions against the MCP server serving the gameweek-6
+snapshot, with only the five tools. Per question and run it shows the tools
+called, whether the path was right, and whether the answer's numbers and names
+appear in the tool outputs. It spends your Claude Code plan limits. PASS needs
+the right path on 90% of runs and 100% of answers passing. Saved to
+`results/YYYY-MM-DD-<commit>-tools.txt` (`-tools-quick.txt` for `--quick`).
+A wrong claim in words is not caught.
+
 Advice is weak before about gameweek 4: form and minutes need a few matches.
 
 ## Transfers made this week

@@ -35,7 +35,8 @@ class CountedAsk:
                 raise CapReached
             self.calls += 1
         try:
-            text, tokens, model_id = self.ask(prompt, system, model, timeout, **kw)
+            result = self.ask(prompt, system, model, timeout, **kw)
+            tokens, model_id = result[-2:]  # also wraps claude.ask_tools: (events, text, tokens, model_id)
         except AskError as e:
             if e.plan_limit:
                 with self.lock:
@@ -46,7 +47,7 @@ class CountedAsk:
                 self.tokens = (self.tokens or 0) + tokens
             if model_id and model_id not in self.models:
                 self.models.append(model_id)
-        return text, tokens, model_id
+        return result
 
 
 def run(ask, briefs=BRIEFS, runs=RUNS, scorers=None, max_calls=MAX_CALLS, parallel=None):

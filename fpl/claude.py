@@ -82,18 +82,65 @@ def ask(prompt, system, model, timeout, schema=None):
         if r.returncode == 0:
             raise AskError("the model call failed (unreadable output)")
         out = {"_stdout": r.stdout}
+    _raise_if_failed(out, r, exe)
+    tokens, model_id = _usage(out)
+    if schema is not None and isinstance(out.get("structured_output"), dict):
+        return json.dumps(out["structured_output"], ensure_ascii=False), tokens, model_id
+    return out.get("result") or "", tokens, model_id
+
+
+def _raise_if_failed(out, r, exe):
     if r.returncode != 0 or out.get("is_error") or out.get("subtype") != "success":
         if _not_logged_in(exe):
             raise AskError(NOT_INSTALLED)
         why = _reason(out, r)
         limit = out.get("api_error_status") == PLAN_LIMIT_STATUS or bool(PLAN_LIMIT_WORDS.search(why))
         raise AskError(f"the model call failed ({why})", plan_limit=limit)
+
+
+def _usage(out):
     usage = out.get("usage") or {}
     parts = (usage.get("input_tokens"), usage.get("output_tokens"))
     # D197: cached input is reported apart from input_tokens; missing cache fields count 0
     cached = sum(usage.get(k) or 0 for k in CACHE_FIELDS)
     tokens = None if None in parts else sum(parts) + cached
-    model_id = next(iter(out.get("modelUsage") or {}), None)
-    if schema is not None and isinstance(out.get("structured_output"), dict):
-        return json.dumps(out["structured_output"], ensure_ascii=False), tokens, model_id
-    return out.get("result") or "", tokens, model_id
+    return tokens, next(iter(out.get("modelUsage") or {}), None)
+
+
+def ask_tools(prompt, mcp_config, model, timeout, max_turns):
+    """The tools eval's call (D233, D243, D244). mcp_config: the MCP config as a dict. Claude runs
+    in an empty folder with no tools but the server's, no system prompt of ours, and none of the
+    owner's settings (see fpl/eval/tools/run.py for what was checked).
+    Returns (events, text, tokens, model_id); events = the stream-json lines, as dicts."""
+    exe = shutil.which("claude")
+    if exe is None:
+        raise AskError(NOT_INSTALLED)
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
+        cfg, work = Path(tmp) / "mcp.json", Path(tmp) / "work"
+        cfg.write_text(json.dumps(mcp_config), encoding="utf-8")
+        work.mkdir()
+        cmd = [exe, "-p", "--setting-sources", "", "--model", model, "--mcp-config", str(cfg),
+               "--strict-mcp-config", "--tools", "", "--allowedTools", "mcp__fpl",
+               "--no-session-persistence", "--max-turns", str(max_turns),
+               "--output-format", "stream-json", "--verbose", "--permission-prompts", "none"]
+        try:
+            r = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
+                               encoding="utf-8", cwd=work, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            raise AskError(f"the model call failed (timed out after {timeout} s)")
+        except OSError as e:
+            raise AskError(f"the model call failed ({e})")
+    events = []
+    for line in r.stdout.splitlines():
+        try:
+            events.append(json.loads(line))
+        except ValueError:
+            pass
+    out = next((e for e in reversed(events) if isinstance(e, dict) and e.get("type") == "result"), None)
+    if out is None:
+        if r.returncode == 0:
+            raise AskError("the model call failed (unreadable output)")
+        out = {"_stdout": r.stdout}
+    _raise_if_failed(out, r, exe)
+    tokens, model_id = _usage(out)
+    return events, out.get("result") or "", tokens, model_id

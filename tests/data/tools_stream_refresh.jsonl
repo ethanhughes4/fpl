@@ -1,0 +1,5 @@
+{"type": "system", "subtype": "init", "tools": ["mcp__fpl__refresh"]}
+{"type": "assistant", "message": {"content": [{"type": "tool_use", "id": "t0", "name": "mcp__fpl__refresh", "input": {}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"tool_use_id": "t0", "type": "tool_result", "content": "{\"result\": \"Serving a saved folder; nothing downloaded.\"}"}]}}
+{"type": "assistant", "message": {"content": [{"type": "text", "text": "Nothing was downloaded; the data is a saved folder."}]}}
+{"type": "result", "subtype": "success", "is_error": false, "result": "Nothing was downloaded; the data is a saved folder.", "stop_reason": "end_turn", "terminal_reason": "completed", "num_turns": 2, "api_error_status": null, "total_cost_usd": 0.001, "usage": {"input_tokens": 4, "output_tokens": 20}, "modelUsage": {"claude-opus-5-5": {"inputTokens": 4}}}
