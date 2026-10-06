@@ -239,7 +239,7 @@ with 0 minutes), plus the existing brief tests still pass unchanged.
 
 Decisions: D75, D99, D100 ("shrink"), D107 (c), D116.
 
-## Step 6: Top 20 columns — Wave 3 — TODO
+## Step 6: Top 20 columns — Wave 3 — DONE
 
 Depends on: 3.
 
