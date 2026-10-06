@@ -1,3 +1,4 @@
+Shows your team at the last deadline. Transfers made since are not visible in the public feed.
 Bank 0.0m · Free transfers 3
 Captain: Hart (8.0)
 Vice: Marsh (7.4)

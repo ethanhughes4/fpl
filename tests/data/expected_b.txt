@@ -1,3 +1,4 @@
+Shows your team at the last deadline. Transfers made since are not visible in the public feed.
 Bank 0.0m · Free transfers 1
 Captain: Marsh (7.4)
 Vice: Innes (7.0)

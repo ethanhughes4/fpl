@@ -3,6 +3,7 @@ import json
 import sys
 
 from fpl import brief, feed as feedmod
+from fpl.manual import ManualError
 from fpl.download import FeedError, NoUpcomingGameweek, TeamNotFound, download
 
 DEFAULT_TEAM = 8027067
@@ -31,7 +32,11 @@ def main(argv=None):
     if feedmod.upcoming(feed) is None:
         print("No upcoming gameweek.")
         return 0
-    data = brief.build(feed)
+    try:
+        data = brief.build(feed)
+    except ManualError as e:
+        print(e)
+        return 1
     print(json.dumps(data, indent=2) if a.json else brief.render(data))
     return 0
 

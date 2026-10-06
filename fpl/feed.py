@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 FILES = ["bootstrap-static", "fixtures", "entry", "history", "transfers"]
+THIS_WEEK = "this-week.json"  # optional, hand-entered transfers (D65)
 
 
 class MissingFile(Exception):
@@ -18,7 +19,7 @@ def num(x):
 
 
 def load(folder):
-    """Dict: bootstrap, fixtures, entry, history, transfers, picks {gw: data}."""
+    """Dict: bootstrap, fixtures, entry, history, transfers, picks {gw: data}, this_week."""
     folder = Path(folder)
 
     def read(path):
@@ -33,6 +34,8 @@ def load(folder):
     }
     if not feed["picks"]:
         raise MissingFile("picks-gwNN.json")
+    this_week = folder / THIS_WEEK
+    feed["this_week"] = read(this_week) if this_week.is_file() else None  # optional (D65)
     return feed
 
 

@@ -1,5 +1,4 @@
-"""Which picks to use, and the transfers not yet in them."""
-from fpl.feed import upcoming
+"""Which picks to use."""
 
 
 def current_picks(feed):
@@ -9,7 +8,3 @@ def current_picks(feed):
         gw -= 1
     return feed["picks"][gw]
 
-
-def pending_transfers(feed):
-    gw = upcoming(feed)["id"]
-    return [t for t in feed["transfers"] if t["event"] == gw]

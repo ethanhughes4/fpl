@@ -1,7 +1,6 @@
 import copy
 
 from fpl import picks
-from tests.fakefeed import transfer
 
 
 def test_last_picks_used(feed):
@@ -14,7 +13,3 @@ def test_free_hit_uses_gameweek_before(feed):
     feed["picks"][5]["active_chip"] = "freehit"
     assert picks.current_picks(feed) is earlier
 
-
-def test_pending_only_upcoming(feed):
-    feed["transfers"] = [transfer(20, 1, 5), transfer(21, 2, 6)]
-    assert [t["element_in"] for t in picks.pending_transfers(feed)] == [21]

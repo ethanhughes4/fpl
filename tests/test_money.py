@@ -37,10 +37,12 @@ def test_free_hit_buy_back_ignored(feed):
     assert money.purchase_price(feed, player(99, 3, 1, cost=56)) == 50
 
 
-def test_bank_plain_and_pending(feed):
+def test_bank_from_picks_or_this_week_file(feed):
     assert money.bank(feed) == 5
-    feed["transfers"] = [transfer(20, 1, 6, in_cost=60, out_cost=52)]
-    assert money.bank(feed) == 5 + 52 - 60
+    feed["transfers"] = [transfer(20, 1, 6, in_cost=60, out_cost=52)]  # feed transfers ignored (D66)
+    assert money.bank(feed) == 5
+    feed["this_week"] = {"gameweek": 6, "transfers": [], "bank": 0.8}
+    assert money.bank(feed) == 8  # D67: the bank given, in tenths
 
 
 def test_free_transfers_snapshot():
@@ -82,11 +84,20 @@ def test_free_hit_week_count_unchanged_no_plus_one(feed):
     assert money.free_transfers(feed) == 5  # a normal week with no transfers would add 1
 
 
-def test_pending_uses_free_transfer(feed):
-    feed["transfers"] = [transfer(20, 1, 6)]
-    assert money.free_transfers(feed) == 4
-    feed["transfers"] *= 9
-    assert money.free_transfers(feed) == 0
+def test_hand_entered_transfers_use_free_transfers(feed):
+    feed["bootstrap"]["elements"] += [player(20, 2, 1), player(21, 2, 1), player(22, 3, 1)]
+    feed["this_week"] = {"gameweek": 6, "bank": 0.8, "transfers": [
+        {"out": "P3", "in": "P20"}, {"out": "P4", "in": "P21"}]}
+    assert money.free_transfers(feed) == 5 - 2
+    feed["this_week"]["transfers"] += [{"out": f"P{o}", "in": f"P{i}"} for o, i in
+                                       [(20, 3), (21, 4), (3, 20), (4, 21), (8, 22)]]
+    assert money.free_transfers(feed) == 0  # 7 entered, never below 0
+
+
+def test_player_bought_by_hand_sells_at_now_cost(feed):
+    feed["bootstrap"]["elements"].append(player(20, 2, 1, cost=60, cost_change_start=10))
+    feed["this_week"] = {"gameweek": 6, "transfers": [{"out": "P3", "in": "P20"}], "bank": 0}
+    assert money.purchase_price(feed, feed["bootstrap"]["elements"][-1]) == 60
 
 
 def test_render_line(feed):

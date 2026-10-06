@@ -51,3 +51,18 @@ def test_feed_error_and_unknown_team(monkeypatch, capsys):
     monkeypatch.setattr(m, "download", boom(TeamNotFound(7)))
     assert main(["--team", "7"]) == 1
     assert capsys.readouterr().out.strip() == "Team 7 not found."
+
+
+def test_this_week_file_used_and_bad_name(tmp_path, capsys):
+    shutil.copytree(SNAP, tmp_path / "s")
+    tw = tmp_path / "s" / "this-week.json"
+    tw.write_text(json.dumps({"gameweek": 6, "transfers": [{"out": "O'Shea", "in": "Davis"}],
+                              "bank": 0.8}), encoding="utf-8")
+    assert main(["--from", str(tmp_path / "s")]) == 0
+    out = capsys.readouterr().out
+    assert "includes 1 transfer entered by hand" in out and "Bank 0.8m · Free transfers 3" in out
+    tw.write_text(json.dumps({"gameweek": 6, "transfers": [{"out": "Nobody", "in": "Davis"}],
+                              "bank": 0.8}), encoding="utf-8")
+    assert main(["--from", str(tmp_path / "s")]) == 1
+    assert capsys.readouterr().out.strip() == (
+        'this-week.json: "Nobody" matches no player in your squad.')

@@ -1,3 +1,4 @@
+Shows your team at the last deadline. Transfers made since are not visible in the public feed.
 Bank 0.0m · Free transfers 4
 Captain: Groß (11.2)
 Vice: Tarkowski (9.4)

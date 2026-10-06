@@ -1,0 +1,10 @@
+{
+ "gameweek": 6,
+ "transfers": [
+  {
+   "out": "Orr",
+   "in": "Pike"
+  }
+ ],
+ "bank": 0.5
+}

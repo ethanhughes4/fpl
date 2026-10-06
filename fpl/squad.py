@@ -1,15 +1,13 @@
-"""Current squad: the chosen picks with pending transfers applied."""
-from fpl.picks import current_picks, pending_transfers
+"""Current squad: the chosen picks with this week's hand-entered transfers applied (D66)."""
+from fpl import manual
+from fpl.picks import current_picks
 
 
 def squad_ids(feed):
-    """List of element ids, in pick order, pending swaps applied."""
+    """List of element ids, in pick order, hand-entered swaps applied."""
     ids = [p["element"] for p in current_picks(feed)["picks"]]
-    for t in sorted(pending_transfers(feed), key=lambda t: t["time"]):
-        if t["element_out"] in ids:
-            ids[ids.index(t["element_out"])] = t["element_in"]
-        else:
-            ids.append(t["element_in"])
+    for o, i in manual.swaps(feed):
+        ids[ids.index(o["id"])] = i["id"]
     return ids
 
 

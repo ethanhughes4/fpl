@@ -1,18 +1,19 @@
-Example C: the only free transfer is already used by a pending transfer;
+Example C: the only free transfer is already used by a hand-entered transfer;
 one transfer gains 8 or more, so a hit is suggested. By hand.
 The header line is not compared (local time).
 
 Setup: same players, clubs, prices and fixtures as example A (see
 expected_a.notes.txt), with these changes.
-- picks-gw05 holds Orr (FWD, 4.5m). A transfer for gameweek 6 (pending, D29)
-  sells Orr for 4.5m and buys Pike (FWD, Team3, b 5.4, 5.0m).
+- picks-gw05 holds Orr (FWD, 4.5m). this-week.json (D65-D67) enters a
+  gameweek-6 transfer that sells Orr for 4.5m and buys Pike (FWD, Team3, b 5.4, 5.0m).
   Pike: next 5.4; six 4.5 x 5.4 = 24.3.
 - Pool: Yates (MID, Team1, b 6.0, 5.0m): six 27.0. Zane (MID, Team2, b 7.0,
   5.0m). Squad otherwise as in A.
 
 Money
-- Bank: picks bank 1.0m (10) + Orr sold 45 - Pike bought 50 = 5 = 0.5m.
-- Free transfers: as in B the count at GW6 is 1; one pending transfer uses it,
+- Bank: 0.5m as given in this-week.json (picks bank 1.0m + Orr sold 4.5m
+  - Pike bought 5.0m = 0.5m, the figure the site would show).
+- Free transfers: as in B the count at GW6 is 1; one hand-entered transfer uses it,
   so 0.
 
 Squad: A's squad with Pike in place of Orr.
@@ -43,3 +44,5 @@ Transfers (0 free, bank 0.5m)
 - Output: Lowe -> Yates (4.5m -> 5.0m) 6 GW gain +12.4 [hit], Hit: -4 points.
 
 Warnings: none.
+
+Header: "Gameweek 6 · deadline ... · includes 1 transfer entered by hand", no note line (D68).

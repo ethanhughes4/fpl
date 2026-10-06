@@ -1,8 +1,9 @@
 """Bank, selling price and free transfers. Prices in tenths of a million. No network."""
 import math
 
+from fpl import manual
 from fpl.feed import num, upcoming
-from fpl.picks import current_picks, pending_transfers
+from fpl.picks import current_picks
 
 NO_COST_CHIPS = ("wildcard", "freehit")  # count unchanged in these weeks, no +1 (D32)
 FIRST_FREE = 1  # free transfers at gameweek 2
@@ -21,7 +22,10 @@ def _chip_weeks(feed, names):
 
 
 def purchase_price(feed, element):
-    """Last transfer in from a non-Free-Hit week, else now_cost - cost_change_start (D31, D60)."""
+    """Last transfer in from a non-Free-Hit week, else now_cost - cost_change_start (D31, D60).
+    A player bought by hand this week was bought at today's price (D67)."""
+    if any(i["id"] == element["id"] for _, i in manual.swaps(feed)):
+        return element["now_cost"]
     skip = _chip_weeks(feed, ("freehit",))
     bought = [t for t in feed["transfers"]
               if t["element_in"] == element["id"] and t["event"] not in skip]
@@ -39,13 +43,13 @@ def selling_price(feed, element):
 
 
 def bank(feed):
-    """Bank from the chosen picks; each pending transfer adds what it sold, takes what it bought."""
-    b = current_picks(feed)["entry_history"]["bank"]
-    return b + sum(t["element_out_cost"] - t["element_in_cost"] for t in pending_transfers(feed))
+    """Bank from this-week.json when used (D67), else from the chosen picks (D30)."""
+    entered = manual.bank(feed)
+    return current_picks(feed)["entry_history"]["bank"] if entered is None else entered
 
 
 def free_transfers(feed):
-    """Free transfers left for the upcoming gameweek, after pending transfers (never below 0)."""
+    """Free transfers left for the upcoming gameweek, after hand-entered transfers (never below 0, D67)."""
     cap = 1 + feed["bootstrap"]["game_settings"]["max_extra_free_transfers"]
     used = {h["event"]: h["event_transfers"] for h in feed["history"]["current"]}
     no_cost = _chip_weeks(feed, NO_COST_CHIPS)
@@ -54,4 +58,4 @@ def free_transfers(feed):
         if gw in no_cost:
             continue
         ft = min(cap, max(ft - used.get(gw, 0), 0) + WEEKLY_FREE)
-    return max(ft - len(pending_transfers(feed)), 0)
+    return max(ft - len(manual.swaps(feed)), 0)

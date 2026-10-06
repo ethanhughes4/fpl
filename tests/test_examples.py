@@ -28,3 +28,8 @@ def test_example(name, capsys):
 def test_golden(capsys):
     expected = (DATA / "golden.txt").read_text(encoding="utf-8")
     assert brief_below_header("snapshot", capsys) == expected
+
+
+def test_example_c_header_counts_hand_entered_transfer(capsys):
+    assert main(["--from", str(DATA / "example_c")]) == 0
+    assert capsys.readouterr().out.splitlines()[0].endswith(" · includes 1 transfer entered by hand")

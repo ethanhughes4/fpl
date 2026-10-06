@@ -35,7 +35,9 @@ def fake_get(calls, freehit=False, code=None):
 def run(monkeypatch, tmp_path, **kw):
     calls = []
     monkeypatch.setattr(requests, "get", fake_get(calls, **kw))
-    return calls, lambda: dl.download(1, tmp_path, date(2026, 10, 6))
+    # this-week.json path inside tmp_path, so an owner's real file in the repo root is never read
+    return calls, lambda: dl.download(1, tmp_path / "raw", date(2026, 10, 6),
+                                      this_week=tmp_path / "this-week.json")
 
 
 def test_files_and_request_options(monkeypatch, tmp_path):
@@ -69,3 +71,12 @@ def test_team_404(monkeypatch, tmp_path):
                         else Resp({}, 200 if "fixtures" in url else 404))
     with pytest.raises(dl.TeamNotFound):
         dl.download(1, tmp_path)
+
+
+def test_this_week_file_copied_beside_feed(monkeypatch, tmp_path):
+    _, go = run(monkeypatch, tmp_path)
+    (tmp_path / "this-week.json").write_text('{"gameweek": 6}', encoding="utf-8")
+    folder = go()
+    assert (folder / "this-week.json").read_text(encoding="utf-8") == '{"gameweek": 6}'
+    (tmp_path / "this-week.json").unlink()  # owner deletes it, reruns the same day
+    assert not (go() / "this-week.json").exists()
