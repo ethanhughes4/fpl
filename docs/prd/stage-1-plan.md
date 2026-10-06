@@ -40,7 +40,7 @@ lineup, transfers, warnings.
 
 ---
 
-## Step 1: Download, replay, header — Wave 1 — TODO
+## Step 1: Download, replay, header — Wave 1 — DONE
 
 Depends on: none.
 
