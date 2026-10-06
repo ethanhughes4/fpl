@@ -10,6 +10,16 @@ Weekly Fantasy Premier League brief from the official feed.
 
 Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`.
 
+## Eval
+
+    python -m fpl.eval                  # download and replay finished gameweeks
+    python -m fpl.eval --team <id>      # another team
+    python -m fpl.eval --from <folder>  # replay a saved download, no network
+
+Downloads go to `data/raw/YYYY-MM-DD-eval/` (files already there are reused).
+The table is printed and saved to `results/YYYY-MM-DD-<commit>.txt`. Results
+files are committed; compare two runs by diffing them.
+
 Advice is weak before about gameweek 4: form and minutes need a few matches.
 
 ## Transfers made this week
