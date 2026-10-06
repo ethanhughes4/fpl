@@ -1,6 +1,6 @@
 # Stage 1 plan
 
-Built from docs/prd/stage-1-decisions.md (D1-D58). Repo has no code yet.
+Built from docs/prd/stage-1-decisions.md (D1-D60). Repo has no code yet.
 
 ## Skeleton (made in step 1)
 
@@ -95,7 +95,7 @@ messages and exit codes), plus a test that the network guard trips.
 Decisions: D1 (start), D5, D6, D7, D8, D11, D13, D14, D15 (gameweek,
 deadline), D16, D29 (which picks, pending transfers), D41, D42, D43,
 D44, D45, D46, D47, D48, D50, D53, D54, D55 (text-to-number, online
-guard). Free Hit fallback: no decision number yet (see Notes).
+guard), D59.
 
 ## Step 2: Starting eleven and bench — Wave 2 — TODO
 
@@ -139,7 +139,8 @@ Creates:
   `picks.py`'s pending transfers;
   selling price (purchase price + rise × sell-on fee from
   game_settings, rounded down; now_cost if fallen; purchase price from
-  transfers or now_cost - cost_change_start); free transfers from
+  transfers, ignoring transfers made in Free Hit weeks, or
+  now_cost - cost_change_start); free transfers from
   history (GW1 unlimited, +1 a week, cap 1 + max_extra_free_transfers
   from game_settings, Wildcard/Free Hit keep the count, pending
   transfers use them); price printing (61 → 6.1m).
@@ -148,11 +149,12 @@ Creates:
 Changes: `fpl/brief.py` (one line in `SECTIONS`).
 
 Tests: `tests/test_money.py` (price printing, selling price rise/fall/
-rounding, bank with a pending transfer, free transfers = 4 at gameweek 6
+rounding, a buy-back in a Free Hit week does not change the purchase
+price, bank with a pending transfer, free transfers = 4 at gameweek 6
 from the snapshot history, cap, chip weeks).
 
 Decisions: D10, D12, D15 (bank, free transfers), D30, D31, D32, D55
-(prices, selling price, free transfers).
+(prices, selling price, free transfers), D60.
 
 ## Step 4: Captain and vice-captain — Wave 3 — TODO
 
@@ -251,13 +253,6 @@ None that need code. Two decisions have nothing to build:
 - D58 (out of scope): a list of things not to build; no step adds them.
 
 ## Notes
-
-- The Free Hit fallback (use the picks of the gameweek before when the
-  last picks show a Free Hit, and download that file) is not in
-  stage-1-decisions.md. D32 covers Free Hit only for free transfers. It
-  also adds a seventh file to D41's list after a Free Hit week. Step 1
-  builds it, but it needs a decision number: run /questions to add it
-  (e.g. D59) before step 1 is built.
 
 - D51 refers to a sample layout sent with question 35 that is not in
   the repo. Steps follow D51's listed order; the owner approves the look

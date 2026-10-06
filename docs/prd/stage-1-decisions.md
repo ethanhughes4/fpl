@@ -95,3 +95,8 @@ D57: Claude writes all of stage 1. The owner reads it and edits. (reason: owner 
 
 ### Out of scope
 D58: No AI, no chip advice, no price-change prediction, no other teams or mini-leagues, no making transfers, no web page or scheduled runs, no reading injury length from news text, no inputs beyond D3/D18. (reason: agreed)
+
+## Follow-up (2026-10-06) — Free Hit fallback
+
+D59: If the last picks have active_chip "freehit", the squad and bank come from the picks of the gameweek before; pending transfers are applied on top as in D29/D30. The download also saves that earlier picks file (picks-gwMM.json, MM = gameweek before) beside the last picks, so --from replays it; this adds one file to D41's list in Free Hit weeks. (reason: owner — a Free Hit squad reverts, so the last picks would show players the team no longer owns)
+D60: When finding a purchase price (D31), ignore every transfer whose event is a gameweek where history.json shows a Free Hit. A player kept through a Free Hit keeps the price from his last transfer in from a normal week, or now_cost - cost_change_start if held since the start. Free transfers are unchanged (D32 already covers Free Hit). (reason: owner — Free Hit transfers are undone, so counting them gives a wrong selling price and budget)
