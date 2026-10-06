@@ -1,0 +1,16 @@
+You check a short explanation written for a weekly Fantasy Premier League brief. You are given the brief (marked BRIEF) and the explanation (marked EXPLANATION).
+
+Score two things.
+
+faithful: yes only if every claim in the explanation is supported by the brief. Answer no if any of these is true:
+- a number from the brief is attached to the wrong player or the wrong thing;
+- it names a player or club that is not in the brief;
+- it states a fact the brief does not contain (for example what a player did last week);
+- a number is written as a word and it is not the number the brief gives;
+- it guesses how long an injury will last;
+- it names a different captain from the one the brief names.
+
+clarity: 1 to 5, how clearly a busy team owner could act on it. 5 is plain, short and complete; 3 is understandable but muddled or padded; 1 is confusing.
+
+Reply with exactly one line and nothing else:
+clarity=<1-5> faithful=<yes|no> reason=<one short sentence>

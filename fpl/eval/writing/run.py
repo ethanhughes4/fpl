@@ -3,14 +3,14 @@ from pathlib import Path
 
 from fpl import brief, feed as feedmod
 from fpl.claude import AskError
-from fpl.eval.writing import checks
+from fpl.eval.writing import checks, judge
 from fpl.explain import WRITER_MODEL, WRITER_TIMEOUT, block, writer_prompt
 
 DATA = Path(__file__).parents[3] / "tests" / "data"
 BRIEFS = [(n, DATA / n) for n in ("example_a", "example_b", "example_c", "snapshot")]
 RUNS = 3  # D150
 MAX_CALLS = 40  # D180
-SCORERS = [checks]
+SCORERS = [checks, judge]
 
 
 class CapReached(Exception):

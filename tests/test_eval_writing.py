@@ -12,6 +12,7 @@ from fpl.explain.checks import names, numbers
 def _two_checks(monkeypatch):
     # the one-line fake text cannot satisfy the coverage checks of every brief; those have own tests
     monkeypatch.setattr(_check, "CHECKS", [numbers, names])
+    monkeypatch.setattr(run, "SCORERS", [checks])  # the judge has its own tests
 
 
 GOOD = "Pick Hart as captain."
