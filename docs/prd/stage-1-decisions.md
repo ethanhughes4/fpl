@@ -32,9 +32,9 @@ D16: Read-only: never logs in, never makes transfers. (reason: no login, no risk
 D17: Brief also names a vice-captain (second-highest next-GW score among the starters). (reason: one line; the game asks for it)
 
 ### Score
-D18: Base = 0.6 x form + 0.4 x points_per_game. (reason: owner — form covers only 30 days, can be one or two matches after a break)
+D18: Base = 0.6 x form + 0.4 x points_per_game. (reason: owner — form covers only 30 days, can be one or two matches after a break) SUPERSEDED by D61.
 D19: Score for one player in one gameweek = base x minutes factor x fixture factor x playing chance. (reason: reads as roughly expected points)
-D20: Minutes factor = minutes / (90 x matches the player's club has played so far, i.e. its finished fixtures), capped at 1. (reason: owner — gameweeks finished is wrong after a blank or double gameweek)
+D20: Minutes factor = minutes / (90 x matches the player's club has played so far, i.e. its finished fixtures), capped at 1. (reason: owner — gameweeks finished is wrong after a blank or double gameweek) See also D64.
 D21: Fixture factor by the player's own side's difficulty 1..5 = 1.2 / 1.1 / 1.0 / 0.9 / 0.8, held as named constants. (reason: owner — 1.5..0.5 too steep; wants to tune)
 D22: Playing chance, next gameweek: chance_of_playing_next_round / 100; if null, 100% when status is "a", otherwise 0. (reason: owner — null with a non-"a" status is not good news)
 D23: Playing chance, weeks 2-6: halfway between next week's chance and 100%. Status "u" or "n" = 0 for all six weeks. (reason: owner — injuries usually heal, but the feed gives no length)
@@ -53,9 +53,9 @@ D32: Free transfers: gameweek 1 unlimited; 1 at gameweek 2, +1 each week, cap = 
 ### Transfers
 D33: Suggest 0, 1 or 2 transfers, never more, even with more free transfers. (reason: D1)
 D34: A free transfer is suggested only if it gains at least 2 points over six weeks; otherwise "Save it" with next week's free-transfer count. (reason: avoid pointless swaps)
-D35: A 4-point hit is suggested only if that transfer gains at least 8 points over six weeks. (reason: "big gain" = earns back twice its cost)
+D35: A 4-point hit is suggested only if that transfer gains at least 8 points over six weeks. (reason: "big gain" = earns back twice its cost) See also D62.
 D36: Incoming players must have status "a" and a next-week chance of at least 75%. (reason: never recommend injured players)
-D37: Gain = six-week score of player in minus player out, whether or not they would start. Marked in code as a known simplification. (reason: simple)
+D37: Gain = six-week score of player in minus player out, whether or not they would start. Marked in code as a known simplification. (reason: simple) SUPERSEDED by D63.
 D38: Pair search: best 50 single transfers, then every pair checked against the shared budget and three-per-club. (reason: fast, good enough)
 D39: Tunable numbers (D18 weights, D21, D24, D34, D35, D36 thresholds, D38's 50) are named constants. (reason: owner wants to tune; extends D21)
 
@@ -100,3 +100,10 @@ D58: No AI, no chip advice, no price-change prediction, no other teams or mini-l
 
 D59: If the last picks have active_chip "freehit", the squad and bank come from the picks of the gameweek before; pending transfers are applied on top as in D29/D30. The download also saves that earlier picks file (picks-gwMM.json, MM = gameweek before) beside the last picks, so --from replays it; this adds one file to D41's list in Free Hit weeks. (reason: owner — a Free Hit squad reverts, so the last picks would show players the team no longer owns)
 D60: When finding a purchase price (D31), ignore every transfer whose event is a gameweek where history.json shows a Free Hit. A player kept through a Free Hit keeps the price from his last transfer in from a normal week, or now_cost - cost_change_start if held since the start. Free transfers are unchanged (D32 already covers Free Hit). (reason: owner — Free Hit transfers are undone, so counting them gives a wrong selling price and budget)
+
+## Follow-up (2026-10-06) — scoring and transfer changes after the first full brief
+
+D61: Base = 0.3 x form + 0.7 x points_per_game. Replaces D18. (reason: owner — one or two big games were dominating the advice)
+D62: A 4-point hit is suggested only when the player coming in would be in the starting eleven next gameweek (best eleven by next-GW score, D26, picked from the squad after all suggested transfers). Adds to D35's gain of at least 8. (reason: owner)
+D63: A transfer whose incoming player would not start next gameweek (judged as in D62) counts at half its six-week gain. The halved gain is the one used for D34, D35, ranking and printing, and the line is marked "[bench, half gain]". Starters first: transfers for starting players are listed and use free transfers before the others. Replaces D37's "whether or not they would start" for the incoming player; whether the player going out would start is still ignored (known simplification). (reason: owner)
+D64: Minutes factor is 0 when the player's club has no finished fixtures yet, so the player scores 0. (reason: owner — previously agreed, not written down)

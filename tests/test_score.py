@@ -12,7 +12,7 @@ def one_fixture_feed(feed, diff=3, team=1):
 
 
 def test_base():
-    assert score.base(player(1, 3, 1, form="10.0", points_per_game="5.0")) == pytest.approx(8.0)
+    assert score.base(player(1, 3, 1, form="10.0", points_per_game="5.0")) == pytest.approx(6.5)  # D61: 3 + 3.5
 
 
 def test_minutes_factor(feed):

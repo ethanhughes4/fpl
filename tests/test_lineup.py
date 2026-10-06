@@ -24,3 +24,14 @@ def test_formation_valid(feed):
 
 def test_render(feed):
     assert lineup.render(lineup.build(feed))[0].startswith("Starting XI (")
+
+
+def test_best_eleven_from_scores(feed):
+    # scores given directly, as the transfer section does for a squad after a swap
+    els = feed["bootstrap"]["elements"][:15]
+    pos_score = {1: 1.0, 2: 1.0, 3: 0.5, 4: 9.0}  # weak mids, strong forwards
+    scored = [(pos_score[e["element_type"]], e) for e in els]
+    formation, eleven, ranked = lineup.best_eleven(scored)
+    assert formation == (5, 2, 3)
+    assert {e["id"] for _, e in eleven} >= {13, 14, 15}
+    assert ranked[0][0] == 9.0

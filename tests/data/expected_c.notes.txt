@@ -32,6 +32,9 @@ Transfers (0 free, bank 0.5m)
   5 + 45 - 50 = 0 >= 0. Team1 has Ames and Cole, so 3 after: fine.
   Gain = 27.0 - 14.62 = 12.38 (12.4) >= 8, and with 0 free it costs a hit.
 - Net 12.38 - 4 = 8.38.
+- D62 (hit only for a starter): after the swap the mids are Hart 8.0, Innes 7.0,
+  Joss 6.0, Yates 6.0, Kemp 4.0. 3-4-3 = 15.4+27.0+18.0 = 60.4 beats
+  4-3-3 = 19.6+21.0+18.0 = 58.6, so Yates starts: full gain (D63), hit allowed.
 - Kemp -> Yates would gain 27.0 - 21.5 = 5.5 < 8: not suggested as a hit.
 - Zane (six 31.5) would gain more, but Team2 already has Birch, Dunn and Marsh,
   and no midfielder of Team2 can go out: a fourth player from one club is

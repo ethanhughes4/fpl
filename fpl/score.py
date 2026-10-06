@@ -1,15 +1,15 @@
 """Player scores. Takes the feed in, gives numbers out. No network."""
 from fpl.feed import num, upcoming
 
-FORM_WEIGHT = 0.6
-PPG_WEIGHT = 0.4
+FORM_WEIGHT = 0.3  # D61
+PPG_WEIGHT = 0.7  # D61
 FULL_MINUTES = 90
 # Fixture factor by the player's own side's difficulty 1..5 (D21).
 FIXTURE_FACTOR = {1: 1.2, 2: 1.1, 3: 1.0, 4: 0.9, 5: 0.8}
 WEEK_WEIGHTS = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5]  # D24; length = weeks looked ahead
 LATER_WEEKS_TOWARDS = 1.0  # weeks 2-6 chance moves halfway to this
 GONE_STATUSES = ("u", "n")  # chance 0 for all six weeks
-MINUTES_IF_NO_MATCHES = 0.0  # club has no finished fixtures yet
+MINUTES_IF_NO_MATCHES = 0.0  # club has no finished fixtures yet (D64)
 
 
 def base(el):

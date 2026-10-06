@@ -29,11 +29,17 @@ def pick_eleven(by_pos):
     return best[1], best[2]
 
 
-def build(feed):
-    scored = [(score.next_score(feed, el), el) for el in squad.squad(feed)]
-    scored.sort(key=lambda x: score.sort_key(x[1], x[0]))
+def best_eleven(scored):
+    """scored: [(next-GW score, el)] for a squad. Returns (formation, eleven, scored best first)."""
+    scored = sorted(scored, key=lambda x: score.sort_key(x[1], x[0]))
     by_pos = {p: [x for x in scored if x[1]["element_type"] == p] for p in POS_NAME}
     formation, eleven = pick_eleven(by_pos)
+    return formation, eleven, scored
+
+
+def build(feed):
+    formation, eleven, scored = best_eleven(
+        [(score.next_score(feed, el), el) for el in squad.squad(feed)])
     ids = {el["id"] for _, el in eleven}
     # bench: spare keeper first, then outfielders best first
     rest = [x for x in scored if x[1]["id"] not in ids]
