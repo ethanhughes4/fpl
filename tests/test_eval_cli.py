@@ -20,7 +20,7 @@ def test_from_prints_header_and_saves(tmp_path, capsys, monkeypatch):
     assert f"Folder: {folder}" in out and "Commit: abc1234" in out
     assert "Few gameweeks: small differences are likely noise." in out
     assert "Injury news is not replayed, so 'mine' has an advantage the formulas don't." in out
-    assert "captain current  captain mine  captain best" in out
+    assert "captain current  captain shrink  captain mine  captain best" in out
     saved = list((tmp_path / "results").glob("*-abc1234.txt"))
     assert len(saved) == 1
     text = saved[0].read_text(encoding="utf-8")
