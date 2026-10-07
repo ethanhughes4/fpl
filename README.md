@@ -9,7 +9,7 @@ I did not type the code. Claude Code agents wrote it. My part was deciding what 
 build, answering the agents' questions, designing the workflow they follow, and checking
 the results. This README shows that workflow, with links to the real files.
 
-![The brief as a web page](docs/design/page.png)
+![The brief as a web page](docs/design/brief-mockup.png)
 
 ## What it does
 
