@@ -4,10 +4,37 @@
 
 export interface Brief {
   header: Header;
+  pitch: Pitch;
 }
 
 export interface Header {
   team: string;
   gameweek: string;
   deadline: string;
+}
+
+export interface Pitch {
+  rows: Row[];
+  bench: BenchPlayer[];
+}
+
+export interface Row {
+  players: Player[];
+}
+
+export interface Player {
+  name: string;
+  next: string;
+  six: string;
+  role: string | null;
+  doubt: string | null;
+}
+
+export interface BenchPlayer {
+  label: string;
+  name: string;
+  next: string;
+  six: string;
+  role: string | null;
+  doubt: string | null;
 }

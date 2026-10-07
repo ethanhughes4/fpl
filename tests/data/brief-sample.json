@@ -3,5 +3,136 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "pitch": {
+    "rows": [
+      {
+        "players": [
+          {
+            "name": "Verbruggen",
+            "next": "4.4",
+            "six": "19.4",
+            "role": null,
+            "doubt": null
+          }
+        ]
+      },
+      {
+        "players": [
+          {
+            "name": "Tarkowski",
+            "next": "7.2",
+            "six": "29.0",
+            "role": "VICE",
+            "doubt": null
+          },
+          {
+            "name": "Calafiori",
+            "next": "3.9",
+            "six": "17.6",
+            "role": null,
+            "doubt": null
+          },
+          {
+            "name": "Ajer",
+            "next": "3.5",
+            "six": "15.6",
+            "role": null,
+            "doubt": null
+          }
+        ]
+      },
+      {
+        "players": [
+          {
+            "name": "Groß",
+            "next": "7.9",
+            "six": "34.9",
+            "role": "CAPTAIN",
+            "doubt": null
+          },
+          {
+            "name": "B.Fernandes",
+            "next": "6.3",
+            "six": "25.5",
+            "role": null,
+            "doubt": null
+          },
+          {
+            "name": "Mbeumo",
+            "next": "4.9",
+            "six": "20.0",
+            "role": null,
+            "doubt": null
+          },
+          {
+            "name": "Szoboszlai",
+            "next": "3.1",
+            "six": "14.6",
+            "role": null,
+            "doubt": null
+          }
+        ]
+      },
+      {
+        "players": [
+          {
+            "name": "Haaland",
+            "next": "7.1",
+            "six": "36.1",
+            "role": null,
+            "doubt": null
+          },
+          {
+            "name": "João Pedro",
+            "next": "3.3",
+            "six": "16.6",
+            "role": null,
+            "doubt": "75% to play"
+          },
+          {
+            "name": "Calvert-Lewin",
+            "next": "2.9",
+            "six": "15.4",
+            "role": null,
+            "doubt": null
+          }
+        ]
+      }
+    ],
+    "bench": [
+      {
+        "label": "GK",
+        "name": "Kinsky",
+        "next": "3.1",
+        "six": "15.8",
+        "role": null,
+        "doubt": null
+      },
+      {
+        "label": "1st",
+        "name": "Diop",
+        "next": "2.6",
+        "six": "10.6",
+        "role": null,
+        "doubt": null
+      },
+      {
+        "label": "2nd",
+        "name": "M.Sangaré",
+        "next": "2.3",
+        "six": "10.0",
+        "role": null,
+        "doubt": null
+      },
+      {
+        "label": "3rd",
+        "name": "O'Shea",
+        "next": "2.2",
+        "six": "8.9",
+        "role": null,
+        "doubt": null
+      }
+    ]
   }
 }
