@@ -3,7 +3,13 @@
 // reads this file by pattern and checks the sample has exactly these fields.
 
 export interface Brief {
+  deadline: Deadline;
   header: Header;
+}
+
+export interface Deadline {
+  utc: string;
+  passed: string;
 }
 
 export interface Header {
