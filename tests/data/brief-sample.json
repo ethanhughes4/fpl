@@ -3,5 +3,9 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "explanation": {
+    "text": null,
+    "message": "No explanation for this run."
   }
 }

@@ -4,6 +4,12 @@
 
 export interface Brief {
   header: Header;
+  explanation: Explanation;
+}
+
+export interface Explanation {
+  text: string | null;
+  message: string | null;
 }
 
 export interface Header {

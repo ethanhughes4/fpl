@@ -1,5 +1,6 @@
 import { Component, useEffect, useState, type ComponentType, type ReactNode } from "react";
 import type { Brief } from "./brief";
+import Explanation from "./parts/Explanation";
 import Header from "./parts/Header";
 
 type Slot = "top" | "main" | "side" | "bottom";
@@ -8,6 +9,7 @@ type Slot = "top" | "main" | "side" | "bottom";
 // To switch a component on: add its file in parts/, add one line here.
 export const PARTS: [Slot, ComponentType<{ brief: Brief }>][] = [
   ["top", Header],
+  ["bottom", Explanation],
 ];
 
 export const NO_FILE = "No brief yet. Run python -m fpl."; // D299
