@@ -18,11 +18,14 @@ def build(feed):
     return out
 
 
+def news(w):
+    return "no fixture next gameweek" if w["blank"] and not w["news"] else w["news"]
+
+
 def render(data):
     if not data:
         return ["Warnings: none"]
     out = ["Warnings"]
     for w in data:
-        news = "no fixture next gameweek" if w["blank"] and not w["news"] else w["news"]
-        out.append(f"  {w['name']:<16} {w['chance']:3d}%  {news}")
+        out.append(f"  {w['name']:<16} {w['chance']:3d}%  {news(w)}")
     return out
