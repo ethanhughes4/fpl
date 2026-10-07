@@ -3,5 +3,15 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "warnings": {
+    "rows": [
+      {
+        "name": "João Pedro",
+        "chance": "75%",
+        "news": "Knee injury - 75% chance of playing"
+      }
+    ],
+    "empty": null
   }
 }

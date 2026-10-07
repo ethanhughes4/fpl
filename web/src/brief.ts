@@ -4,10 +4,22 @@
 
 export interface Brief {
   header: Header;
+  warnings: Warnings;
 }
 
 export interface Header {
   team: string;
   gameweek: string;
   deadline: string;
+}
+
+export interface Warnings {
+  rows: WarningRow[];
+  empty: string | null;
+}
+
+export interface WarningRow {
+  name: string;
+  chance: string;
+  news: string;
 }
