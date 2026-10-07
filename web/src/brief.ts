@@ -4,10 +4,17 @@
 
 export interface Brief {
   header: Header;
+  tiles: Tiles;
 }
 
 export interface Header {
   team: string;
   gameweek: string;
   deadline: string;
+}
+
+export interface Tiles {
+  bank: string;
+  free_transfers: string;
+  formation: string;
 }

@@ -3,5 +3,10 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "tiles": {
+    "bank": "0.0m",
+    "free_transfers": "4",
+    "formation": "3-4-3"
   }
 }
