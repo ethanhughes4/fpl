@@ -1,0 +1,2 @@
+path right: 30 of 30
+answers passing number and name checks: 28 of 30

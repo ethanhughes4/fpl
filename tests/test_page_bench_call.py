@@ -8,7 +8,7 @@ DATA = Path(__file__).parent / "data"
 
 def sentence(name):
     feed = feedmod.load(DATA / name)
-    return page.build(brief.build(feed), feed, None, None)["bench_call"]["sentence"]
+    return bench_call.build({"data": brief.build(feed), "feed": feed})["sentence"]
 
 
 def test_snapshot_close():

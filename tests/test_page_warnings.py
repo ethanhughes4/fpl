@@ -9,7 +9,7 @@ DATA = Path(__file__).parent / "data"
 
 def part(name):
     feed = feedmod.load(DATA / name)
-    return page.build(brief.build(feed), feed, None, None)["warnings"]
+    return warnings.build({"data": brief.build(feed), "feed": feed})
 
 
 def test_snapshot_row():

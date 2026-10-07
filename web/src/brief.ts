@@ -12,6 +12,7 @@ export interface Brief {
   warnings: Warnings;
   bench_call: BenchCall;
   explanation: Explanation;
+  footer: Footer;
 }
 
 export interface Deadline {
@@ -98,4 +99,10 @@ export interface BenchCall {
 export interface Explanation {
   text: string | null;
   message: string | null;
+}
+
+export interface Footer {
+  downloaded: string;
+  notes: string[];
+  evals: string[];
 }

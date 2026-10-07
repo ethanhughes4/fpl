@@ -38,4 +38,4 @@ def test_close_line_unchanged():
 
 def test_in_page_build():
     run = run_for()
-    assert page.build(run["data"], run["feed"], None, None)["captain"]["close"] is True
+    assert captain.build({"data": run["data"], "feed": run["feed"]})["close"] is True

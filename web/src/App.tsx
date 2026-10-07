@@ -9,6 +9,7 @@ import Transfers from "./parts/Transfers";
 import Warnings from "./parts/Warnings";
 import BenchCall from "./parts/BenchCall";
 import Explanation from "./parts/Explanation";
+import Footer from "./parts/Footer";
 
 type Slot = "top" | "main" | "side" | "bottom";
 
@@ -24,6 +25,7 @@ export const PARTS: [Slot, ComponentType<{ brief: Brief }>][] = [
   ["side", Warnings],
   ["side", BenchCall],
   ["bottom", Explanation],
+  ["bottom", Footer],
 ];
 
 export const NO_FILE = "No brief yet. Run python -m fpl."; // D299

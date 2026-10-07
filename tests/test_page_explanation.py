@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 
+from fpl.page.parts import explanation
 from fpl import brief, feed as feedmod, page
 from fpl.__main__ import main
 from tests.fakeclaude import FakeClaude, ok_json
@@ -16,15 +17,15 @@ def written(page_file):
 
 def test_none_when_not_run():
     feed = feedmod.load(SNAP)
-    assert page.build(brief.build(feed), feed, None, None)["explanation"] == NONE
+    assert explanation.build({"data": brief.build(feed), "feed": feed, "explanation": None}) == NONE
 
 
 def test_text_and_skipped_lines():
     feed = feedmod.load(SNAP)
     data = brief.build(feed)
-    got = page.build(data, feed, None, ["Explanation", "Groß is captain."])["explanation"]
+    got = explanation.build({"data": data, "feed": feed, "explanation": ["Explanation", "Groß is captain."]})
     assert got == {"text": "Groß is captain.", "message": None}
-    got = page.build(data, feed, None, ["Explanation skipped: timed out."])["explanation"]
+    got = explanation.build({"data": data, "feed": feed, "explanation": ["Explanation skipped: timed out."]})
     assert got == {"text": None, "message": "Explanation skipped: timed out."}
 
 

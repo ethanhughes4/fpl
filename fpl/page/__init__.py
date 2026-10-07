@@ -2,13 +2,14 @@
 import json
 from pathlib import Path
 
-from fpl.page.parts import (bench_call, captain, explanation, header, pitch, tiles,
-                             transfers, warnings)
+from fpl.page.parts import (bench_call, captain, deadline, explanation, footer, header, pitch,
+                             tiles, transfers, warnings)
 
 PATH = Path(__file__).parents[2] / "web" / "public" / "brief.json"  # repo root, any working folder (D321)
 
 # to switch a part on: add its file in fpl/page/parts/, add one line here
-PARTS = [header, tiles, pitch, captain, transfers, warnings, bench_call, explanation]
+PARTS = [deadline, header, tiles, pitch, captain, transfers, warnings, bench_call, explanation,
+         footer]
 
 
 def build(data, feed, downloaded, explanation):

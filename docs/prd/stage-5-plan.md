@@ -140,7 +140,7 @@ D320, D321, D323, D324, D327, D328, D329, D337, D338, D339.
 
 ---
 
-## Step 2: Bank, free transfers and formation tiles — Wave 2 — TODO
+## Step 2: Bank, free transfers and formation tiles — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -158,7 +158,7 @@ Covers: D275, D289, D330, D333.
 
 ---
 
-## Step 3: The pitch, the bench and the next-gameweek / 6-gameweek switch — Wave 2 — TODO
+## Step 3: The pitch, the bench and the next-gameweek / 6-gameweek switch — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -186,7 +186,7 @@ Covers: D275, D285, D289, D292, D293, D330, D332.
 
 ---
 
-## Step 4: Captain card with "Close call" — Wave 2 — TODO
+## Step 4: Captain card with "Close call" — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -208,7 +208,7 @@ Covers: D275, D290, D292, D330, D334.
 
 ---
 
-## Step 5: Suggested transfers card — Wave 2 — TODO
+## Step 5: Suggested transfers card — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -232,7 +232,7 @@ Covers: D275, D289, D292, D295, D296, D330, D331, D333, D335, D336.
 
 ---
 
-## Step 6: Warnings card — Wave 2 — TODO
+## Step 6: Warnings card — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -252,7 +252,7 @@ Covers: D275, D293, D295, D330, D331, D332.
 
 ---
 
-## Step 7: Bench call card — Wave 2 — TODO
+## Step 7: Bench call card — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -273,7 +273,7 @@ Covers: D275, D290, D330, D332, D333, D334.
 
 ---
 
-## Step 8: Explanation section — Wave 2 — TODO
+## Step 8: Explanation section — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -294,7 +294,7 @@ Covers: D280, D281, D290, D291, D307, D329, D330.
 
 ---
 
-## Step 9: Footer: download time, notes and eval lines — Wave 2 — TODO
+## Step 9: Footer: download time, notes and eval lines — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -321,7 +321,7 @@ Covers: D290, D294, D297, D308, D316, D322, D330, D333, D338.
 
 ---
 
-## Step 10: "Deadline has passed" banner — Wave 2 — TODO
+## Step 10: "Deadline has passed" banner — Wave 2 — DONE
 
 Depends on: 1.
 
@@ -340,7 +340,7 @@ Covers: D300, D339.
 
 ---
 
-## Step 11: Stop hook runs the page tests — Wave 2 — TODO
+## Step 11: Stop hook runs the page tests — Wave 2 — DONE
 
 Depends on: 1. Built in the main session (the owner may need to answer, D326).
 

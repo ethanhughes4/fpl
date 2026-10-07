@@ -188,5 +188,17 @@
   "explanation": {
     "text": null,
     "message": "No explanation for this run."
+  },
+  "footer": {
+    "downloaded": "Data downloaded Tue 6 Oct 14:55",
+    "notes": [
+      "Shows your team at the last deadline. Transfers made since are not visible in the public feed."
+    ],
+    "evals": [
+      "Scoring eval: shrink vs current: top 20 better in 4 of 4 gameweeks, ranking better in 4 of 4",
+      "Writing eval: faithful rate: 92% of 12 judged",
+      "Tools eval: path right: 30 of 30",
+      "Tools eval: answers passing number and name checks: 28 of 30"
+    ]
   }
 }

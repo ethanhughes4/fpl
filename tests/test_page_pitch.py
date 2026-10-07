@@ -1,6 +1,7 @@
 """The pitch part: rows, roles, bench and doubts as text (D289, D292, D293)."""
 from pathlib import Path
 
+from fpl.page.parts import pitch as pitch_part
 from fpl import brief, feed as feedmod, page
 
 DATA = Path(__file__).parent / "data"
@@ -11,7 +12,7 @@ def pitch(name, edit=None):
     data = brief.build(feed)
     if edit:
         edit(data)
-    return page.build(data, feed, None, None)["pitch"]
+    return pitch_part.build({"data": data, "feed": feed})
 
 
 def names(p):
