@@ -2,6 +2,12 @@ import { Component, useEffect, useState, type ComponentType, type ReactNode } fr
 import type { Brief } from "./brief";
 import Header from "./parts/Header";
 import Tiles from "./parts/Tiles";
+import Pitch from "./parts/Pitch";
+import Captain from "./parts/Captain";
+import Transfers from "./parts/Transfers";
+import Warnings from "./parts/Warnings";
+import BenchCall from "./parts/BenchCall";
+import Explanation from "./parts/Explanation";
 
 type Slot = "top" | "main" | "side" | "bottom";
 
@@ -10,6 +16,12 @@ type Slot = "top" | "main" | "side" | "bottom";
 export const PARTS: [Slot, ComponentType<{ brief: Brief }>][] = [
   ["top", Header],
   ["top", Tiles],
+  ["main", Pitch],
+  ["side", Captain],
+  ["side", Transfers],
+  ["side", Warnings],
+  ["side", BenchCall],
+  ["bottom", Explanation],
 ];
 
 export const NO_FILE = "No brief yet. Run python -m fpl."; // D299
