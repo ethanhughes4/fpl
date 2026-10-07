@@ -4,10 +4,15 @@
 
 export interface Brief {
   header: Header;
+  bench_call: BenchCall;
 }
 
 export interface Header {
   team: string;
   gameweek: string;
   deadline: string;
+}
+
+export interface BenchCall {
+  sentence: string | null;
 }
