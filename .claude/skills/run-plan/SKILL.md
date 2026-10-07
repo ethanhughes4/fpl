@@ -12,9 +12,12 @@ and ask the user to commit first.
 Repeat for each wave, in order, until no step is TODO:
 
 1. List the TODO steps in the lowest unfinished wave.
-2. Start one builder agent per step, all in the same message so
-   they run together. Give each the plan path, the decisions path
-   and its step number.
+2. Start one builder agent per step, at most 3 at a time (this PC
+   has 8 GB of memory). Start a group of up to 3 in the same
+   message so they run together; when a wave has more than 3
+   steps, start the next group of 3 only after the last group has
+   finished. Give each the plan path, the decisions path and its
+   step number.
 3. Wait for all of them.
 4. Join the branches one at a time, in step order:
    a. git merge <branch>
