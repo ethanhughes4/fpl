@@ -29,25 +29,25 @@ def rows(feed, *cands, name="P13"):
 
 def test_example_b_hart_to_wren_and_bench_shaw():
     assert run("example_b", "Hart").splitlines() == [
-        "Replacing Hart: bank 0.0m, selling price 8.0m",
-        "  Wren, T1, 7.8m, six-week gain +13.4, starts, clears free bar 2: yes, clears hit bar 8: yes",
-        "  Shaw, T6, 4.5m, six-week gain -2.9, bench, half gain, clears free bar 2: no, clears hit bar 8: no"]
+        "Replacing Hart: bank 0.0m, selling price 8.0m, 2 options",
+        "  Wren, T1, 7.8m, six-week gain +13.4, starts, clears free bar 2: yes, worth a 4-point hit, bar 8: yes",
+        "  Shaw, T6, 4.5m, six-week gain -2.9, bench, half gain, clears free bar 2: no, worth a 4-point hit, bar 8: no"]
 
 
 def test_example_c_lowe_to_yates():
     assert run("example_c", "Lowe").splitlines()[:2] == [
-        "Replacing Lowe: bank 0.5m, selling price 4.5m",
-        "  Yates, T1, 5.0m, six-week gain +10.8, starts, clears free bar 2: yes, clears hit bar 8: yes"]
+        "Replacing Lowe: bank 0.5m, selling price 4.5m, 2 options",
+        "  Yates, T1, 5.0m, six-week gain +10.8, starts, clears free bar 2: yes, worth a 4-point hit, bar 8: yes"]
 
 
 def test_example_a_nothing_clears_a_bar():
     out = run("example_a", "Hart")
-    assert "clears free bar 2: yes" not in out and "clears hit bar 8: yes" not in out
+    assert "clears free bar 2: yes" not in out and "worth a 4-point hit, bar 8: yes" not in out
 
 
 def test_snapshot_tops_are_the_briefs_choices():
     sz = run("snapshot", "Szoboszlai").splitlines()
-    assert sz[0] == "Replacing Szoboszlai: bank 0.0m, selling price 6.9m"
+    assert sz[0] == "Replacing Szoboszlai: bank 0.0m, selling price 6.9m, 5 options"
     assert len(sz) == 1 + fr.TOP_REPLACEMENTS
     assert sz[1].startswith("  Schade, BRE, 6.2m, six-week gain +14.7, starts")
     assert run("snapshot", "O'Shea").splitlines()[1].startswith("  Davis, IPS, 4.0m, six-week gain +11.4")
@@ -93,14 +93,26 @@ def test_bars_at_exactly_2_and_8(feed, monkeypatch):
     swaps = [(2.0, el[13], el[1], True), (8.0, el[13], el[2], True), (1.9, el[13], el[3], True)]
     monkeypatch.setattr(transfers, "replacements", lambda f, o: swaps)
     out = fr._body("P13", feed).splitlines()
-    assert "gain +2.0, starts, clears free bar 2: yes, clears hit bar 8: no" in out[1]
-    assert "gain +8.0, starts, clears free bar 2: yes, clears hit bar 8: yes" in out[2]
+    assert "gain +2.0, starts, clears free bar 2: yes, worth a 4-point hit, bar 8: no" in out[1]
+    assert "gain +8.0, starts, clears free bar 2: yes, worth a 4-point hit, bar 8: yes" in out[2]
     assert "clears free bar 2: no" in out[3]
 
 
 def test_top_five_only(feed):
     cands = [star(20 + k, base=f"{6 + k / 10}") for k in range(8)]
     assert len(rows(feed, *cands)) == fr.TOP_REPLACEMENTS
+
+
+def test_option_count_is_the_rows_returned(feed):
+    """D267: the count printed is the rows shown (top five), not every legal player."""
+    feed["bootstrap"]["elements"] += [star(20 + k, base=f"{6 + k / 10}") for k in range(8)]
+    assert fr._body("P13", feed).splitlines()[0].endswith(", 5 options")
+
+
+def test_one_option_is_singular(feed):
+    feed["bootstrap"]["elements"].append(star(20))
+    out = fr._body("P13", feed).splitlines()
+    assert len(out) == 2 and out[0].endswith(", 1 option")
 
 
 def test_numeric_id_through_server():

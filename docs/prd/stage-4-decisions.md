@@ -127,3 +127,8 @@ D265: Tools eval only: when an answer called no tool, its number check is skippe
 D266: With more than one player, get_players also prints the price gap: "Price: Palmer costs most at 9.7m; Groß 3.8m less." Gaps are subtracted in tenths, so they are exact; a level price reads "level with <dearest>"; ties go by lower id. The description says it gives who costs more and by how much. Extends D248. (owner — Q4 computed "3.8m more" itself)
 
 Check (no model calls): on all 60 texts in the five saved writing results, the old and new number checks give the same verdict. One saved row (fcf41b2 example_c 3) differs from today's verdict under both, because D199 added the net gain 6.8 to the block after that run.
+
+## Owner decisions after the first full tools run (2026-10-07)
+
+D267: find_replacements prints the hit size with its bar on each row ("worth a 4-point hit, bar 8: yes", from HIT_COST and MIN_HIT_GAIN) and the number of options returned on its first line ("..., selling price 6.9m, 5 options"; "1 option" singular; the count is the rows shown, at most TOP_REPLACEMENTS). (owner — the full run failed Q5 twice on "top 5" and "−4 hit", numbers the tool knew but did not print)
+D268: The tools eval's number and name checks pass at 27 of 30 runs (9 of 10 for --quick), the same bar as the path check (PASS_ANSWERS = 0.9; replaces "every answer"). Reason: counts and standard rule numbers fail the check without being invented, and the report lists every failing number with its sentence (D262), so the owner judges the few that remain. (owner)

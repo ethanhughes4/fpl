@@ -50,6 +50,7 @@ MAX_TURNS = 6  # D244
 TIMEOUT = 180  # seconds per call, D244
 MODEL = "opus"  # D235
 PASS_PATH = 0.9  # D236: share of runs with the right path
+PASS_ANSWERS = 0.9  # D268: share of runs passing the number and name checks, as the path bar
 PARALLEL = 5  # D200: model calls at a time
 ANSWER_CHECKS = (numbers, names)  # D233
 SENTENCE_END = re.compile(r"\n+|(?<=[^\d\s][.!?])\s+|(?<=[^\d\s][.!?]\*\*)\s+")  # not after "1." or "6.9"
@@ -125,6 +126,7 @@ def run(ask=ask_tools, runs=RUNS, max_calls=MAX_CALLS, parallel=None, snapshot=S
     right = sum(r["path"] for r in rows)
     answers = sum(r["numbers"] is not False and r["names"] for r in rows)  # None: skipped, D265
     summary = [("path right", f"{right} of {n}", bool(n) and right / n >= PASS_PATH),
-               ("answers passing number and name checks", f"{answers} of {n}", bool(n) and answers == n)]
+               ("answers passing number and name checks", f"{answers} of {n}",
+                bool(n) and answers / n >= PASS_ANSWERS)]
     return {"rows": rows, "summary": summary, "calls": counted.calls, "tokens": counted.tokens,
             "models": counted.models, "stopped": stopped, "plan_limit": counted.plan_limit}

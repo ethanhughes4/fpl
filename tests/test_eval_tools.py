@@ -167,7 +167,22 @@ def test_path_threshold_27_of_30(monkeypatch):
     assert "Verdict: FAIL" in report.render(result, "c")
 
 
-def test_answer_checks_must_be_perfect(monkeypatch):
+def test_answer_checks_threshold_27_of_30(monkeypatch):
+    """D268: one question failing all three runs still passes; two do not."""
+    def reply_for(bad):
+        def reply(prompt):
+            i = next(i for i, q in Q.items() if q.text == prompt)
+            return stream(RIGHT[i], "It is 7.9, up 3.2." if i in bad else None)
+        return reply
+
+    result, _ = go(monkeypatch, reply_for({1}))
+    assert result["summary"][1][1:] == ("27 of 30", True)
+    assert "Verdict: PASS" in report.render(result, "c") and "FAIL (3.2)" in report.render(result, "c")
+    result, _ = go(monkeypatch, reply_for({1, 2}))
+    assert result["summary"][1][1:] == ("24 of 30", False)
+
+
+def test_answer_checks_fail_below_the_bar(monkeypatch):
     def text_for(i):
         return {1: "It is 7.9, up 3.2.", 2: "Haaland and Saka.", 10: "It adds 7.9 points."}.get(i)
 
@@ -215,7 +230,7 @@ def test_no_tool_answer_skips_numbers_only(monkeypatch):
     rows = {r["q"]: r for r in result["rows"]}
     assert rows[10]["numbers"] is None and rows[10]["bad_numbers"] == [] and rows[10]["names"]
     assert rows[9]["numbers"] is None and rows[9]["names"] is False
-    assert result["summary"][1][1:] == ("9 of 10", False)
+    assert result["summary"][1][1:] == ("9 of 10", True)  # D268
     line = next(x for x in report.render(result, "c").splitlines() if x.startswith("10 "))
     assert line.split()[-4:] == ["pass", "-", "pass", "24"]
 

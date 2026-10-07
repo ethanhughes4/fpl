@@ -9,7 +9,8 @@ DESCRIPTION = (
     "For one player in the owner's squad (name or id), list the top "
     f"{TOP_REPLACEMENTS} players who could replace him: same position, affordable, at most three "
     "per club, available. Each row has six-week gain (halved if the newcomer would not start), "
-    "price, and whether it clears the free-transfer bar and the hit bar. If a name matches "
+    "price, and whether it clears the free-transfer bar and is worth a hit (hit size and bar "
+    "given); the first line says how many options there are. If a name matches "
     "several players, call again with the id."
 )
 
@@ -35,9 +36,11 @@ def _body(name, feed):
     rows = transfers.replacements(feed, out)[:TOP_REPLACEMENTS]
     if not rows:
         return f"{head}\nNo legal replacement."
+    head += f", {len(rows)} option{'' if len(rows) == 1 else 's'}"  # D267: printed, so not counted by Claude
     return "\n".join([head] + [
         f"  {i['web_name']}, {teams[i['team']]}, {money.price(i['now_cost'])}, "
         f"six-week gain {gain:+.1f}, {'starts' if starts else 'bench, half gain'}, "
         f"clears free bar {transfers.MIN_FREE_GAIN}: {_yes(gain >= transfers.MIN_FREE_GAIN)}, "
-        f"clears hit bar {transfers.MIN_HIT_GAIN}: {_yes(gain >= transfers.MIN_HIT_GAIN)}"
+        f"worth a {transfers.HIT_COST}-point hit, bar {transfers.MIN_HIT_GAIN}: "
+        f"{_yes(gain >= transfers.MIN_HIT_GAIN)}"
         for gain, _, i, starts in rows])
