@@ -1,0 +1,23 @@
+.pitch-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.tabs { display: flex; background: var(--bg); border-radius: 999px; padding: 3px; }
+.tab { background: none; border: 0; color: var(--text); font-family: var(--font); font-size: 13px; padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.tab-on { background: var(--accent); color: var(--on-accent); }
+
+.pitch { background: var(--pitch); border-radius: 10px; padding: 16px 12px; display: grid; gap: 16px; }
+.pitch-row { display: flex; justify-content: center; gap: 12px; }
+.pitch .chip { flex: 0 1 120px; }
+
+.chip { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; text-align: center; min-height: 58px; min-width: 0; }
+.chip-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; min-height: 11px; color: var(--muted); }
+.chip-name { font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip-score { font-size: 22px; }
+.chip-captain { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.chip-captain .chip-tag { color: var(--on-accent); }
+.chip-vice { border-color: var(--accent); }
+.chip-vice .chip-tag { color: var(--accent); }
+.chip-doubt { border: 1px dashed var(--warn); }
+.chip-doubt .chip-tag { color: var(--warn); }
+
+.bench { margin-top: 12px; }
+.bench-title { font-size: 11px; letter-spacing: 0.06em; margin-bottom: 8px; }
+.bench-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
