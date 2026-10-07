@@ -4,6 +4,16 @@
 
 export interface Brief {
   header: Header;
+  captain: Captain;
+}
+
+export interface Captain {
+  captain: string;
+  captain_score: string;
+  vice: string;
+  vice_score: string;
+  close: boolean;
+  sentence: string;
 }
 
 export interface Header {

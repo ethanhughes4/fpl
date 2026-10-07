@@ -1,0 +1,5 @@
+.captain-head { display: flex; justify-content: space-between; align-items: center; }
+.captain-tag { color: var(--warn); border: 1px solid var(--warn); border-radius: 999px; padding: 1px 8px; font-size: 11px; }
+.captain-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; }
+.captain-score { color: var(--accent); font-size: 28px; }
+.captain-sentence { font-size: 13px; margin: 12px 0 0; }

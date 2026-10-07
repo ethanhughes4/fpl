@@ -3,5 +3,13 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "captain": {
+    "captain": "Groß",
+    "captain_score": "7.9",
+    "vice": "Tarkowski",
+    "vice_score": "7.2",
+    "close": true,
+    "sentence": "Gap of 0.7 for next gameweek. Anything at 1.0 or under counts as close."
   }
 }
