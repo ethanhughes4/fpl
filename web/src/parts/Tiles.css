@@ -1,0 +1,4 @@
+.tiles { display: flex; gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; min-width: 96px; }
+.tile-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+.tile-value { font-family: var(--font-head); font-weight: 700; font-size: 26px; line-height: 1.1; }
