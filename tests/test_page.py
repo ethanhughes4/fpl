@@ -1,6 +1,7 @@
 """The data file `python -m fpl` writes for the web page (D287, D288, D302, D321)."""
 import json
 import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
@@ -15,7 +16,7 @@ REAL_PATH = page.PATH  # read before the autouse fixture swaps it
 
 def header(name):
     feed = feedmod.load(DATA / name)
-    return page.build(brief.build(feed), feed, None, None)["header"]
+    return page.build(brief.build(feed), feed, datetime.now(timezone.utc), None)["header"]
 
 
 @pytest.mark.parametrize("name, team, deadline", [
