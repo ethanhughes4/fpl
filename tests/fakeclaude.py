@@ -48,6 +48,8 @@ class FakeClaude:
         if cmd[1:3] == ["auth", "status"]:
             self.auth_calls += 1
             return subprocess.CompletedProcess(cmd, self.auth, "", "")
+        if cmd[0] == "git":  # the page footer's eval lookup asks git for the log: empty answer
+            return subprocess.CompletedProcess(cmd, 0, "", "")
         cwd = Path(kw["cwd"])
         system = cwd / "system.txt"
         cfg = Path(cmd[cmd.index("--mcp-config") + 1]) if "--mcp-config" in cmd else None

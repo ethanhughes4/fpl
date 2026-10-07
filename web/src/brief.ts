@@ -4,6 +4,13 @@
 
 export interface Brief {
   header: Header;
+  footer: Footer;
+}
+
+export interface Footer {
+  downloaded: string;
+  notes: string[];
+  evals: string[];
 }
 
 export interface Header {

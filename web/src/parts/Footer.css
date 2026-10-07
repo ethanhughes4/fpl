@@ -1,0 +1,2 @@
+.footer { display: flex; justify-content: space-between; gap: 24px; font-size: 11px; padding: 0 8px; }
+.footer-evals { text-align: right; }
