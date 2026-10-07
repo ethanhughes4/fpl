@@ -364,7 +364,7 @@ Covers: D310, D325, D326.
 
 ---
 
-## Step 12: `brief` opens the page in one go — Wave 3 — TODO
+## Step 12: `brief` opens the page in one go — Wave 3 — DONE
 
 Depends on: 2-10.
 

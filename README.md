@@ -23,7 +23,18 @@ Once, after cloning (downloads the page's libraries into `web/node_modules/`):
     cd web
     npm install
 
-Then each time:
+Then each time, from the repo root (or double-click `brief.cmd`):
+
+    brief                        # python -m fpl, then opens the page at http://localhost:5173
+    brief --no-explain           # any python -m fpl flags pass through
+    brief --from tests/data/snapshot --no-explain
+
+`brief` runs from the repo root wherever it is started, so a `--from` path is read from
+there. If `python -m fpl` fails, its message stays on screen and no page opens. The server
+runs until its window is closed; a second `brief` while it runs stops with "port in use",
+and refreshing the open tab shows the new brief. `brief` never installs anything.
+
+By hand, the same thing is:
 
     python -m fpl            # writes web/public/brief.json
     cd web
