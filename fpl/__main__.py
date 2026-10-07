@@ -1,8 +1,10 @@
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 
-from fpl import brief, claude, explain, feed as feedmod
+from fpl import brief, claude, explain, feed as feedmod, page
 from fpl.manual import ManualError
 from fpl.download import OWNER_TEAM, FeedError,NoUpcomingGameweek, TeamNotFound, download
 
@@ -18,7 +20,8 @@ def main(argv=None):
     ap.add_argument("--no-explain", dest="explain", action="store_false")
     a = ap.parse_args(argv)
     try:
-        feed = feedmod.load(a.folder or download(a.team))
+        folder = Path(a.folder or download(a.team))
+        feed = feedmod.load(folder)
     except FeedError as e:
         print(f"Could not reach FPL (HTTP {e.code}). Try again later or use --from <folder>")
         return 1
@@ -39,9 +42,17 @@ def main(argv=None):
     except ManualError as e:
         print(e)
         return 1
-    print(json.dumps(data, indent=2) if a.json else brief.render(data))
-    if not a.json and (a.explain if a.explain is not None else not a.folder):
-        print("\n".join(explain.explain(data, feed, claude.ask)))
+    if a.json:  # D287: --json writes no data file
+        print(json.dumps(data, indent=2))
+        return 0
+    print(brief.render(data))
+    lines = None
+    if a.explain if a.explain is not None else not a.folder:
+        lines = explain.explain(data, feed, claude.ask)
+        print("\n".join(lines))
+    downloaded = datetime.fromtimestamp((folder / "bootstrap-static.json").stat().st_mtime,
+                                        timezone.utc)  # D241
+    page.write(data, feed, downloaded, lines)  # last, so a failed run writes nothing (D302)
     return 0
 
 

@@ -13,6 +13,31 @@ Weekly Fantasy Premier League brief from the official feed.
 Downloads are saved in `data/raw/YYYY-MM-DD-gwNN/`. A rerun the same day never overwrites: it
 makes `-2`, `-3`, ... A `--team` run for another team adds `-team<id>`.
 
+## The page
+
+The brief as a web page on this PC. Every run of `python -m fpl` (except `--json`) writes
+`web/public/brief.json`; the page only shows that file and works nothing out itself.
+
+Once, after cloning (downloads the page's libraries into `web/node_modules/`):
+
+    cd web
+    npm install
+
+Then each time:
+
+    python -m fpl            # writes web/public/brief.json
+    cd web
+    npm run dev              # serves the page on this PC only
+    # open http://localhost:5173
+
+    npm test                 # in web/: type check, then the page tests
+
+Terms: **React** builds a page from small pieces called components (`web/src/parts/*.tsx`).
+**TypeScript** is JavaScript with type labels; `web/src/brief.ts` describes the data file.
+**Vite** serves the page while you work. **npm** installs libraries; `package-lock.json`
+pins their versions. **Vitest** runs the page tests in **jsdom**, a fake browser.
+The page costs nothing to run; only the explanation in `python -m fpl` uses plan limits.
+
 ## Ask Claude
 
     pip install mcp==2.3.0                         # the official MCP SDK, once

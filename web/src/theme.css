@@ -1,0 +1,60 @@
+/* The only place colours are written (D276, D305, D312). Components use these variables. */
+:root {
+  --bg: #0f1714;
+  --card: #17221d;
+  --border: #2a3a32;
+  --text: #eef3ee;
+  --muted: #a9b8ae;
+  --pitch: #1f6b45;
+  --accent: #d7f24b;
+  --warn: #ffb25c;
+  --on-accent: #0f1714;
+  --font: "Barlow", system-ui, sans-serif;
+  --font-head: "Barlow Condensed", "Barlow", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+}
+
+h1, h2, h3, .num {
+  font-family: var(--font-head);
+  font-weight: 700;
+  margin: 0;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-template-areas: "top top" "main side" "bottom bottom";
+  gap: 16px;
+}
+.slot-top { grid-area: top; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.slot-main { grid-area: main; display: grid; gap: 16px; align-content: start; }
+.slot-side { grid-area: side; display: grid; gap: 16px; align-content: start; }
+.slot-bottom { grid-area: bottom; display: grid; gap: 16px; }
+
+/* Phone width: the side cards drop below the pitch (D276, D286). */
+@media (max-width: 720px) {
+  .page { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "main" "side" "bottom"; }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.muted { color: var(--muted); }
+
+.message { max-width: 640px; margin: 80px auto; padding: 0 16px; font-size: 18px; }

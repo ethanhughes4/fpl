@@ -12,11 +12,17 @@
       "Bash(git merge *)",
       "WebSearch",
       "WebFetch(domain:premierleague.com)",
-      "WebFetch(domain:fantasy.premierleague.com)"
+      "WebFetch(domain:fantasy.premierleague.com)",
+      "Bash(npm test *)",
+      "Bash(npm test)",
+      "Bash(npm run *)",
+      "Bash(npm ci)"
     ],
     "ask": [
       "Bash(pip install *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(npm install *)",
+      "Bash(npm install)"
     ],
     "deny": [
       "Read(.env)"
@@ -29,7 +35,9 @@
           {
             "type": "command",
             "command": "python",
-            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py"],
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py"
+            ],
             "timeout": 120
           }
         ]
@@ -42,7 +50,10 @@
           {
             "type": "command",
             "command": "python",
-            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py", "--always"],
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py",
+              "--always"
+            ],
             "timeout": 120
           }
         ]

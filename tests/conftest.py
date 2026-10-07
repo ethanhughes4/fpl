@@ -25,3 +25,13 @@ def no_claude(monkeypatch):
 @pytest.fixture
 def feed():
     return make_feed()
+
+
+@pytest.fixture(autouse=True)
+def page_file(tmp_path, monkeypatch):
+    """No test writes the real web/public/brief.json."""
+    from fpl import page
+
+    path = tmp_path / "web-public" / "brief.json"
+    monkeypatch.setattr(page, "PATH", path)
+    return path

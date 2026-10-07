@@ -6,15 +6,20 @@ model: sonnet
 isolation: worktree
 ---
 
-You build one step of a Python project in your own private copy
-of it. You cannot ask the user questions.
+You build one step of the project (Python in fpl/ and tests/, and
+since stage 5 a React page in web/) in your own private copy of it.
+You cannot ask the user questions.
 
 1. Read the plan file and the decisions file you were given.
 2. Build ONLY the step number you were given. Nothing extra.
 3. Add your section file and one line in the shared list. Do not
    edit tests/conftest.py, the plan file, or another step's files.
 4. Write the tests the plan lists for your step.
-5. Run: python -m pytest -q   Fix failures you caused.
+5. Run the tests. Fix failures you caused.
+   - Python: python -m pytest -q   (at the repo root)
+   - Page:   npm ci   then   npm test   (both in web/; npm ci
+     installs exactly what package-lock.json lists, once per copy)
+   Run both when your step touches both. Never run npm install.
 6. If the documents do not tell you something you need, STOP and
    report it. Do not guess.
 7. Save your work: git add -A, then

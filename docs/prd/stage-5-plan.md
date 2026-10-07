@@ -88,7 +88,7 @@ generated sample. When merging, keep every side's lines and rerun
 
 ---
 
-## Step 1: Open the page and see the team name, gameweek and deadline — Wave 1 — TODO
+## Step 1: Open the page and see the team name, gameweek and deadline — Wave 1 — DONE
 
 Depends on: none.
 
