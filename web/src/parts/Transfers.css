@@ -1,0 +1,9 @@
+.transfers-head { display: flex; justify-content: space-between; align-items: baseline; }
+.transfers-made { font-size: 12px; }
+.transfers-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border); }
+.transfers-names { font-weight: 600; }
+.transfers-prices { font-size: 12px; }
+.transfers-tag { display: inline-block; margin-top: 4px; margin-right: 6px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--warn); color: var(--warn); font-size: 12px; }
+.transfers-gain { text-align: right; color: var(--accent); }
+.transfers-gain .num { font-size: 26px; }
+.transfers-over { font-size: 11px; }

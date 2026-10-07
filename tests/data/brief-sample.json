@@ -3,5 +3,25 @@
     "team": "Ethans Team",
     "gameweek": "Gameweek 6",
     "deadline": "Deadline Sat 10 Oct 12:00"
+  },
+  "transfers": {
+    "rows": [
+      {
+        "out": "Szoboszlai",
+        "in": "Schade",
+        "prices": "6.9m → 6.2m",
+        "gain": "+14.7",
+        "tags": []
+      },
+      {
+        "out": "O'Shea",
+        "in": "Davis",
+        "prices": "4.0m → 4.0m",
+        "gain": "+11.4",
+        "tags": []
+      }
+    ],
+    "hit_line": null,
+    "empty": null
   }
 }

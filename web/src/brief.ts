@@ -4,10 +4,25 @@
 
 export interface Brief {
   header: Header;
+  transfers: Transfers;
 }
 
 export interface Header {
   team: string;
   gameweek: string;
   deadline: string;
+}
+
+export interface Transfers {
+  rows: TransferRow[];
+  hit_line: string | null;
+  empty: string | null;
+}
+
+export interface TransferRow {
+  out: string;
+  in: string;
+  prices: string;
+  gain: string;
+  tags: string[];
 }
