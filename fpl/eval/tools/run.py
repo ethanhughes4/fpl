@@ -86,10 +86,11 @@ def run(ask=ask_tools, runs=RUNS, max_calls=MAX_CALLS, parallel=None, snapshot=S
         made = path.calls(events)
         row["calls"] = made
         row["path"], row["why"] = path.check(q, made, pool)
-        # D246: only numbers and names in the tool outputs pass; no output means any number fails
-        ctx = {"block": "\n".join(path.outputs(events)), "feed": feed}
-        row["numbers"] = numbers.check(row["text"], ctx) is None
-        row["names"] = names.check(row["text"], ctx) is None
+        # D246: only numbers in the tool outputs pass; no output means any number fails.
+        # D260: names may also come from the question itself.
+        out = "\n".join(path.outputs(events))
+        row["numbers"] = numbers.check(row["text"], {"block": out, "feed": feed}) is None
+        row["names"] = names.check(row["text"], {"block": q.text + "\n" + out, "feed": feed}) is None
         return row
 
     with ThreadPoolExecutor(max_workers=parallel or PARALLEL) as pool_:

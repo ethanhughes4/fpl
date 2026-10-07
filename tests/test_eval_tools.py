@@ -168,7 +168,7 @@ def test_path_threshold_27_of_30(monkeypatch):
 
 def test_answer_checks_must_be_perfect(monkeypatch):
     def text_for(i):
-        return {1: "It is 7.9, up 3.2.", 2: "Haaland and Salah.", 10: "It adds 7.9 points."}.get(i)
+        return {1: "It is 7.9, up 3.2.", 2: "Haaland and Saka.", 10: "It adds 7.9 points."}.get(i)
 
     def reply(prompt):
         i = next(i for i, q in Q.items() if q.text == prompt)
@@ -182,6 +182,20 @@ def test_answer_checks_must_be_perfect(monkeypatch):
     assert rows[3]["numbers"] and rows[9]["numbers"]
     assert result["summary"][1][1:] == ("21 of 30", False)  # questions 1, 2 and 10, three runs each
     assert "Verdict: FAIL" in report.render(result, "c")
+
+
+def test_names_from_the_question_pass_numbers_do_not(monkeypatch):
+    """D260: Q9's refusal may name the players the owner named; a name in neither fails."""
+    def reply(prompt):
+        i = next(i for i, q in Q.items() if q.text == prompt)
+        text = {9: "I can't make transfers; do Szoboszlai to Schade in the FPL app.",
+                10: "Saka is not in the question."}.get(i)
+        return stream(RIGHT[i], text)
+
+    result, _ = go(monkeypatch, reply)
+    rows = {r["q"]: r for r in result["rows"] if r["run"] == 1}
+    assert rows[9]["names"] and rows[9]["numbers"]
+    assert rows[10]["names"] is False
 
 
 def test_failed_call_is_a_wrong_path(monkeypatch):
