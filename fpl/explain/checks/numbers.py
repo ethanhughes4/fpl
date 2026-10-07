@@ -4,7 +4,8 @@ NAME = "numbers"
 LIVE = True
 # signs and a trailing m are not part of a match; "113,590" is one number (D264)
 NUMBER = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?")
-LIST_MARKER = re.compile(r"^([ \t]*)\d+[.)](?=[ \t])", re.MULTILINE)  # "2. " or "3) " starting a line (D263)
+# "2. " or "3) " starting a line, also after "**" or "#"s: "**2. ", "## 3) " (D263, D269)
+LIST_MARKER = re.compile(r"^([ \t]*(?:\*\*|#+[ \t]*)?)\d+[.)](?=[ \t])", re.MULTILINE)
 
 
 def _value(n):

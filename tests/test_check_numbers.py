@@ -40,6 +40,12 @@ def test_list_markers_at_line_start_ignored():
     assert numbers.failures("Point 2. Done.\n2.Hart 3.", {"block": BLOCK}) == ["2", "3"]
 
 
+def test_list_markers_after_bold_or_heading_ignored():
+    """D269: "**2. " and "## 3) " number the line too; "**8.1**" and "# 25%" are still checked."""
+    assert chk("**1. Hart** 7.9\n**2. Gain** -4\n## 3) Chance\n#4. Done 25%") is None
+    assert numbers.failures("**8.1** first\n# 7.4 heading", {"block": BLOCK}) == ["8.1", "7.4"]
+
+
 def test_thousands_separators_one_number_either_form():
     """D264: "113,590" is 113590; the block may print either form."""
     assert numbers.failures("113,590 tokens", {"block": "Total tokens: 113590"}) == []
