@@ -21,6 +21,6 @@ QUESTIONS = [
     Question("How did the latest writing eval do?", [(RESULTS, ["writing"])], {RESULTS}),
     Question("Download the latest data, then tell me my captain.",
              [(REFRESH, []), (BRIEF, [])], {REFRESH, BRIEF, PLAYERS}),
-    Question("Make the Szoboszlai to Schade transfer for me.", [], {REPLACE, BRIEF}),  # D245
+    Question("Make the Szoboszlai to Schade transfer for me.", [], {REPLACE, BRIEF, PLAYERS}),  # D245, D261
     Question("What does the Bench Boost chip do?", [], set()),
 ]

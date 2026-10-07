@@ -1,0 +1,190 @@
+FPL tools eval
+Commit: 68e3f6a
+Model: claude-opus-5-5
+
+Q   Run  Tools called                                                    Path  Numbers  Names  Tokens
+1   1    get_brief()                                                     pass  pass     pass   10986 
+2   1    get_players(Haaland)                                            pass  FAIL     pass   9592  
+3   1    get_players(Groß, Tarkowski, Haaland)                           pass  pass     pass   10176 
+4   1    get_players(Palmer, Groß), get_players(154, Groß)               pass  FAIL     pass   14432 
+5   1    find_replacements(Szoboszlai)                                   pass  pass     pass   9581  
+6   1    find_replacements(O'Shea)                                       pass  pass     pass   9607  
+7   1    get_eval_results(writing)                                       pass  FAIL     pass   14449 
+8   1    refresh(), get_brief()                                          pass  pass     pass   15505 
+9   1    get_players(Szoboszlai, Schade), find_replacements(Szoboszlai)  FAIL  pass     pass   15109 
+10  1    -                                                               pass  FAIL     pass   4760  
+
+path right: 9 of 10
+answers passing number and name checks: 6 of 10
+Total tokens: 114197
+Calls: 10
+
+Verdict: FAIL
+
+--- Q1 run 1: Who should I captain this week?
+**Captain Groß.** He has the highest next-gameweek score in your team at 7.9. He's in great form, averaging 15.5 points a match over the last 30 days and 9.4 per game this season. He's expected to play and faces Sunderland away, a fixture rated 3 for difficulty.
+
+**Vice-captain: Tarkowski (7.2).** The model flags this as a close call because the gap is only 0.7. Haaland is just behind on 7.1, and over the next six weeks he scores higher than anyone else in your team (36.1 vs Groß's 34.9). If you'd rather back him, he's a reasonable alternative as captain or vice. Strictly on the numbers, though, the order is Groß, then Tarkowski.
+
+A few things to keep in mind:
+- **This is based on your team as of the last deadline.** If you've made transfers since then, the brief won't show them.
+- **João Pedro has a 75% chance of playing** because of a knee injury. That doesn't change the captain pick, but it's worth checking before the deadline (Sat 10 Oct, 12:00).
+- The data was downloaded on Tue 6 Oct at 12:58. I can download fresh data if you'd like to check for newer injury news before you lock in.
+
+--- Q2 run 1: Why is Haaland's score what it is this week?
+Haaland's **next-GW score is 7.1**. That number comes from three steps:
+
+1. **His own scoring.** His form is 7.5 (average points per match over the last 30 days) and his points per game is 7.8. Together these give a **base of 7.7**.
+
+2. **Adjusting for a small sample.** He's only played 5 games, so that base is pulled toward a typical figure for a forward at his starting price, which is **8.3**. This nudges his base up from **7.7 to 7.9**. Put simply, the model trusts his early-season numbers a bit less and assumes he'll score a little more like an elite forward usually does.
+
+3. **The fixture.** His next game is **Liverpool away**, with a fixture difficulty of 4 (hard). This is what pulls him down from 7.9 to the **7.1** you see.
+
+Playing time doesn't lower his score at all: his minutes factor is 1.0, his chance of playing is 100% and there's no injury news.
+
+**In short:** his form is good, a little below what you'd expect from a premium forward. The real drag this week is the hard trip to Anfield. Over six weeks his score is 36.1, so the model still rates him highly.
+
+This is based on data downloaded Tue 6 Oct at 12:58 (gameweek 6). Let me know if you'd like me to refresh it.
+
+--- Q3 run 1: Compare Groß, Tarkowski and Haaland for me.
+All three are already in your squad and fully available (100%, no news). This uses data downloaded Tue 6 Oct 12:58 (gameweek 6).
+
+| | **Groß** (MID, BHA) | **Tarkowski** (DEF, EVE) | **Haaland** (FWD, MCI) |
+|---|---|---|---|
+| Price | 5.9m | 6.2m | 15.6m |
+| Next opponent | SUN (A), difficulty 3 | HUL (A), difficulty 2 | LIV (A), difficulty 4 |
+| Form | 15.5 | 8.3 | 7.5 |
+| Points per game | 9.4 | 8.6 | 7.8 |
+| **Next-GW score** | **7.9** | 7.2 | 7.1 |
+| **Six-week score** | 34.9 | 29.0 | **36.1** |
+
+**Next gameweek:** Groß is top. Tarkowski is 0.7 behind and Haaland 0.8 behind, so the gap is small.
+
+**Next six weeks:** Haaland is top. Groß is 1.2 behind and Tarkowski 7.1 behind.
+
+**What's behind the numbers:**
+- **Groß:** His form (15.5) is the best of the three, but the model expects him to cool off. His base drops from 11.2 to 7.9 after adjustment. He's still the top pick for this week and very good value at 5.9m.
+- **Tarkowski:** He has the easiest fixture (Hull away). His base drops a little, from 8.5 to 6.6. He's well behind the other two over six weeks.
+- **Haaland:** His recent numbers are the weakest of the three, and he's away at Liverpool, the hardest fixture here. The model expects him to pick up, though, and moves his base up from 7.7 to 7.9 because his usual level is higher. That's why he leads over six weeks.
+
+**Captaincy:** This week Groß and Haaland are close, with Groß slightly ahead. For a full captain recommendation, I can pull your weekly brief.
+
+--- Q4 run 1: Is Palmer better than Groß right now?
+Yes, Groß is clearly ahead on the current numbers. I assumed you meant Chelsea's Cole Palmer (MID, id 154), not the Ipswich goalkeeper with the same surname.
+
+| | **Groß** (BHA, 5.9m) | **Palmer** (CHE, 9.7m) |
+|---|---|---|
+| Next-GW score | **7.9** | 3.6 |
+| Six-week score | **34.9** | 18.3 |
+| Form (last 30 days) | 15.5 | 2.7 |
+| Points per game | 9.4 | 5.6 |
+| Status | Fit, expected to play | Doubtful: muscular injury, 75% chance of playing |
+| Next fixture | SUN (away), difficulty 3 | BOU (home), difficulty 3 |
+
+- **Next gameweek:** Groß is 4.3 ahead.
+- **Next six weeks:** Groß is 16.6 ahead.
+- **Price:** Palmer costs 3.8m more.
+
+Groß is already in your squad, so I'd keep him. Palmer isn't worth bringing in right now, mainly because of the injury.
+
+This data was downloaded on Tuesday 6 October during gameweek 6, so it's a day old. I can't tell how long Palmer's injury will last, only that it's listed at 75%. I can refresh the data if you want the latest news.
+
+--- Q5 run 1: Who could replace Szoboszlai?
+**Schade (Brentford, 6.2m) is the best replacement for Szoboszlai.** He'd gain you +14.7 over the next six weeks, and he's the only option worth taking a points hit for.
+
+You have 0.0m in the bank and Szoboszlai sells for 6.9m, so all five options below are affordable:
+
+| Player | Club | Price | Six-week gain | Starts | Worth a free transfer (bar 2) | Worth a points hit (bar 8) |
+|---|---|---|---|---|---|---|
+| **Schade** | BRE | 6.2m | **+14.7** | Yes | Yes | **Yes** |
+| Barnes | NEW | 6.1m | +5.8 | Yes | Yes | No |
+| Belloumi | HUL | 5.1m | +5.1 | Yes | Yes | No |
+| Tavernier | BOU | 6.1m | +4.6 | Yes | Yes | No |
+| Ødegaard | ARS | 6.8m | +2.7 | Yes | Yes | No |
+
+- **With a free transfer:** any of the five is better than keeping Szoboszlai, but Schade gains far more than the rest.
+- **Without one:** only Schade gains enough to justify taking the hit.
+
+This data was downloaded on Tue 6 Oct for gameweek 6. It doesn't cover price changes, and I can't make the transfer for you.
+
+--- Q6 run 1: I want O'Shea out. Best options?
+**Davis (Ipswich, 4.0m)** is the best replacement for O'Shea. He's projected to gain **+11.4** over six weeks, he starts, and the gain clears the bar for both a free transfer and a -4 hit.
+
+You have 0.0m in the bank and O'Shea sells for 4.0m, so all the options cost 4.0m:
+
+| Player | Club | Price | Six-week gain | Starts? | Worth a free transfer? | Worth a -4 hit? |
+|---|---|---|---|---|---|---|
+| **Davis** | IPS | 4.0m | **+11.4** | Yes | Yes | Yes |
+| Dasilva | COV | 4.0m | +9.3 | Yes | Yes | Yes |
+| Thomas | COV | 4.0m | +8.0 | Yes | Yes | Yes |
+| Giles | HUL | 4.0m | +5.6 | Yes | Yes | No |
+| Coyle | HUL | 4.0m | -0.6 (halved, bench) | No | No | No |
+
+- **Dasilva** is the next best option if you'd rather not bring in an Ipswich player.
+- **Giles** is only worth it if you have a free transfer, not for a hit.
+- **Skip Coyle**: he's on the bench and is projected to lose points compared with keeping O'Shea.
+
+This uses data from Tue 6 Oct, gameweek 6. I can't make the transfer for you, and I can't see upcoming price changes.
+
+--- Q7 run 1: How did the latest writing eval do?
+The latest writing eval **failed** because of one faithfulness error. Everything else passed.
+
+**File:** `2026-10-06-ceededa-writing.txt` (commit `ceededa`, data from gameweek 6)
+
+**Headline numbers**
+- Code checks pass rate: **100%**. Every run passed numbers, names, length, captain, warnings, close calls and incoming.
+- Faithful rate: **92% of 12 judged**. This is what caused the fail.
+- Mean clarity: **4.8**. Ten runs scored 5 and two scored 4.
+- Judge failures: 0.
+- Judge check: **passed**. The judge correctly rejected all 9 deliberately faulty texts and accepted both clean ones.
+- 113,590 tokens over 35 calls.
+
+**The one failure: example_b, run 2**
+> "Wren has a 6 GW gain of +13.4"
+
+The judge flagged this because +13.4 is the gain from the Hart → Wren transfer, not a number belonging to Wren. Runs 1 and 3 of the same brief described it correctly as the gain from the swap. That makes this a one-off wording slip, not a repeated problem. This run also got a clarity score of 4.
+
+The other run with a clarity of 4 was snapshot run 1, which was faithful. It just mentions the suggested transfers without saying they haven't been made yet, unlike runs 2 and 3.
+
+**Possible fix:** add a prompt rule that a transfer's gain must be described as belonging to the transfer, not to the incoming player. That should close the only gap and turn the verdict into a pass.
+
+--- Q8 run 1: Download the latest data, then tell me my captain.
+I couldn't get fresh data. The refresh didn't download anything and used the saved copy from **Tue 6 Oct 12:58** (gameweek 6) instead. The answer below comes from that copy, so injury news or anything else that changed since then isn't included.
+
+**Your captain is Groß** (predicted 7.9 points next gameweek), playing Sunderland away.
+- **Vice-captain:** Tarkowski (7.2), playing Hull away.
+- The tool flags this as a close call, with a gap of 0.7. Haaland (7.1) is also close behind Groß.
+- Groß is the pick mainly because of his recent form: 15.5 points per match over the last 30 days and 9.4 points per game.
+
+The deadline is **Sat 10 Oct 12:00**. If you want to check for newer news before then, try the refresh again closer to the deadline.
+
+--- Q9 run 1: Make the Szoboszlai to Schade transfer for me.
+(path wrong: called get_players, which is not allowed)
+I can't make the transfer. This tool can only read FPL data, so you'll need to do it yourself in the FPL app or on the website. The numbers do support the move:
+
+| | Szoboszlai (LIV) | Schade (BRE) |
+|---|---|---|
+| Price | 6.9m | 6.2m |
+| Next-GW score | 3.1 (MCI at home, difficulty 4) | 6.6 (AVL away, difficulty 3) |
+| Six-week score | 14.6 | 29.3 |
+| Form | 2.5 | 12.0 |
+| Status | 100%, no news | 100%, no news |
+
+- **Gain:** +14.7 over six weeks. That's the biggest gain of any possible replacement for Szoboszlai; the next best is Barnes at +5.8.
+- **Worth a points hit?** Yes. The gain clears the bar for a free transfer (2) and the bar for taking a 4-point hit (8), so the move is worth it even without a free transfer.
+- **Budget:** Your bank is 0.0m and Szoboszlai sells for 6.9m, so it's affordable and leaves money over.
+
+This data was downloaded on Tue 6 Oct for gameweek 6. I can't see price changes, so check the prices in the app before you confirm.
+
+--- Q10 run 1: What does the Bench Boost chip do?
+**Bench Boost** is one of the FPL chips. In the gameweek you play it, your four bench players' points count toward your total along with your starting eleven. So all 15 players score for you that week, not just 11.
+
+Key points:
+
+- **It lasts one gameweek.** It runs from that gameweek's deadline until the end of the gameweek.
+- **Your bench order doesn't matter** that week, because every bench player scores anyway. Auto-substitutions don't happen either, since nobody is waiting on the bench to come on.
+- **Only one chip per gameweek.** You can't combine it with Triple Captain, Free Hit or Wildcard in the same week. A common move is to Wildcard the week before to build a strong 15, then Bench Boost the next week.
+- **Best time to use it:** a **double gameweek** where many of your 15 players have two fixtures, ideally with all of them fit and likely to start. A weak bench (non-playing goalkeeper, rotation risks) wastes most of the value.
+- **How many you get:** in recent seasons there have been two Bench Boosts, one for each half of the season. Check the official FPL rules for this season's exact allocation and deadlines.
+
+I can't activate chips for you; that has to be done on the FPL site or app. I can pull your brief for this week if you want to see how strong your bench looks right now.

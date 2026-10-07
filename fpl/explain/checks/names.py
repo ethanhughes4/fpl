@@ -26,7 +26,8 @@ def _named(word, original):
     return word[0].isupper()
 
 
-def check(text, ctx):
+def failures(text, ctx):
+    """Every name used that is not in the block, as the feed spells it."""
     boot = ctx["feed"]["bootstrap"]
     block = _norm(ctx["block"])
     # each entity is (the name that shows it is in the brief, all its names)
@@ -47,9 +48,10 @@ def check(text, ctx):
     rest = _plain(text)
     for n in sorted(allowed, key=len, reverse=True):
         rest = _word(n).sub(" ", rest)
-    for n, original in banned.items():
-        if n in allowed:
-            continue
-        if any(_named(m.group(), original) for m in _word(n).finditer(rest)):
-            return f"it named {original}, who is not in the brief"
-    return None
+    return [original for n, original in banned.items()
+            if n not in allowed and any(_named(m.group(), original) for m in _word(n).finditer(rest))]
+
+
+def check(text, ctx):
+    bad = failures(text, ctx)
+    return f"it named {bad[0]}, who is not in the brief" if bad else None

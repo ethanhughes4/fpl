@@ -70,3 +70,10 @@ def test_club_code_in_block_allows_club():
     ctx = {"feed": FEED, "block": block}
     assert names.check("Away at TOT, then Spurs again.", ctx) is None
     assert "NEW" in names.check("They face NEW.", ctx)
+
+
+def test_failures_lists_every_bad_name():
+    ctx = {"feed": FEED, "block": BLOCK}
+    assert sorted(names.failures("Salah and Wood, not Hart.", ctx)) == ["Salah", "Wood"]
+    assert names.failures("Hart.", ctx) == []
+    assert chk("Salah and Wood.") == "it named Salah, who is not in the brief"  # first, as before

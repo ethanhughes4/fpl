@@ -10,13 +10,19 @@ def _called(calls):
                      for t, args in calls)
 
 
+def _failed(ok, bad):
+    """pass, or FAIL with what failed: "FAIL (4.3, 16.6)"."""
+    return cell(ok) if ok or not bad else f"FAIL ({', '.join(x for x, _ in bad)})"
+
+
 def render(result, commit_name):
     rows = result["rows"]
     head = ["FPL tools eval", f"Commit: {commit_name}", f"Model: {', '.join(result['models']) or '-'}"]
     head += _limit(result) + [""]
     lines = [["Q", "Run", "Tools called", "Path", "Numbers", "Names", "Tokens"]]
-    lines += [[str(r["q"]), str(r["run"]), _called(r["calls"]), cell(r["path"]), cell(r["numbers"]),
-               cell(r["names"]), cell(r["tokens"])] for r in rows]
+    lines += [[str(r["q"]), str(r["run"]), _called(r["calls"]), cell(r["path"]),
+               _failed(r["numbers"], r["bad_numbers"]), _failed(r["names"], r["bad_names"]),
+               cell(r["tokens"])] for r in rows]
     widths = [max(len(x[i]) for x in lines) for i in range(len(lines[0]))]
     table = ["  ".join(c.ljust(w) for c, w in zip(x, widths)) for x in lines]
     totals = [f"{label}: {value}" for label, value, _ in result["summary"]]
@@ -29,7 +35,10 @@ def render(result, commit_name):
         out += [f"--- Q{r['q']} run {r['run']}: {r['question']}"]
         if not r["path"]:
             out.append(f"(path wrong: {r['why']})")
-        out += [f"(call failed: {r['error']})" if r["error"] else r["text"], ""]
+        out += [f"(call failed: {r['error']})" if r["error"] else r["text"]]
+        out += [f'(number not in any tool output: {x} in "{s}")' for x, s in r["bad_numbers"]]
+        out += [f'(name not in the question or any tool output: {x} in "{s}")' for x, s in r["bad_names"]]
+        out.append("")
     return "\n".join(out).rstrip()
 
 

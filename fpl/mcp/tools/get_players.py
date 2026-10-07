@@ -9,7 +9,8 @@ SCORES = (("Next-GW", score.next_score), ("Six-week", score.six_week_score))
 DESCRIPTION = (
     f"Look up or compare 1 to {MAX_PLAYERS} players, by name or by id: score breakdown, club, "
     "price, six-week score, status, news, and whether he is in the owner's squad. With "
-    "several players it also says who leads on next-GW and six-week score and by how much. "
+    "several players it also says who leads on next-GW and six-week score and by how much, "
+    "and who costs more and by how much. "
     "If a name matches several players, call again with the id."
 )
 
@@ -23,6 +24,18 @@ def _gaps(label, rows):
         gap = round(lead[1] - s, 1)
         parts.append(f"{name} level with {lead[0]}" if gap == 0 else f"{name} {gap:.1f} behind")
     return f"{label}: " + "; ".join(parts) + "."
+
+
+def _price_gaps(els):
+    """'Price: A costs most at 9.7m; B 3.8m less; C level with A.' Ties by lower id (D266)."""
+    els = sorted(els, key=lambda e: (-e["now_cost"], e["id"]))
+    top = els[0]
+    parts = [f"{top['web_name']} costs most at {money.price(top['now_cost'])}"]
+    for e in els[1:]:
+        gap = top["now_cost"] - e["now_cost"]  # tenths, so exact
+        parts.append(f"{e['web_name']} level with {top['web_name']}" if gap == 0
+                     else f"{e['web_name']} {money.price(gap)} less")
+    return "Price: " + "; ".join(parts) + "."
 
 
 def tool(names: list[str | int]) -> str:  # an id may come as a number (D229)
@@ -51,4 +64,5 @@ def _body(names, feed):
         for label, fn in SCORES:
             out.append(_gaps(label, [(e["web_name"], round(fn(feed, e, shrunk[e["id"]]), 1), e)
                                      for e in found]))
+        out.append(_price_gaps(found))
     return "\n".join(out)

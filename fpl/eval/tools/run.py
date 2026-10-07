@@ -30,6 +30,7 @@
 #   definitions, far under what the owner's CLAUDE.md, skills and hooks would add (D169).
 # A turn-limit hit ends with subtype "error_max_turns", so ask_tools raises AskError: a wrong path.
 """Asks every question of the tools eval through `claude -p` and scores each run (D233-D247)."""
+import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -51,6 +52,28 @@ MODEL = "opus"  # D235
 PASS_PATH = 0.9  # D236: share of runs with the right path
 PARALLEL = 5  # D200: model calls at a time
 ANSWER_CHECKS = (numbers, names)  # D233
+SENTENCE_END = re.compile(r"\n+|(?<=[^\d\s][.!?])\s+|(?<=[^\d\s][.!?]\*\*)\s+")  # not after "1." or "6.9"
+
+
+def sentence(text, item, found):
+    """The first sentence of text where found(sentence, item) is true, trimmed; else ""."""
+    return next((s.strip() for s in SENTENCE_END.split(text) if found(s, item)), "")
+
+
+def _has_number(s, n):
+    return n in numbers.NUMBER.findall(s)
+
+
+def _has_name(s, n):
+    return bool(names._word(names._plain(n)).search(names._plain(s)))
+
+
+def answer_checks(text, block, names_block, feed):
+    """-> ([(number, sentence)], [(name, sentence)]) failing D246 / D260; empty lists pass."""
+    bad_n = numbers.failures(text, {"block": block})
+    bad_p = names.failures(text, {"block": names_block, "feed": feed})
+    return ([(n, sentence(text, n, _has_number)) for n in bad_n],
+            [(n, sentence(text, n, _has_name)) for n in bad_p])
 
 
 def mcp_config(snapshot=SNAPSHOT, root=ROOT):
@@ -75,7 +98,8 @@ def run(ask=ask_tools, runs=RUNS, max_calls=MAX_CALLS, parallel=None, snapshot=S
     def one(job):
         i, q, n = job
         row = {"q": i, "question": q.text, "run": n, "calls": [], "path": False, "why": "",
-               "numbers": False, "names": False, "tokens": None, "error": None, "text": ""}
+               "numbers": False, "names": False, "bad_numbers": [], "bad_names": [],
+               "tokens": None, "error": None, "text": ""}
         try:
             events, text, row["tokens"], _ = counted(q.text, config, MODEL, TIMEOUT, max_turns=MAX_TURNS)
         except (AskError, CapReached) as e:
@@ -86,18 +110,20 @@ def run(ask=ask_tools, runs=RUNS, max_calls=MAX_CALLS, parallel=None, snapshot=S
         made = path.calls(events)
         row["calls"] = made
         row["path"], row["why"] = path.check(q, made, pool)
-        # D246: only numbers in the tool outputs pass; no output means any number fails.
+        # D246: only numbers in the tool outputs pass.
         # D260: names may also come from the question itself.
         out = "\n".join(path.outputs(events))
-        row["numbers"] = numbers.check(row["text"], {"block": out, "feed": feed}) is None
-        row["names"] = names.check(row["text"], {"block": q.text + "\n" + out, "feed": feed}) is None
+        row["bad_numbers"], row["bad_names"] = answer_checks(row["text"], out, q.text + "\n" + out, feed)
+        row["numbers"], row["names"] = not row["bad_numbers"], not row["bad_names"]
+        if not made:  # D265: no tool called, no number check; the path check covers tool questions
+            row["numbers"], row["bad_numbers"] = None, []
         return row
 
     with ThreadPoolExecutor(max_workers=parallel or PARALLEL) as pool_:
         rows = list(pool_.map(one, todo))
     n = len(rows)
     right = sum(r["path"] for r in rows)
-    answers = sum(r["numbers"] and r["names"] for r in rows)
+    answers = sum(r["numbers"] is not False and r["names"] for r in rows)  # None: skipped, D265
     summary = [("path right", f"{right} of {n}", bool(n) and right / n >= PASS_PATH),
                ("answers passing number and name checks", f"{answers} of {n}", bool(n) and answers == n)]
     return {"rows": rows, "summary": summary, "calls": counted.calls, "tokens": counted.tokens,

@@ -126,6 +126,7 @@ def test_no_tool_questions():
     assert made(10, [("get_brief", {})])[0] is False  # a call where none is allowed
     assert made(9, []) == (True, "")
     assert made(9, [("find_replacements", {"name": "Szoboszlai"})])[0]  # D245
+    assert made(9, [("get_players", {"names": ["Szoboszlai", "Schade"]})])[0]  # D261
     assert made(9, [("refresh", {})])[0] is False
 
 
@@ -148,7 +149,7 @@ def test_all_right_passes_and_counts(monkeypatch):
     result, fake = go(monkeypatch, reply_with())
     assert result["calls"] == len(fake.calls) == 30 and len(result["rows"]) == 30
     assert [r["q"] for r in result["rows"]][:4] == [1, 1, 1, 2]
-    assert all(r["path"] and r["numbers"] and r["names"] for r in result["rows"])
+    assert all(r["path"] and r["numbers"] is not False and r["names"] for r in result["rows"])
     assert result["models"] == ["claude-opus-5-5"] and result["tokens"] == 30 * 24
     text = report.render(result, "abc1234")
     assert "Verdict: PASS" in text and "path right: 30 of 30" in text
@@ -178,10 +179,53 @@ def test_answer_checks_must_be_perfect(monkeypatch):
     rows = {r["q"]: r for r in result["rows"] if r["run"] == 1}
     assert rows[1]["numbers"] is False and rows[1]["names"] is True  # 3.2 is in no tool output
     assert rows[2]["names"] is False
-    assert rows[10]["numbers"] is False  # no tool output: any number fails
-    assert rows[3]["numbers"] and rows[9]["numbers"]
-    assert result["summary"][1][1:] == ("21 of 30", False)  # questions 1, 2 and 10, three runs each
+    assert rows[10]["numbers"] is None  # D265: no tool called, number check skipped
+    assert rows[3]["numbers"] and rows[9]["numbers"] is None
+    assert result["summary"][1][1:] == ("24 of 30", False)  # questions 1 and 2, three runs each
     assert "Verdict: FAIL" in report.render(result, "c")
+
+
+def test_failing_numbers_and_names_are_listed_with_their_sentence(monkeypatch):
+    """D262: every failure, in the table cell and under the answer."""
+    def reply(prompt):
+        i = next(i for i, q in Q.items() if q.text == prompt)
+        text = {1: "Captain Groß on 7.9 this week. He leads by 4.3.\n2. Saka and Palmer trail by 16.6 and 4.3."}.get(i)
+        return stream(RIGHT[i], text)
+
+    result, _ = go(monkeypatch, reply, runs=1)
+    row = result["rows"][0]
+    assert row["bad_numbers"] == [("4.3", "He leads by 4.3."),   # "2." numbers the line (D263)
+                                  ("16.6", "2. Saka and Palmer trail by 16.6 and 4.3.")]
+    assert sorted(n for n, _ in row["bad_names"]) == ["Palmer", "Saka"]
+    assert all(s == "2. Saka and Palmer trail by 16.6 and 4.3." for _, s in row["bad_names"])
+    assert row["numbers"] is False and row["names"] is False
+    text = report.render(result, "c")
+    assert "FAIL (4.3, 16.6)" in text
+    assert '(number not in any tool output: 4.3 in "He leads by 4.3.")' in text
+    assert '(name not in the question or any tool output: Saka in "2. Saka and Palmer' in text
+
+
+def test_no_tool_answer_skips_numbers_only(monkeypatch):
+    """D265: a no-tool answer's digits are not checked (shown "-"); its names still are."""
+    def reply(prompt):
+        i = next(i for i, q in Q.items() if q.text == prompt)
+        return stream(RIGHT[i], {10: "All 15 players score, not just 11.", 9: "Saka, 15 players."}.get(i))
+
+    result, _ = go(monkeypatch, reply, runs=1)
+    rows = {r["q"]: r for r in result["rows"]}
+    assert rows[10]["numbers"] is None and rows[10]["bad_numbers"] == [] and rows[10]["names"]
+    assert rows[9]["numbers"] is None and rows[9]["names"] is False
+    assert result["summary"][1][1:] == ("9 of 10", False)
+    line = next(x for x in report.render(result, "c").splitlines() if x.startswith("10 "))
+    assert line.split()[-4:] == ["pass", "-", "pass", "24"]
+
+
+def test_sentence_split():
+    t = "It costs 6.9m. Gain 0.4.\n1. **Form.** Up 3.2!"
+    assert run.sentence(t, "6.9", run._has_number) == "It costs 6.9m."
+    assert run.sentence(t, "1", run._has_number) == "1. **Form.**"
+    assert run.sentence(t, "3.2", run._has_number) == "Up 3.2!"
+    assert run.sentence(t, "9", run._has_number) == ""
 
 
 def test_names_from_the_question_pass_numbers_do_not(monkeypatch):
@@ -194,7 +238,7 @@ def test_names_from_the_question_pass_numbers_do_not(monkeypatch):
 
     result, _ = go(monkeypatch, reply)
     rows = {r["q"]: r for r in result["rows"] if r["run"] == 1}
-    assert rows[9]["names"] and rows[9]["numbers"]
+    assert rows[9]["names"] and rows[9]["numbers"] is None  # D265
     assert rows[10]["names"] is False
 
 

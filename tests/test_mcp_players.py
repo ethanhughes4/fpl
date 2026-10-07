@@ -38,15 +38,17 @@ def test_breakdown_line_is_the_shared_line():
 def test_two_players_example_a():
     # Marsh: (12x7.4 + 3x7.0)/15 = 7.32 -> next 7.3, six 7.32x4.5 = 32.9; Hart 7.9 / 35.6
     out = run("example_a", "Marsh", "Hart")
-    assert out.splitlines()[-2:] == ["Next-GW: Hart leads; Marsh 0.6 behind.",
-                                     "Six-week: Hart leads; Marsh 2.7 behind."]
+    assert out.splitlines()[-3:] == ["Next-GW: Hart leads; Marsh 0.6 behind.",
+                                     "Six-week: Hart leads; Marsh 2.7 behind.",
+                                     "Price: Marsh costs most at 9.5m; Hart 1.5m less."]  # 95 - 80 = 15
 
 
 def test_three_players_example_a():
     # Joss: (15x6.0 + 3x6.6)/18 = 6.1 -> next 6.1, six 27.4
     out = run("example_a", "Joss", "Hart", "Marsh")
-    assert out.splitlines()[-2:] == ["Next-GW: Hart leads; Marsh 0.6 behind; Joss 1.8 behind.",
-                                     "Six-week: Hart leads; Marsh 2.7 behind; Joss 8.2 behind."]
+    assert out.splitlines()[-3:] == ["Next-GW: Hart leads; Marsh 0.6 behind; Joss 1.8 behind.",
+                                     "Six-week: Hart leads; Marsh 2.7 behind; Joss 8.2 behind.",
+                                     "Price: Marsh costs most at 9.5m; Hart 1.5m less; Joss 2.5m less."]
 
 
 def test_leaders_differ_between_the_two_scores():
@@ -66,6 +68,18 @@ def test_level_and_tie_ordered_by_d27():
 def test_gap_is_from_printed_values():
     # 7.3 vs 7.2 printed is 0.1 even if the unrounded gap was 0.19
     assert get_players._gaps("X", [row("A", 7.3, 1, 1), row("B", 7.2, 1, 2)]) == "X: A leads; B 0.1 behind."
+
+
+def test_price_gap_level_and_ties_by_id():
+    """D266: tenths subtracted, so 6.1 - 5.9 is exactly 0.2m; a level price is said as level."""
+    els = [{"web_name": "A", "now_cost": 59, "id": 3}, {"web_name": "B", "now_cost": 61, "id": 2},
+           {"web_name": "C", "now_cost": 61, "id": 1}]
+    assert get_players._price_gaps(els) == "Price: C costs most at 6.1m; B level with C; A 0.2m less."
+
+
+def test_price_gap_snapshot_palmer_and_gross():
+    out = run("snapshot", "154", "124")  # 97 - 59 = 38 tenths
+    assert out.splitlines()[-1] == "Price: Palmer costs most at 9.7m; Groß 3.8m less."
 
 
 def test_not_in_squad_example_b_and_c():
