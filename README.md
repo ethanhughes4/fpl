@@ -182,8 +182,10 @@ What went wrong:
 - **The tests outgrew their time limit.** Stage 5 added the page tests to the hook and
   raised the limit from 120 to 240 seconds (D326). The plan said to time both runs, but
   that was skipped. When they were timed later, pytest took 217 s and `npm test` 26 s:
-  243 s together, over the limit. So a builder's hook could not finish its job. The limit is
-  now 360 s (D340), and the slow tests are next.
+  243 s together, over the limit. So a builder's hook could not finish its job. Profiling
+  found one function called 3,951 times per brief, re-matching names against every player.
+  Caching it took the Python tests from 199 s to 153 s with the same results. The limit is
+  now 510 s, and the hook warns when a run passes 80% of it (D340, D341).
 
 ### Permissions
 
@@ -210,7 +212,7 @@ loads for `web/**`:
 > - No calculations. The page never works out, rounds or compares a score, price or count.
 > - Colours only from the CSS variables in web/src/theme.css.
 
-The test suite has 386 Python tests (`python -m pytest --collect-only`), and every page
+The test suite has 388 Python tests (`python -m pytest --collect-only`), and every page
 component has a test file next to it.
 
 ## Evals

@@ -1,5 +1,6 @@
 import re
 import unicodedata
+from functools import cache
 
 NAME = "names"
 LIVE = True
@@ -15,6 +16,7 @@ def _norm(s):
     return _plain(s).casefold()
 
 
+@cache  # about 2,400 feed names, more than re's own cache of 512 holds
 def _word(name):
     return re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)", re.IGNORECASE)
 

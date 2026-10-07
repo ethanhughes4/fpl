@@ -13,9 +13,13 @@ MAX_PER_CLUB = 3
 BENCH_GAIN_FACTOR = 0.5  # D63: share of the gain counted when the player coming in would not start
 
 
-def _legal(feed, held, swaps, bank):
-    """swaps: [(out, in)]. Budget (selling price in, now_cost in) and club limit."""
-    budget = bank + sum(money.selling_price(feed, o) - i["now_cost"] for o, i in swaps)
+def _legal(feed, held, swaps, bank, memo):
+    """swaps: [(out, in)]. Budget (selling price in, now_cost in) and club limit.
+    memo caches each selling price: working one out reads this-week.json's swaps again."""
+    for o, _ in swaps:
+        if ("sell", o["id"]) not in memo:
+            memo["sell", o["id"]] = money.selling_price(feed, o)
+    budget = bank + sum(memo["sell", o["id"]] - i["now_cost"] for o, i in swaps)
     if budget < 0:
         return False
     out_ids = {o["id"] for o, _ in swaps}
@@ -62,7 +66,7 @@ def _scored(feed, held, swaps, memo):
 
 def replacements(feed, out_el, memo=None):
     """Single swaps for one squad player: [(gain, out, in, starts)], best first.
-    memo: score cache a caller can share between calls."""
+    memo: score and selling-price cache a caller can share between calls."""
     memo = {} if memo is None else memo
     held = squad.squad(feed)
     held_ids = {e["id"] for e in held}
@@ -71,7 +75,7 @@ def replacements(feed, out_el, memo=None):
     for i in feed["bootstrap"]["elements"]:
         if (i["id"] not in held_ids and i["status"] == "a" and score.chance_next(i) >= MIN_CHANCE
                 and i["element_type"] == out_el["element_type"]
-                and _legal(feed, held, [(out_el, i)], bank)):
+                and _legal(feed, held, [(out_el, i)], bank, memo)):
             rows += _scored(feed, held, [(out_el, i)], memo)
     return sorted(rows, key=lambda s: (-s[0], s[2]["id"]))
 
@@ -93,7 +97,7 @@ def build(feed):
     options = [[s] for s in singles]
     for a, b in combinations(singles, 2):
         swaps = [(a[1], a[2]), (b[1], b[2])]
-        if a[1]["id"] != b[1]["id"] and a[2]["id"] != b[2]["id"] and _legal(feed, held, swaps, bank):
+        if a[1]["id"] != b[1]["id"] and a[2]["id"] != b[2]["id"] and _legal(feed, held, swaps, bank, memo):
             options.append(scored(swaps))
     best = None
     for opt in options:
