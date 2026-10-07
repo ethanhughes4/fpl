@@ -179,9 +179,11 @@ What went wrong:
 - **The builder hook never ran.** In the first settings file, `SubagentStop` sat outside
   the `"hooks"` block, so Claude Code ignored it and gave no error. It was moved inside in
   commit `e38faa9`.
-- **The tests got slower.** Stage 5 added the page tests to the hook, so the timeout went
-  from 120 to 240 seconds (D326). The plan asked for both runs to be timed and the times
-  written at the top of `run_tests.py`; that line still says `TIMES`.
+- **The tests outgrew their time limit.** Stage 5 added the page tests to the hook and
+  raised the limit from 120 to 240 seconds (D326). The plan said to time both runs, but
+  that was skipped. When they were timed later, pytest took 217 s and `npm test` 26 s:
+  243 s together, over the limit. So a builder's hook could not finish its job. The limit is
+  now 360 s (D340), and the slow tests are next.
 
 ### Permissions
 

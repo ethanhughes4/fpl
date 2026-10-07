@@ -6,7 +6,8 @@ Builders (SubagentStop, called with --always): always runs both, because a
 builder commits its work, so git shows nothing as changed.
 If git cannot answer, both run. Exit code 2 blocks.
 
-Timed on Windows (D326), 2026-10-07: TIMES
+Timed on Windows (D326), 2026-10-07: pytest 217 s, npm test 26 s, 243 s together.
+That passed the 240 s limit, so the limit is 360 s (D340).
 """
 import json
 import os

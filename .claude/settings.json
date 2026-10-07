@@ -38,7 +38,7 @@
             "args": [
               "${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py"
             ],
-            "timeout": 240
+            "timeout": 360
           }
         ]
       }
@@ -54,7 +54,7 @@
               "${CLAUDE_PROJECT_DIR}/.claude/hooks/run_tests.py",
               "--always"
             ],
-            "timeout": 240
+            "timeout": 360
           }
         ]
       }

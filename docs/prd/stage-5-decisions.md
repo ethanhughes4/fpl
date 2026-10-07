@@ -124,3 +124,7 @@ D336: The "Not made yet" tag is hidden when no transfer is suggested. (reason: n
 D337: The team name (entry.json `name`, as is) is the small line above "Gameweek N". (reason: mockup)
 D338: The deadline and download time use Python's existing formats, "Sat 10 Oct 12:00" and "Data downloaded Wed 7 Oct 12:55", in the PC's local time. (reason: same as the text brief and the MCP server)
 D339: The sample file is made with the download time fixed to D119's constant (2026-10-06 12:55 UTC), and the staleness test uses the same constant. Page tests set a fake clock before the deadline; one test sets it after the deadline to check D300's banner. (reason: copies lose file times, and the real clock passes the sample's deadline on 10 Oct)
+
+## After stage 5 (2026-10-07)
+
+D340: Both hook timeouts go from 240 to 360 seconds. Timed on Windows on 2026-10-07: pytest 217 s (386 tests), npm test 26 s, 243 s together, so a builder's SubagentStop hook, which runs both, passed D326's 240 s limit. The times are written at the top of run_tests.py. Speeding up the tests comes next. (reason: owner; D326 said to ask the owner past 120 s, which was missed)
